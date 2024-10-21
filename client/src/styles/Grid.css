@@ -1,0 +1,28 @@
+.grid {
+    display: flex;
+    --day-gap: 3px;
+    --weeks: 26;
+    --days: 7;
+    gap: var(--day-gap);
+}
+  
+.grid-week {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+  
+.grid-day {
+    width: calc((((100vw - (var(--small-gap) * 4)) - (var(--day-gap) * var(--weeks))) / var(--weeks)));
+    max-width: calc((((768px - (var(--small-gap) * 4)) - (var(--day-gap) * var(--weeks))) / var(--weeks)));
+    aspect-ratio: 1 / 1;
+    border-radius: 2px;
+}
+  
+.grid-day.empty {
+    background-color: var(--feint-color);
+}
+  
+.grid-day.filled {
+    background-color: var(--orange-color);
+}

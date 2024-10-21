@@ -1,0 +1,24 @@
+.daily {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    width: 100%;
+    gap: var(--medium-gap);
+}
+
+.daily-card {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--small-gap);
+}
+
+@media (max-width: 768px) {
+    .daily-card {
+        align-items: flex-start;
+    }
+}

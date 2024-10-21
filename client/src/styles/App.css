@@ -1,0 +1,22 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin-top: calc((13px + 0.8vmax) + (var(--xsmall-gap) * 4) + var(--large-gap));
+}
+
+.App-content {
+  max-width: 768px;
+}
+
+@media (max-width: 768px) {
+  .App {
+    margin-top: calc((13px + 0.8vmax) + (var(--xsmall-gap) * 4));
+  }
+
+  .App-content {
+    padding: var(--small-gap);
+  }
+}
