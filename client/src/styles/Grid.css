@@ -1,22 +1,19 @@
 .grid {
     display: flex;
-    --day-gap: 3px;
-    --weeks: 26;
-    --days: 7;
-    gap: var(--day-gap);
+    gap: var(--grid-day-gap);
 }
   
 .grid-week {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: var(--grid-day-gap);
 }
   
 .grid-day {
-    width: calc((((100vw - (var(--small-gap) * 4)) - (var(--day-gap) * var(--weeks))) / var(--weeks)));
-    max-width: calc((((768px - (var(--small-gap) * 4)) - (var(--day-gap) * var(--weeks))) / var(--weeks)));
+    width: calc((((100vw - (var(--small-gap) * 4)) - (var(--grid-day-gap) * var(--weeks))) / var(--weeks)));
+    max-width: calc((((var(--max-width) - (var(--small-gap) * 4)) - (var(--grid-day-gap) * var(--weeks))) / var(--weeks)));
     aspect-ratio: 1 / 1;
-    border-radius: 2px;
+    border-radius: var(--grid-border-radius);
 }
   
 .grid-day.empty {

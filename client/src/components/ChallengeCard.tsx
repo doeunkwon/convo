@@ -1,12 +1,12 @@
 import "../styles/PanelCard.css";
 
-type DailyCardProps = {
+type ChallengeCardProps = {
   title: string;
   task: string;
   relation: string;
 };
 
-function DailyCard({ title, task, relation }: DailyCardProps) {
+function ChallengeCard({ title, task, relation }: ChallengeCardProps) {
   return (
     <main className="panel-card">
       <section className="panel-card-vertical-header">
@@ -24,4 +24,4 @@ function DailyCard({ title, task, relation }: DailyCardProps) {
   );
 }
 
-export default DailyCard;
+export default ChallengeCard;

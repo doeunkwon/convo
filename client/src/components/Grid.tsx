@@ -1,29 +1,14 @@
 import React from "react";
 import "../styles/Grid.css";
+import { weeks, daysPerWeek } from "../constants";
 
 interface GridProps {
-  size?: number; // Optional prop to set grid size
+  history: boolean[];
 }
 
-const Grid: React.FC<GridProps> = ({ size }) => {
-  const weeks = 26;
-  const daysPerWeek = 7;
-
-  const generateData = () => {
-    return Array.from(
-      { length: weeks * daysPerWeek },
-      () => Math.random() > 0.5
-    );
-  };
-
-  const data = generateData();
-
-  const gridStyle = size
-    ? ({ "--grid-size": `${size}px` } as React.CSSProperties)
-    : {};
-
+function Grid({ history }: GridProps) {
   return (
-    <div className="grid" style={gridStyle}>
+    <div className="grid">
       {Array.from({ length: weeks }).map((_, weekIndex) => (
         <div key={weekIndex} className="grid-week">
           {Array.from({ length: daysPerWeek }).map((_, dayIndex) => {
@@ -31,7 +16,9 @@ const Grid: React.FC<GridProps> = ({ size }) => {
             return (
               <div
                 key={dayIndex}
-                className={`grid-day ${data[dataIndex] ? "filled" : "empty"}`}
+                className={`grid-day ${
+                  history[dataIndex] ? "filled" : "empty"
+                }`}
                 title={`Week ${weekIndex + 1}, Day ${dayIndex + 1}`}
               />
             );
@@ -40,6 +27,6 @@ const Grid: React.FC<GridProps> = ({ size }) => {
       ))}
     </div>
   );
-};
+}
 
 export default Grid;

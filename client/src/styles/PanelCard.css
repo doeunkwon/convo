@@ -1,7 +1,7 @@
 .panel-card {
     border-radius: calc(12px + 1vmax);
     border: 2px solid white;
-    backdrop-filter: blur(10px);
+    backdrop-filter: var(--blur-radius);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -11,12 +11,12 @@
 
 .panel-card-vertical-header {
     display: flex;
-    background: rgba(246, 240, 235, 0.5);
-    backdrop-filter: blur(10px);
+    background: var(--blur-color);
+    backdrop-filter: var(--blur-radius);
     width: 100%;
     box-sizing: border-box;
     flex-direction: column;
-    border-radius: calc(10px + 1vmax) calc(10px + 1vmax) 0 0;
+    border-radius: var(--top-border-radius);
     gap: var(--xsmall-gap);
     padding: var(--medium-gap);
 }
@@ -25,12 +25,12 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-    background: rgba(246, 240, 235, 0.5);
-    backdrop-filter: blur(10px);
+    background: var(--blur-color);
+    backdrop-filter: var(--blur-radius);
     width: 100%;
     box-sizing: border-box;
     flex-direction: row;
-    border-radius: calc(10px + 1vmax) calc(10px + 1vmax) 0 0;
+    border-radius: var(--top-border-radius);
     gap: var(--medium-gap);
     padding: var(--small-gap) var(--medium-gap);
 }
@@ -60,12 +60,12 @@
 .panel-card-relation {
     display: flex;
     flex-direction: column;
-    background: rgba(246, 240, 235, 0.9);
-    backdrop-filter: blur(10px);
+    background: var(--blur-color);
+    backdrop-filter: var(--blur-radius);
     width: 100%;
     padding: var(--medium-gap);
     box-sizing: border-box;
-    border-radius: 0 0 calc(10px + 1vmax) calc(10px + 1vmax);
+    border-radius: var(--bottom-border-radius);
     gap: var(--xsmall-gap);
 }
 
@@ -73,14 +73,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(246, 240, 235, 0.9);
-    backdrop-filter: blur(10px);
+    background: var(--blur-color);
+    backdrop-filter: var(--blur-radius);
     width: 100%;
     padding: var(--small-gap);
     box-sizing: border-box;
-    border-radius: 0 0 calc(10px + 1vmax) calc(10px + 1vmax);
+    border-radius: var(--bottom-border-radius);
 }
 
 .panel-streak-text p {
-    font-size: calc(10px + 0.5vmax);
+    font-size: var(--sp-size);
 }

@@ -4,16 +4,16 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  margin-top: calc((13px + 0.8vmax) + (var(--xsmall-gap) * 4) + var(--large-gap));
+  margin-top: calc(var(--h3-size) + (var(--xsmall-gap) * 4) + var(--large-gap));
 }
 
 .App-content {
-  max-width: 768px;
+  max-width: var(--max-width);
 }
 
 @media (max-width: 768px) {
   .App {
-    margin-top: calc((13px + 0.8vmax) + (var(--xsmall-gap) * 4));
+    margin-top: calc(var(--h3-size) + (var(--xsmall-gap) * 4));
   }
 
   .App-content {

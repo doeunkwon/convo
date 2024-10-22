@@ -1,4 +1,5 @@
 :root {
+
   --text-color: #46270D;
   --light-text-color: #99806D;
   --super-light-text-color: #c7b5a8;
@@ -7,12 +8,37 @@
   --feint-color: #e9ddd4;
   --glow-color: #F2DBC8;
   --orange-color: #EE9E61;
+  --blur-color: rgba(246, 240, 235, 0.5);
+
+  --blur-radius: blur(10px);
+
   --xlarge-gap: 100px;
   --large-gap: 60px;
   --medium-gap: 30px;
   --small-gap: 20px;
   --xsmall-gap: 10px;
   --xxsmall-gap: 5px;
+
+  --h1-size: calc(18px + 2vmax);
+  --h2-size: calc(15px + 2vmax);
+  --h3-size: calc(13px + 0.8vmax);
+  --p-size: calc(10px + 0.8vmax);
+  --sp-size: calc(10px + 0.5vmax);
+
+  --max-width: 768px;
+
+  --top-border-radius: calc(10px + 1vmax) calc(10px + 1vmax) 0 0;
+  --bottom-border-radius: 0 0 calc(10px + 1vmax) calc(10px + 1vmax);
+  --border-radius: calc(10px + 1vmax);
+  --button-border-radius: 100px;
+  --grid-border-radius: calc(2px + 0.2vmax);
+
+  --grid-day-gap: 3px;
+
+  --weeks: 26;
+  --days: 7;
+
+  --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 html,body {
@@ -38,7 +64,7 @@ code {
 }
 
 h1 {
-  font-size: calc(18px + 2vmax);
+  font-size: var(--h1-size);
   line-height: 1.5em;
   font-family: 'Poppins', sans-serif;
   font-weight: normal;
@@ -48,7 +74,7 @@ h1 {
 }
 
 h2 {
-  font-size: calc(15px + 2vmax);
+  font-size: var(--h2-size);
   line-height: 1.5em;
   font-family: 'Poppins', sans-serif;
   font-weight: normal;
@@ -58,17 +84,17 @@ h2 {
 }
 
 h3 {
-  font-size: calc(13px + 0.8vmax);
+  font-size: var(--h3-size);
   line-height: 1.5em;
   font-family: 'Poppins', sans-serif;
   font-weight: normal;
   padding: 0;
   margin: 0;
-  color: var(--light-text-color, #99806D);
+  color: var(--light-text-color);
 }
 
 p {
-  font-size: calc(10px + 0.8vmax);
+  font-size: var(--p-size);
   line-height: 1.5em;
   font-family: 'Poppins', sans-serif;
   font-weight: normal;
