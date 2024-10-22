@@ -13,7 +13,7 @@ function Navbar({ onClickSparkling, onClickPulse, title }: NavbarProps) {
       <section className="navbar-left">
         {title === "Progress" ? (
           <div onClick={onClickSparkling}>
-            <CircleIcon icon={<i className="ri-sparkling-line" />} />
+            <CircleIcon icon={<i className="ri-arrow-go-back-line"></i>} />
           </div>
         ) : (
           <CircleIcon icon={<i className="ri-settings-2-line"></i>} />
@@ -23,7 +23,7 @@ function Navbar({ onClickSparkling, onClickPulse, title }: NavbarProps) {
       <section className="navbar-right">
         {title === "Daily" && (
           <div onClick={onClickPulse}>
-            <CircleIcon icon={<i className="ri-pulse-fill"></i>} />
+            <CircleIcon icon={<i className="ri-pie-chart-line"></i>} />
           </div>
         )}
       </section>

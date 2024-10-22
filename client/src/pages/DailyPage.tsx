@@ -1,5 +1,5 @@
 import ChallengeCard from "../components/ChallengeCard";
-import "../styles/Daily.css";
+import "../styles/DailyPage.css";
 import Button from "../components/Button";
 import { Challenge } from "../models/Challenge";
 
@@ -9,8 +9,8 @@ interface DailyProps {
 
 function Daily({ dailyChallenge }: DailyProps) {
   return (
-    <main className="daily">
-      <section className="daily-card">
+    <main className="daily-page">
+      <section className="daily-page-card">
         <p>Today's challenge</p>
         <ChallengeCard
           title={dailyChallenge.title}

@@ -17,7 +17,23 @@ function ProgressCard({ progress }: ProgressCardProps) {
         <section className="panel-card-slit"></section>
         <section className="panel-streak-text">
           <p>Longest streak</p>
-          <h3 className="gradient-text">{progress.longestStreak} days</h3>
+          <section
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "var(--xsmall-gap)",
+            }}
+          >
+            <h3>
+              <i
+                className="ri-sparkling-fill"
+                style={{ color: "var(--orange-color)" }}
+              ></i>
+            </h3>
+            <h3 className="gradient-text">{progress.longestStreak} days</h3>
+          </section>
         </section>
       </section>
       <section className="panel-card-divider"></section>

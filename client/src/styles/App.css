@@ -3,18 +3,21 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  margin-top: calc(var(--h3-size) + (var(--xsmall-gap) * 4) + var(--large-gap));
+  min-height: calc(100vh - var(--navbar-height));
+  padding-top: var(--navbar-height);
 }
 
 .App-content {
+  flex: 1;
+  padding-top: var(--small-gap);
   max-width: var(--max-width);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 @media (max-width: 768px) {
-  .App {
-    margin-top: calc(var(--h3-size) + (var(--xsmall-gap) * 4));
-  }
 
   .App-content {
     padding: var(--small-gap);

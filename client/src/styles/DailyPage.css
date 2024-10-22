@@ -1,14 +1,14 @@
-.daily {
+.daily-page {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    min-height: 100vh;
+    min-height: 100%;
     width: 100%;
     gap: var(--medium-gap);
 }
 
-.daily-card {
+.daily-page-card {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -18,7 +18,7 @@
 }
 
 @media (max-width: 768px) {
-    .daily-card {
+    .daily-page-card {
         align-items: flex-start;
     }
 }
