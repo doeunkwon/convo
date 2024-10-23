@@ -1,0 +1,76 @@
+.sign-in {
+    border-radius: calc(12px + 1vmax);
+    border: 2px solid white;
+    background: var(--blur-color);
+    backdrop-filter: var(--blur-radius);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--medium-gap);
+    padding: var(--large-gap);
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .sign-in-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--small-gap);
+  }
+  
+  .sign-in-input-field {
+    padding: var(--xsmall-gap);
+    border: none;
+    border-radius: 10px;
+    font-size: var(--sp-size);
+    color: var(--text-color);
+    outline: none;
+    background: var(--white-color);
+  }
+
+  .sign-in-create-account-button {
+    font-size: var(--sp-size);
+    cursor: pointer;
+  }
+
+  .sign-in-google-button {
+    width: 100%;
+    background-color: var(--white-color);
+    border-radius: 10px;
+    box-shadow: var(--box-shadow);
+    border: none;
+    padding: var(--xsmall-gap);
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: var(--small-gap);
+  }
+
+  .sign-in-button {
+    width: 100%;
+    background-color: var(--orange-color);
+    border-radius: 10px;
+    box-shadow: var(--box-shadow);
+    border: none;
+    padding: var(--xsmall-gap);
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: var(--small-gap);
+  }
+
+  @media (max-width: 768px) {
+    .sign-in {
+        padding: var(--small-gap);
+    }
+  }

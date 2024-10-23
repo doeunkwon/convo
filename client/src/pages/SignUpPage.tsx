@@ -6,6 +6,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
+import "../styles/SignUpPage.css";
 
 function SignUpPage() {
   const [email, setEmail] = useState("");
@@ -56,15 +57,29 @@ function SignUpPage() {
   };
 
   return (
-    <div>
-      <h1>Sign up</h1>
-      <form onSubmit={handleSignUp}>
+    <main className="sign-up">
+      <h3 style={{ color: "var(--text-color)" }}>Sign up for Convo</h3>
+      <button onClick={handleGoogleSignIn} className="sign-up-google-button">
+        <p style={{ color: "var(--text-color)" }}>
+          <i className="ri-google-fill"></i>
+        </p>
+        <p style={{ color: "var(--text-color)" }}>Sign up with Google</p>
+      </button>
+      <div
+        style={{
+          width: "100%",
+          height: "2px",
+          background: "var(--feint-color)",
+        }}
+      />
+      <form onSubmit={handleSignUp} className="sign-up-form">
         <input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Email"
           required
+          className="sign-up-input-field"
         />
         <input
           type="password"
@@ -72,12 +87,14 @@ function SignUpPage() {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
           required
+          className="sign-up-input-field"
         />
-        <button type="submit">Sign Up</button>
+        <button type="submit" className="sign-up-button">
+          <p style={{ color: "var(--white-color)" }}>Sign up</p>
+        </button>
       </form>
       {error && <p style={{ color: "red" }}>{error}</p>}
-      <button onClick={handleGoogleSignIn}>Sign In with Google</button>
-    </div>
+    </main>
   );
 }
 
