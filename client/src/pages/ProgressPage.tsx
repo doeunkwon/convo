@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/ProgressPage.css";
 import ProgressCard from "../components/ProgressCard";
-import { Progress } from "../models/Progress";
+import { Progress } from "../models/progress";
 
 interface ProgressPageProps {
   progress: Progress;

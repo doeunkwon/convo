@@ -1,4 +1,4 @@
-import { Progress } from "../models/Progress";
+import { Progress } from "../models/progress";
 import "../styles/PanelCard.css";
 import Grid from "./Grid";
 

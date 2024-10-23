@@ -10,9 +10,9 @@ import DailyPage from "./pages/DailyPage";
 import ProgressPage from "./pages/ProgressPage";
 import Navbar from "./components/Navbar";
 import { useState, useEffect } from "react";
-import { Challenge } from "./models/Challenge";
+import { Challenge } from "./models/challenge";
 import { weeks, daysPerWeek } from "./constants";
-import { Progress } from "./models/Progress";
+import { Progress } from "./models/progress";
 
 function AppContent() {
   const navigate = useNavigate();

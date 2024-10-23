@@ -1,7 +1,7 @@
 import ChallengeCard from "../components/ChallengeCard";
 import "../styles/DailyPage.css";
 import Button from "../components/Button";
-import { Challenge } from "../models/Challenge";
+import { Challenge } from "../models/challenge";
 
 interface DailyProps {
   dailyChallenge: Challenge;
