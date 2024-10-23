@@ -8,6 +8,8 @@ import {
 } from "react-router-dom";
 import DailyPage from "./pages/DailyPage";
 import ProgressPage from "./pages/ProgressPage";
+import SignUpPage from "./pages/SignUpPage";
+import SignInPage from "./pages/SignInPage"; // Import the SignInPage
 import Navbar from "./components/Navbar";
 import { useState, useEffect } from "react";
 import { Challenge } from "./models/challenge";
@@ -30,7 +32,7 @@ function AppContent() {
 
   const getNavbarTitle = () => {
     switch (location.pathname) {
-      case "/":
+      case "/daily":
         return "Daily";
       case "/progress":
         return "Progress";
@@ -67,14 +69,18 @@ function AppContent() {
   return (
     <main className="App">
       <section className="App-content">
-        <Navbar
-          onClickSparkling={() => navigate("/")}
-          onClickPulse={() => navigate("/progress")}
-          title={getNavbarTitle()}
-        />
+        {location.pathname !== "/" && location.pathname !== "/signup" && (
+          <Navbar
+            onClickSparkling={() => navigate("/daily")}
+            onClickPulse={() => navigate("/progress")}
+            title={getNavbarTitle()}
+          />
+        )}
         <Routes>
+          <Route path="/" element={<SignInPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
           <Route
-            path="/"
+            path="/daily"
             element={<DailyPage dailyChallenge={dailyChallenge} />}
           />
           <Route
