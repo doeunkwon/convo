@@ -24,7 +24,7 @@
 .panel-card-horizontal-header {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-evenly;
     background: var(--blur-color);
     backdrop-filter: var(--blur-radius);
     width: 100%;
