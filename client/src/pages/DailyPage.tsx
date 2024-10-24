@@ -21,7 +21,9 @@ function Daily({ dailyChallenge }: DailyProps) {
       <Button
         image={<i className="ri-sparkling-fill" />}
         text="Complete"
-        onClick={() => {}}
+        onClick={() => {
+          console.log("Complete button clicked");
+        }}
       />
     </main>
   );

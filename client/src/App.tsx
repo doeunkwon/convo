@@ -50,10 +50,6 @@ function AppContent() {
     }
   };
 
-  // ISSUES:
-  // 1. Gemini API is called twice
-  // 2. dateCreated is not being saved to the database
-
   useEffect(() => {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, async (user) => {

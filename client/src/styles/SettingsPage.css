@@ -7,12 +7,12 @@
 }
 
 .settings-logout-button {
-    width: 100%;
-    background-color: var(--white-color);
-    border-radius: 10px;
-    box-shadow: var(--box-shadow);
-    border: none;
-    padding: var(--xsmall-gap);
-    font-size: 16px;
-    cursor: pointer;
-  }
+  width: var(--max-width);
+  background-color: var(--white-color);
+  border-radius: 10px;
+  box-shadow: var(--box-shadow);
+  border: none;
+  padding: var(--xsmall-gap);
+  font-size: 16px;
+  cursor: pointer;
+}

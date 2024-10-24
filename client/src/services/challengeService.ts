@@ -2,6 +2,7 @@ import { Challenge } from "../models/challenge";
 import { getAuth } from "firebase/auth";
 
 export async function fetchChallenge(): Promise<Challenge | null> {
+  console.log('Fetching challenge')
   const auth = getAuth();
   const user = auth.currentUser;
   if (user) {
@@ -31,6 +32,7 @@ export async function saveChallengeToServer(
   userID: string,
   challenge: Challenge
 ): Promise<void> {
+  console.log("Saving challenge to database");
   const auth = getAuth();
   const user = auth.currentUser;
   if (user) {
@@ -53,6 +55,7 @@ export async function saveChallengeToServer(
 }
 
 export async function getUserChallenge(userID: string): Promise<Challenge | null> {
+  console.log("Fetching user challenge");
   const auth = getAuth();
   const user = auth.currentUser;
   if (user) {
@@ -73,6 +76,7 @@ export async function getUserChallenge(userID: string): Promise<Challenge | null
 }
 
 export async function deleteChallenge(userID: string): Promise<void> {
+  console.log("Deleting user challenge");
   const auth = getAuth();
   const user = auth.currentUser;
   if (user) {

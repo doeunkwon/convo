@@ -8,6 +8,8 @@
     box-shadow: var(--box-shadow);
     gap: var(--xsmall-gap);
     padding: var(--small-gap) var(--large-gap);
+    border: none;
+    cursor: pointer;
 }
 
 .button-icon { 
