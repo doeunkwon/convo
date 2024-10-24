@@ -15,6 +15,7 @@ import { useState, useEffect } from "react";
 import { Challenge } from "./models/challenge";
 import { weeks, daysPerWeek } from "./constants";
 import { Progress } from "./models/progress";
+import SettingsPage from "./pages/SettingsPage";
 
 function AppContent() {
   const navigate = useNavigate();
@@ -36,6 +37,8 @@ function AppContent() {
         return "Daily";
       case "/progress":
         return "Progress";
+      case "/settings":
+        return "Settings";
       default:
         return "Convo";
     }
@@ -70,15 +73,12 @@ function AppContent() {
     <main className="App">
       <section className="App-content">
         {location.pathname !== "/" && location.pathname !== "/signup" && (
-          <Navbar
-            onClickSparkling={() => navigate("/daily")}
-            onClickPulse={() => navigate("/progress")}
-            title={getNavbarTitle()}
-          />
+          <Navbar title={getNavbarTitle()} />
         )}
         <Routes>
           <Route path="/" element={<SignInPage />} />
           <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
           <Route
             path="/daily"
             element={<DailyPage dailyChallenge={dailyChallenge} />}

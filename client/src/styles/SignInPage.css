@@ -44,7 +44,6 @@
     padding: var(--xsmall-gap);
     font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -61,7 +60,6 @@
     padding: var(--xsmall-gap);
     font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
     display: flex;
     flex-direction: row;
     align-items: center;
