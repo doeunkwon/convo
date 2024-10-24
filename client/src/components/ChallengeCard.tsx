@@ -3,10 +3,10 @@ import "../styles/PanelCard.css";
 type ChallengeCardProps = {
   title: string;
   task: string;
-  relation: string;
+  tip: string;
 };
 
-function ChallengeCard({ title, task, relation }: ChallengeCardProps) {
+function ChallengeCard({ title, task, tip }: ChallengeCardProps) {
   return (
     <main className="panel-card">
       <section className="panel-card-vertical-header">
@@ -15,10 +15,20 @@ function ChallengeCard({ title, task, relation }: ChallengeCardProps) {
       </section>
       <section className="panel-card-divider"></section>
       <section className="panel-card-relation">
-        <p style={{ color: "var(--text-color)" }}>
-          How it relates to your goal
-        </p>
-        <p>{relation}</p>
+        <section
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: "var(--xsmall-gap)",
+          }}
+        >
+          <p style={{ color: "var(--text-color)" }}>
+            <i className="ri-lightbulb-line"></i>
+          </p>
+          <p style={{ color: "var(--text-color)" }}>Our two cents</p>
+        </section>
+        <p>{tip}</p>
       </section>
     </main>
   );

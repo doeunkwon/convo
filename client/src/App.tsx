@@ -3,7 +3,6 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
-  useNavigate,
   useLocation,
 } from "react-router-dom";
 import DailyPage from "./pages/DailyPage";
@@ -17,14 +16,14 @@ import { weeks, daysPerWeek } from "./constants";
 import { Progress } from "./models/progress";
 import SettingsPage from "./pages/SettingsPage";
 import PrivateRoute from "./components/PrivateRoute";
+import { getAuth } from "firebase/auth";
 
 function AppContent() {
-  const navigate = useNavigate();
   const location = useLocation();
   const [dailyChallenge, setDailyChallenge] = useState<Challenge>({
     title: "",
-    description: "",
-    relation: "",
+    task: "",
+    tip: "",
   });
   const [progress, setProgress] = useState<Progress>({
     currentStreak: 0,
@@ -45,14 +44,38 @@ function AppContent() {
     }
   };
 
-  const getChallenge = (): Challenge => {
-    return {
+  // async function fetchChallenge() {
+  //   const auth = getAuth();
+  //   const user = auth.currentUser;
+  //   if (user) {
+  //     const token = await user.getIdToken();
+  //     const response = await fetch("http://localhost:8080/generate-challenge", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: token,
+  //       },
+  //     });
+
+  //     if (response.ok) {
+  //       const challenge = await response.json();
+  //       console.log(challenge);
+  //       setDailyChallenge(challenge);
+  //     } else {
+  //       console.error("Failed to fetch challenge");
+  //     }
+  //   } else {
+  //     console.error("No user is signed in");
+  //   }
+  // }
+
+  function fetchChallenge() {
+    setDailyChallenge({
       title: "The Compliment Game",
-      description: "Give genuine compliments to three different people.",
-      relation:
-        "Today’s challenge helps you make friends by creating positive interactions. Giving genuine compliments fosters warmth and can spark new connections, making others feel valued and open to engaging with you. This simple step builds confidence in forming new friendships.",
-    };
-  };
+      task: "Give genuine compliments to three different people.",
+      tip: "Today’s challenge helps you make friends by creating positive interactions. Giving genuine compliments fosters warmth and can spark new connections, making others feel valued and open to engaging with you. This simple step builds confidence in forming new friendships.",
+    });
+  }
 
   const getProgress = (): Progress => {
     return {
@@ -66,7 +89,7 @@ function AppContent() {
   };
 
   useEffect(() => {
-    setDailyChallenge(getChallenge());
+    fetchChallenge();
     setProgress(getProgress());
   }, []);
 

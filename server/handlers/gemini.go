@@ -34,14 +34,14 @@ func GenerateChallenge(c echo.Context) error {
 	// Hardcoded prompt
 	prompt := `
 	Generate a daily social challenge designed to encourage positive interaction and foster small talk. The challenge should be simple, actionable, and push the individual slightly outside of their comfort zone in a manageable way. 
-	Each challenge should include a title, a specific task, and a brief tip to help the user complete the task effectively.
+	Each challenge should include a title, a specific task, and a tip to help the user complete the task effectively.
 	Examples:
-	- Title: "Spread Kindness"
-	  Task: "Give a genuine compliment to three different people today."
-	  Tip: "Focus on compliments about someone's efforts or character, rather than just appearance."
-	- Title: "Curious Conversations"
-	  Task: "Ask someone how their day is going and follow up with a thoughtful, open-ended question."
-	  Tip: "Active listening will help make your follow-up question more engaging."
+	- Title: “Spread Kindness”
+	Task: “Give a genuine compliment to three different people today.”
+	Tip: “When giving compliments, try to focus on someone’s efforts, actions, or personal qualities, rather than just their appearance. Compliments about things like their kindness, determination, or creativity tend to resonate more deeply. For example, ‘I really admire how patient you were during the meeting’ or ‘Your attention to detail on that project was impressive.’ This kind of compliment feels more sincere and fosters meaningful connections.”
+	- Title: “Curious Conversations”
+	Task: “Ask someone how their day is going and follow up with a thoughtful, open-ended question.”
+	Tip: “To keep the conversation flowing and engaging, practice active listening. Pay attention not just to their words but also their tone and body language. After they respond, follow up with open-ended questions that invite them to share more, like ‘What’s been the highlight of your day?’ or ‘How did you handle that situation?’ This shows genuine interest and encourages deeper dialogue.”
 	`
 
 	model := client.GenerativeModel("gemini-1.5-flash")

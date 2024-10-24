@@ -14,8 +14,8 @@ function Daily({ dailyChallenge }: DailyProps) {
         <p>Today's challenge</p>
         <ChallengeCard
           title={dailyChallenge.title}
-          task={dailyChallenge.description}
-          relation={dailyChallenge.relation}
+          task={dailyChallenge.task}
+          tip={dailyChallenge.tip}
         />
       </section>
       <Button
