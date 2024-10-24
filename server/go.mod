@@ -7,6 +7,7 @@ require (
 	github.com/google/generative-ai-go v0.18.0
 	github.com/joho/godotenv v1.5.1
 	github.com/labstack/echo/v4 v4.12.0
+	github.com/mattn/go-sqlite3 v1.14.24
 	google.golang.org/api v0.203.0
 )
 

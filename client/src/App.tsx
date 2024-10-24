@@ -16,7 +16,12 @@ import { weeks, daysPerWeek } from "./constants";
 import { Progress } from "./models/progress";
 import SettingsPage from "./pages/SettingsPage";
 import PrivateRoute from "./components/PrivateRoute";
-import { getAuth } from "firebase/auth";
+import {
+  fetchChallenge,
+  saveChallengeToServer,
+} from "./services/challengeService";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getUserChallenge, deleteChallenge } from "./services/challengeService";
 
 function AppContent() {
   const location = useLocation();
@@ -24,6 +29,7 @@ function AppContent() {
     title: "",
     task: "",
     tip: "",
+    dateCreated: "",
   });
   const [progress, setProgress] = useState<Progress>({
     currentStreak: 0,
@@ -44,38 +50,41 @@ function AppContent() {
     }
   };
 
-  // async function fetchChallenge() {
-  //   const auth = getAuth();
-  //   const user = auth.currentUser;
-  //   if (user) {
-  //     const token = await user.getIdToken();
-  //     const response = await fetch("http://localhost:8080/generate-challenge", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: token,
-  //       },
-  //     });
+  // ISSUES:
+  // 1. Gemini API is called twice
+  // 2. dateCreated is not being saved to the database
 
-  //     if (response.ok) {
-  //       const challenge = await response.json();
-  //       console.log(challenge);
-  //       setDailyChallenge(challenge);
-  //     } else {
-  //       console.error("Failed to fetch challenge");
-  //     }
-  //   } else {
-  //     console.error("No user is signed in");
-  //   }
-  // }
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const currentDate = new Date().toISOString().split("T")[0];
+        // const currentDate = "2024-10-25";
+        const existingChallenge = await getUserChallenge(user.uid);
 
-  function fetchChallenge() {
-    setDailyChallenge({
-      title: "The Compliment Game",
-      task: "Give genuine compliments to three different people.",
-      tip: "Today’s challenge helps you make friends by creating positive interactions. Giving genuine compliments fosters warmth and can spark new connections, making others feel valued and open to engaging with you. This simple step builds confidence in forming new friendships.",
+        if (
+          existingChallenge &&
+          existingChallenge.dateCreated === currentDate
+        ) {
+          setDailyChallenge(existingChallenge);
+        } else {
+          if (existingChallenge) {
+            await deleteChallenge(user.uid);
+          }
+          const newChallenge = await fetchChallenge();
+          if (newChallenge) {
+            newChallenge.dateCreated = currentDate;
+            setDailyChallenge(newChallenge);
+            await saveChallengeToServer(user.uid, {
+              ...newChallenge,
+            });
+          }
+        }
+      }
     });
-  }
+    setProgress(getProgress());
+    return () => unsubscribe();
+  }, []);
 
   const getProgress = (): Progress => {
     return {
@@ -87,11 +96,6 @@ function AppContent() {
       ),
     };
   };
-
-  useEffect(() => {
-    fetchChallenge();
-    setProgress(getProgress());
-  }, []);
 
   return (
     <main className="App">
