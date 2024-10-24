@@ -16,6 +16,7 @@ import { Challenge } from "./models/challenge";
 import { weeks, daysPerWeek } from "./constants";
 import { Progress } from "./models/progress";
 import SettingsPage from "./pages/SettingsPage";
+import PrivateRoute from "./components/PrivateRoute";
 
 function AppContent() {
   const navigate = useNavigate();
@@ -78,14 +79,29 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<SignInPage />} />
           <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
+          <Route
+            path="/settings"
+            element={
+              <PrivateRoute>
+                <SettingsPage />
+              </PrivateRoute>
+            }
+          />
           <Route
             path="/daily"
-            element={<DailyPage dailyChallenge={dailyChallenge} />}
+            element={
+              <PrivateRoute>
+                <DailyPage dailyChallenge={dailyChallenge} />
+              </PrivateRoute>
+            }
           />
           <Route
             path="/progress"
-            element={<ProgressPage progress={progress} />}
+            element={
+              <PrivateRoute>
+                <ProgressPage progress={progress} />
+              </PrivateRoute>
+            }
           />
         </Routes>
       </section>
