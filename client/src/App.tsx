@@ -50,8 +50,8 @@ function AppContent() {
   const handleToggleCompletion = async () => {
     const auth = getAuth();
     const user = auth.currentUser;
-    if (user && user.metadata.creationTime) {
-      toggleCompletion(progress, setProgress, user.metadata.creationTime);
+    if (user) {
+      toggleCompletion(progress, setProgress, user);
     }
   };
 

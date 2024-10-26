@@ -23,7 +23,7 @@ func main() {
 	// Set up CORS middleware
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"http://localhost:3000"},
-		AllowMethods: []string{http.MethodGet, http.MethodPost, http.MethodDelete},
+		AllowMethods: []string{http.MethodGet, http.MethodPost, http.MethodDelete, http.MethodPut},
 		AllowHeaders: []string{"Content-Type", "Authorization"},
 	}))
 
@@ -36,6 +36,7 @@ func main() {
 	e.POST("/save-progress", handlers.SaveProgress, middlewareFx.VerifyToken)
 	e.GET("/get-progress", handlers.GetProgress, middlewareFx.VerifyToken)
 	e.DELETE("/delete-progress", handlers.DeleteProgress, middlewareFx.VerifyToken)
+	e.PUT("/update-progress", handlers.UpdateProgress, middlewareFx.VerifyToken)
 
 	// Start server
 	e.Logger.Fatal(e.Start(":8080"))

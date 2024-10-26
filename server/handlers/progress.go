@@ -34,6 +34,35 @@ func SaveProgress(c echo.Context) error {
 	return c.String(http.StatusOK, "Progress saved successfully")
 }
 
+func UpdateProgress(c echo.Context) error {
+	userID := c.QueryParam("userID")
+	if userID == "" {
+		return c.String(http.StatusBadRequest, "User ID is required")
+	}
+
+	var progress models.Progress
+	if err := c.Bind(&progress); err != nil {
+		return c.String(http.StatusBadRequest, "Invalid request")
+	}
+
+	db := db.InitDB("./db/database.db")
+	defer db.Close()
+
+	// Serialize the History field to JSON
+	historyJSON, err := json.Marshal(progress.History)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, "Failed to serialize history")
+	}
+
+	query := `UPDATE progress SET currentStreak = ?, longestStreak = ?, history = ? WHERE userID = ?`
+	_, err = db.Exec(query, progress.CurrentStreak, progress.LongestStreak, string(historyJSON), userID)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, "Failed to update progress")
+	}
+
+	return c.String(http.StatusOK, "Progress updated successfully")
+}
+
 func GetProgress(c echo.Context) error {
 	userID := c.QueryParam("userID")
 	if userID == "" {
