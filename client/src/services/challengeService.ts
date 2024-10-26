@@ -1,8 +1,33 @@
 import { Challenge } from "../models/challenge";
 import { getAuth } from "firebase/auth";
 
-export async function fetchChallenge(): Promise<Challenge | null> {
-  console.log('Fetching challenge')
+
+export async function setupChallenge(userID: string, setDailyChallenge: (challenge: Challenge) => void): Promise<void> {
+  const currentDate = new Date().toLocaleDateString();
+  // const currentDate = "2024-10-25";
+  const existingChallenge = await getUserChallenge(userID);
+  if (
+    existingChallenge &&
+    existingChallenge.dateCreated === currentDate
+  ) {
+    setDailyChallenge(existingChallenge);
+  } else {
+    if (existingChallenge) {
+      await deleteChallenge(userID);
+    }
+    const newChallenge = await generateChallenge();
+    if (newChallenge) {
+      newChallenge.dateCreated = currentDate;
+      setDailyChallenge(newChallenge);
+      await saveChallengeToServer(userID, {
+        ...newChallenge,
+      });
+    }
+  }
+}
+
+export async function generateChallenge(): Promise<Challenge | null> {
+  console.log('Generating challenge')
   const auth = getAuth();
   const user = auth.currentUser;
   if (user) {

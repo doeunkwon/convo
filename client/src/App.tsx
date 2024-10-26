@@ -17,11 +17,19 @@ import { Progress } from "./models/progress";
 import SettingsPage from "./pages/SettingsPage";
 import PrivateRoute from "./components/PrivateRoute";
 import {
-  fetchChallenge,
+  generateChallenge,
   saveChallengeToServer,
+  getUserChallenge,
+  deleteChallenge,
+  setupChallenge,
 } from "./services/challengeService";
+import {
+  saveProgressToServer,
+  getUserProgress,
+  deleteProgress,
+  setupProgress,
+} from "./services/progressService";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getUserChallenge, deleteChallenge } from "./services/challengeService";
 
 function AppContent() {
   const location = useLocation();
@@ -54,43 +62,12 @@ function AppContent() {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user && user.metadata.creationTime) {
-        const currentDate = new Date().toLocaleDateString();
-        // const currentDate = "2024-10-25";
-        const existingChallenge = await getUserChallenge(user.uid);
-        if (
-          existingChallenge &&
-          existingChallenge.dateCreated === currentDate
-        ) {
-          setDailyChallenge(existingChallenge);
-        } else {
-          if (existingChallenge) {
-            await deleteChallenge(user.uid);
-          }
-          const newChallenge = await fetchChallenge();
-          if (newChallenge) {
-            newChallenge.dateCreated = currentDate;
-            setDailyChallenge(newChallenge);
-            await saveChallengeToServer(user.uid, {
-              ...newChallenge,
-            });
-          }
-        }
+        await setupChallenge(user.uid, setDailyChallenge);
+        await setupProgress(user.uid, setProgress);
       }
     });
-    setProgress(getProgress());
     return () => unsubscribe();
   }, []);
-
-  const getProgress = (): Progress => {
-    return {
-      currentStreak: 12,
-      longestStreak: 21,
-      history: Array.from(
-        { length: weeks * daysPerWeek },
-        () => Math.random() > 0.5
-      ),
-    };
-  };
 
   return (
     <main className="App">

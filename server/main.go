@@ -33,6 +33,10 @@ func main() {
 	e.GET("/get-challenge", handlers.GetChallenge, middlewareFx.VerifyToken)
 	e.DELETE("/delete-challenge", handlers.DeleteChallenge, middlewareFx.VerifyToken)
 
+	e.POST("/save-progress", handlers.SaveProgress, middlewareFx.VerifyToken)
+	e.GET("/get-progress", handlers.GetProgress, middlewareFx.VerifyToken)
+	e.DELETE("/delete-progress", handlers.DeleteProgress, middlewareFx.VerifyToken)
+
 	// Start server
 	e.Logger.Fatal(e.Start(":8080"))
 }
