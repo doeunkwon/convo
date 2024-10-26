@@ -1,14 +1,14 @@
+import { today } from "../constants";
 import { Challenge } from "../models/challenge";
 import { getAuth } from "firebase/auth";
 
 
 export async function setupChallenge(userID: string, setDailyChallenge: (challenge: Challenge) => void): Promise<void> {
-  const currentDate = new Date().toLocaleDateString();
-  // const currentDate = "2024-10-25";
+  const currentDate = today.toLocaleDateString();
   const existingChallenge = await getUserChallenge(userID);
   if (
     existingChallenge &&
-    existingChallenge.dateCreated === currentDate
+    existingChallenge.dateCreated === currentDate // Indicates a new day
   ) {
     setDailyChallenge(existingChallenge);
   } else {

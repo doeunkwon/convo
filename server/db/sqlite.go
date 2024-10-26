@@ -37,7 +37,8 @@ func createTables(db *sql.DB) error {
         userID TEXT NOT NULL,
         currentStreak INTEGER NOT NULL,
         longestStreak INTEGER NOT NULL,
-        history TEXT NOT NULL
+        history TEXT NOT NULL,
+		dateUpdated TEXT NOT NULL
     );`
 
 	_, err := db.Exec(challengeTable)

@@ -19,6 +19,7 @@ import { setupChallenge } from "./services/challengeService";
 import { setupProgress, toggleCompletion } from "./services/progressService";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { calculateDaysPassed } from "./utils/calculateDaysPassed";
+import { today } from "./constants";
 
 function AppContent() {
   const location = useLocation();
@@ -32,6 +33,7 @@ function AppContent() {
     currentStreak: 0,
     longestStreak: 0,
     history: [],
+    dateUpdated: today.toLocaleDateString(),
   });
 
   const getNavbarTitle = () => {
@@ -69,7 +71,7 @@ function AppContent() {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user && user.metadata.creationTime) {
         await setupChallenge(user.uid, setDailyChallenge);
-        await setupProgress(user.uid, setProgress);
+        await setupProgress(user, setProgress);
       }
     });
     return () => unsubscribe();

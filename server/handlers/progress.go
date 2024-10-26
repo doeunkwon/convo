@@ -25,8 +25,8 @@ func SaveProgress(c echo.Context) error {
 		return c.String(http.StatusInternalServerError, "Failed to serialize history")
 	}
 
-	query := `INSERT INTO progress (userID, currentStreak, longestStreak, history) VALUES (?, ?, ?, ?)`
-	_, err = db.Exec(query, progress.UserID, progress.CurrentStreak, progress.LongestStreak, string(historyJSON))
+	query := `INSERT INTO progress (userID, currentStreak, longestStreak, history, dateUpdated) VALUES (?, ?, ?, ?, ?)`
+	_, err = db.Exec(query, progress.UserID, progress.CurrentStreak, progress.LongestStreak, string(historyJSON), progress.DateUpdated)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "Failed to save progress")
 	}
@@ -54,8 +54,8 @@ func UpdateProgress(c echo.Context) error {
 		return c.String(http.StatusInternalServerError, "Failed to serialize history")
 	}
 
-	query := `UPDATE progress SET currentStreak = ?, longestStreak = ?, history = ? WHERE userID = ?`
-	_, err = db.Exec(query, progress.CurrentStreak, progress.LongestStreak, string(historyJSON), userID)
+	query := `UPDATE progress SET currentStreak = ?, longestStreak = ?, history = ?, dateUpdated = ? WHERE userID = ?`
+	_, err = db.Exec(query, progress.CurrentStreak, progress.LongestStreak, string(historyJSON), progress.DateUpdated, userID)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "Failed to update progress")
 	}
@@ -74,8 +74,8 @@ func GetProgress(c echo.Context) error {
 
 	var progress models.Progress
 	var historyJSON string
-	query := `SELECT userID, currentStreak, longestStreak, history FROM progress WHERE userID = ?`
-	err := db.QueryRow(query, userID).Scan(&progress.UserID, &progress.CurrentStreak, &progress.LongestStreak, &historyJSON)
+	query := `SELECT userID, currentStreak, longestStreak, history, dateUpdated FROM progress WHERE userID = ?`
+	err := db.QueryRow(query, userID).Scan(&progress.UserID, &progress.CurrentStreak, &progress.LongestStreak, &historyJSON, &progress.DateUpdated)
 	if err != nil {
 		return c.String(http.StatusNotFound, "Progress not found")
 	}

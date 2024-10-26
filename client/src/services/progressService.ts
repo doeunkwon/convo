@@ -1,4 +1,4 @@
-import { daysPerWeek, weeks } from "../constants";
+import { daysPerWeek, today, weeks } from "../constants";
 import { Progress } from "../models/progress";
 import { getAuth, User } from "firebase/auth";
 import { calculateDaysPassed } from "../utils/calculateDaysPassed";
@@ -10,16 +10,24 @@ export const toggleCompletion = (localProgress: Progress, setLocalProgress: (pro
     // This is necessary because React state updates are based on reference equality
     const updatedHistory = [...localProgress.history];
     updatedHistory[todayIndex] = !updatedHistory[todayIndex];
-    const newProgress = updateStreaks({ ...localProgress, history: updatedHistory }, todayIndex)
+    const newProgress = updateStreaks({ ...localProgress, history: updatedHistory}, todayIndex)
     setLocalProgress(newProgress);
     updateProgress(user.uid, newProgress);
   }
 };
 
-export async function setupProgress(userID: string, setProgress: (progress: Progress) => void): Promise<void> {
-    const existingProgress = await getUserProgress(userID);
-    if ( existingProgress ) {
-      setProgress(existingProgress);
+export async function setupProgress(user: User, setProgress: (progress: Progress) => void): Promise<void> {
+    const existingProgress = await getUserProgress(user.uid);
+    const currentDate = today.toLocaleDateString();
+    if ( existingProgress && user.metadata.creationTime ) {
+      if (currentDate !== existingProgress.dateUpdated) {
+        const todayIndex = calculateDaysPassed(user.metadata.creationTime)
+        const newProgress = updateStreaks(existingProgress, todayIndex)
+        updateProgress(user.uid, newProgress)
+        setProgress(newProgress)
+      } else {
+        setProgress(existingProgress)
+      }
     } else {
         const newProgress = {
             currentStreak: 0,
@@ -28,9 +36,10 @@ export async function setupProgress(userID: string, setProgress: (progress: Prog
                 { length: weeks * daysPerWeek },
                 () => false
             ),
+            dateUpdated: currentDate
         };
         setProgress(newProgress);
-        await saveProgressToServer(userID, {
+        await saveProgressToServer(user.uid, {
           ...newProgress,
         });
     }
@@ -40,15 +49,26 @@ export async function setupProgress(userID: string, setProgress: (progress: Prog
 const updateStreaks = (progress: Progress, todayIndex: number): Progress => {
   let currentStreak = 0;
   let longestStreak = 0; // Initialize longestStreak to 0
+  let consecutiveFalses = 0; // Track consecutive false days
 
   // Iterate only up to todayIndex
-  for (let i = 0; i <= todayIndex; i++) {
+  for (let i = 0; i < todayIndex; i++) { // Change to < todayIndex
     if (progress.history[i]) {
       currentStreak++;
       longestStreak = Math.max(longestStreak, currentStreak); // Update longestStreak in real-time
+      consecutiveFalses = 0; // Reset consecutive falses
     } else {
-      currentStreak = 0; // Reset current streak if a day is false
+      consecutiveFalses++;
+      if (consecutiveFalses >= 1) {
+        currentStreak = 0; // Reset current streak if there are two consecutive false days
+      }
     }
+  }
+
+  // If today is marked as true, increment the current streak
+  if (todayIndex < progress.history.length && progress.history[todayIndex]) {
+    currentStreak++; // Increment only if today is true
+    longestStreak = Math.max(longestStreak, currentStreak); // Update longestStreak if today is true
   }
 
   return {
@@ -73,7 +93,7 @@ export async function saveProgressToServer(
         "Content-Type": "application/json",
         Authorization: token,
       },
-      body: JSON.stringify({ userID, ...progress }),
+      body: JSON.stringify({ userID, ...progress}),
     });
 
     if (!response.ok) {
@@ -88,6 +108,7 @@ export async function updateProgress(userID: string, progress: Progress): Promis
   console.log("Updating user progress");
   const auth = getAuth();
   const user = auth.currentUser;
+  const currentDate = today.toLocaleDateString();
   if (user) {
     const token = await user.getIdToken();
     const response = await fetch(`http://localhost:8080/update-progress?userID=${userID}`, {
@@ -96,7 +117,7 @@ export async function updateProgress(userID: string, progress: Progress): Promis
         "Content-Type": "application/json",
         Authorization: token,
       },
-      body: JSON.stringify(progress),
+      body: JSON.stringify({...progress, dateUpdated: currentDate}),
     });
 
     if (!response.ok) {
