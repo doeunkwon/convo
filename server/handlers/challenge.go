@@ -4,19 +4,13 @@ import (
 	"convo/db"
 	"net/http"
 
+	"convo/db/models"
+
 	"github.com/labstack/echo/v4"
 )
 
-type Challenge struct {
-	UserID      string `json:"userID"`
-	Title       string `json:"title"`
-	Task        string `json:"task"`
-	Tip         string `json:"tip"`
-	DateCreated string `json:"dateCreated"`
-}
-
 func SaveChallenge(c echo.Context) error {
-	var challenge Challenge
+	var challenge models.Challenge
 	if err := c.Bind(&challenge); err != nil {
 		return c.String(http.StatusBadRequest, "Invalid request")
 	}
@@ -42,7 +36,7 @@ func GetChallenge(c echo.Context) error {
 	db := db.InitDB("./db/database.db")
 	defer db.Close()
 
-	var challenge Challenge
+	var challenge models.Challenge
 	query := `SELECT userID, title, task, tip, dateCreated FROM challenge WHERE userID = ?`
 	err := db.QueryRow(query, userID).Scan(&challenge.UserID, &challenge.Title, &challenge.Task, &challenge.Tip, &challenge.DateCreated)
 	if err != nil {
