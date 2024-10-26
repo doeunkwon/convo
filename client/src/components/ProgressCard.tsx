@@ -12,7 +12,10 @@ function ProgressCard({ progress }: ProgressCardProps) {
       <section className="panel-card-horizontal-header">
         <section className="panel-streak-text">
           <p>Current streak</p>
-          <h3>{progress.currentStreak} days</h3>
+          <h3>
+            {progress.currentStreak}{" "}
+            {progress.currentStreak === 1 ? "day" : "days"}
+          </h3>
         </section>
         <section className="panel-card-slit"></section>
         <section className="panel-streak-text">
@@ -32,7 +35,10 @@ function ProgressCard({ progress }: ProgressCardProps) {
                 style={{ color: "var(--orange-color)" }}
               ></i>
             </h3>
-            <h3 className="gradient-text">{progress.longestStreak} days</h3>
+            <h3 className="gradient-text">
+              {progress.longestStreak}{" "}
+              {progress.longestStreak === 1 ? "day" : "days"}
+            </h3>
           </section>
         </section>
       </section>

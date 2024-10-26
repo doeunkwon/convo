@@ -10,7 +10,7 @@ export const toggleCompletion = (localProgress: Progress, setLocalProgress: (pro
     // This is necessary because React state updates are based on reference equality
     const updatedHistory = [...localProgress.history];
     updatedHistory[todayIndex] = !updatedHistory[todayIndex];
-    const newProgress = { ...localProgress, history: updatedHistory }
+    const newProgress = updateStreaks({ ...localProgress, history: updatedHistory }, todayIndex)
     setLocalProgress(newProgress);
     updateProgress(user.uid, newProgress);
   }
@@ -35,6 +35,28 @@ export async function setupProgress(userID: string, setProgress: (progress: Prog
         });
     }
   }
+
+// Helper function to update current and longest streaks up to todayIndex
+const updateStreaks = (progress: Progress, todayIndex: number): Progress => {
+  let currentStreak = 0;
+  let longestStreak = 0; // Initialize longestStreak to 0
+
+  // Iterate only up to todayIndex
+  for (let i = 0; i <= todayIndex; i++) {
+    if (progress.history[i]) {
+      currentStreak++;
+      longestStreak = Math.max(longestStreak, currentStreak); // Update longestStreak in real-time
+    } else {
+      currentStreak = 0; // Reset current streak if a day is false
+    }
+  }
+
+  return {
+    ...progress,
+    currentStreak,
+    longestStreak, // Return the updated longestStreak
+  };
+};
 
 export async function saveProgressToServer(
   userID: string,
