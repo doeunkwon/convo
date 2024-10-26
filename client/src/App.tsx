@@ -12,24 +12,13 @@ import SignInPage from "./pages/SignInPage"; // Import the SignInPage
 import Navbar from "./components/Navbar";
 import { useState, useEffect } from "react";
 import { Challenge } from "./models/challenge";
-import { weeks, daysPerWeek } from "./constants";
 import { Progress } from "./models/progress";
 import SettingsPage from "./pages/SettingsPage";
 import PrivateRoute from "./components/PrivateRoute";
-import {
-  generateChallenge,
-  saveChallengeToServer,
-  getUserChallenge,
-  deleteChallenge,
-  setupChallenge,
-} from "./services/challengeService";
-import {
-  saveProgressToServer,
-  getUserProgress,
-  deleteProgress,
-  setupProgress,
-} from "./services/progressService";
+import { setupChallenge } from "./services/challengeService";
+import { setupProgress, toggleCompletion } from "./services/progressService";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { calculateDaysPassed } from "./utils/calculateDaysPassed";
 
 function AppContent() {
   const location = useLocation();
@@ -56,6 +45,23 @@ function AppContent() {
       default:
         return "Convo";
     }
+  };
+
+  const handleToggleCompletion = async () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (user && user.metadata.creationTime) {
+      toggleCompletion(progress, setProgress, user.metadata.creationTime);
+    }
+  };
+
+  const completed = () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (user && user.metadata.creationTime) {
+      return progress.history[calculateDaysPassed(user.metadata.creationTime)];
+    }
+    return false;
   };
 
   useEffect(() => {
@@ -90,7 +96,11 @@ function AppContent() {
             path="/daily"
             element={
               <PrivateRoute>
-                <DailyPage dailyChallenge={dailyChallenge} />
+                <DailyPage
+                  dailyChallenge={dailyChallenge}
+                  handleToggleCompletion={handleToggleCompletion}
+                  completed={completed()}
+                />
               </PrivateRoute>
             }
           />

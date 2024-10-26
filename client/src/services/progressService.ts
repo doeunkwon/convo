@@ -1,6 +1,16 @@
 import { daysPerWeek, weeks } from "../constants";
 import { Progress } from "../models/progress";
 import { getAuth } from "firebase/auth";
+import { calculateDaysPassed } from "../utils/calculateDaysPassed";
+
+export const toggleCompletion = (localProgress: Progress, setLocalProgress: (progress: Progress) => void, creationTime: string) => {
+  const todayIndex = calculateDaysPassed(creationTime);
+  // Use deep copy (copying by value) to avoid mutating the state directly
+  // This is necessary because React state updates are based on reference equality
+  const updatedHistory = [...localProgress.history];
+  updatedHistory[todayIndex] = !updatedHistory[todayIndex];
+  setLocalProgress({ ...localProgress, history: updatedHistory });
+};
 
 export async function setupProgress(userID: string, setProgress: (progress: Progress) => void): Promise<void> {
     const existingProgress = await getUserProgress(userID);

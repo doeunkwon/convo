@@ -5,9 +5,15 @@ import { Challenge } from "../models/challenge";
 
 interface DailyProps {
   dailyChallenge: Challenge;
+  handleToggleCompletion: () => void;
+  completed: boolean;
 }
 
-function Daily({ dailyChallenge }: DailyProps) {
+function Daily({
+  dailyChallenge,
+  handleToggleCompletion,
+  completed,
+}: DailyProps) {
   return (
     <main className="daily-page">
       <section className="daily-page-card">
@@ -19,11 +25,15 @@ function Daily({ dailyChallenge }: DailyProps) {
         />
       </section>
       <Button
-        image={<i className="ri-sparkling-fill" />}
-        text="Complete"
-        onClick={() => {
-          console.log("Complete button clicked");
-        }}
+        image={
+          completed ? (
+            <i className="ri-sparkling-line" />
+          ) : (
+            <i className="ri-sparkling-fill" />
+          )
+        }
+        text={completed ? "Uncomplete" : "Complete"}
+        onClick={handleToggleCompletion}
       />
     </main>
   );

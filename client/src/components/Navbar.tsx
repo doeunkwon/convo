@@ -45,7 +45,7 @@ function Navbar({ title }: NavbarProps) {
       case "Daily":
         return (
           <div onClick={toProgress}>
-            <CircleIcon icon={<i className="ri-pie-chart-line"></i>} />
+            <CircleIcon icon={<i className="ri-line-chart-line"></i>} />
           </div>
         );
       case "Settings":
