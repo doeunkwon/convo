@@ -26,9 +26,9 @@ import { getUserChallenge, deleteChallenge } from "./services/challengeService";
 function AppContent() {
   const location = useLocation();
   const [dailyChallenge, setDailyChallenge] = useState<Challenge>({
-    title: "",
-    task: "",
-    tip: "",
+    title: "No title available",
+    task: "No task available",
+    tip: "No tip available",
     dateCreated: "",
   });
   const [progress, setProgress] = useState<Progress>({
@@ -53,11 +53,10 @@ function AppContent() {
   useEffect(() => {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const currentDate = new Date().toISOString().split("T")[0];
+      if (user && user.metadata.creationTime) {
+        const currentDate = new Date().toLocaleDateString();
         // const currentDate = "2024-10-25";
         const existingChallenge = await getUserChallenge(user.uid);
-
         if (
           existingChallenge &&
           existingChallenge.dateCreated === currentDate

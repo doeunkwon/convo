@@ -8,6 +8,8 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+
+	"convo/middlewareFx"
 )
 
 func main() {
@@ -26,10 +28,10 @@ func main() {
 	}))
 
 	// Define routes
-	e.POST("/generate-challenge", handlers.GenerateChallenge, verifyToken)
-	e.POST("/save-challenge", handlers.SaveChallenge, verifyToken)
-	e.GET("/get-challenge", handlers.GetChallenge, verifyToken)
-	e.DELETE("/delete-challenge", handlers.DeleteChallenge, verifyToken)
+	e.POST("/generate-challenge", handlers.GenerateChallenge, middlewareFx.VerifyToken)
+	e.POST("/save-challenge", handlers.SaveChallenge, middlewareFx.VerifyToken)
+	e.GET("/get-challenge", handlers.GetChallenge, middlewareFx.VerifyToken)
+	e.DELETE("/delete-challenge", handlers.DeleteChallenge, middlewareFx.VerifyToken)
 
 	// Start server
 	e.Logger.Fatal(e.Start(":8080"))

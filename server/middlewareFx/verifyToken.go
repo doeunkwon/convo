@@ -1,4 +1,4 @@
-package main
+package middlewareFx
 
 import (
 	"context"
@@ -10,7 +10,7 @@ import (
 	"google.golang.org/api/option"
 )
 
-func verifyToken(next echo.HandlerFunc) echo.HandlerFunc {
+func VerifyToken(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		serviceAccountKey := os.Getenv("FIREBASE_SERVICE_ACCOUNT_KEY")
 		if serviceAccountKey == "" {
