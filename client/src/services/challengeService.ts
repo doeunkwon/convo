@@ -5,7 +5,7 @@ import { getAuth } from "firebase/auth";
 const baseUrl = process.env.REACT_APP_BASE_URL
 
 export async function setupChallenge(userID: string, setDailyChallenge: (challenge: Challenge) => void): Promise<void> {
-  const currentDate = today.toLocaleDateString();
+  const currentDate = today.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
   const existingChallenge = await getUserChallenge(userID);
   if (
     existingChallenge &&

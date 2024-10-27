@@ -33,7 +33,11 @@ function AppContent() {
     currentStreak: 0,
     longestStreak: 0,
     history: [],
-    dateUpdated: today.toLocaleDateString(),
+    dateUpdated: today.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }),
   });
 
   const getNavbarTitle = () => {

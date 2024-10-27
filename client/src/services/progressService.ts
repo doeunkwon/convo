@@ -20,7 +20,7 @@ export const toggleCompletion = (localProgress: Progress, setLocalProgress: (pro
 
 export async function setupProgress(user: User, setProgress: (progress: Progress) => void): Promise<void> {
     const existingProgress = await getUserProgress(user.uid);
-    const currentDate = today.toLocaleDateString();
+    const currentDate = today.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
     if ( existingProgress && user.metadata.creationTime ) {
       if (currentDate !== existingProgress.dateUpdated) {
         const todayIndex = calculateDaysPassed(user.metadata.creationTime)
@@ -110,7 +110,7 @@ export async function updateProgress(userID: string, progress: Progress): Promis
   console.log("Updating user progress");
   const auth = getAuth();
   const user = auth.currentUser;
-  const currentDate = today.toLocaleDateString();
+  const currentDate = today.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
   if (user) {
     const token = await user.getIdToken();
     const response = await fetch(`${baseUrl}:8080/update-progress?userID=${userID}`, {
