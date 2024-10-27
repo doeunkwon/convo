@@ -3,6 +3,8 @@ import { Progress } from "../models/progress";
 import { getAuth, User } from "firebase/auth";
 import { calculateDaysPassed } from "../utils/calculateDaysPassed";
 
+const baseUrl = process.env.REACT_APP_BASE_URL
+
 export const toggleCompletion = (localProgress: Progress, setLocalProgress: (progress: Progress) => void, user: User) => {
   if (user.metadata.creationTime) {
     const todayIndex = calculateDaysPassed(user.metadata.creationTime);
@@ -87,7 +89,7 @@ export async function saveProgressToServer(
   const user = auth.currentUser;
   if (user) {
     const token = await user.getIdToken();
-    const response = await fetch("http://localhost:8080/save-progress", {
+    const response = await fetch(`${baseUrl}:8080/save-progress`, {
       method: "POST",   
       headers: {
         "Content-Type": "application/json",
@@ -111,7 +113,7 @@ export async function updateProgress(userID: string, progress: Progress): Promis
   const currentDate = today.toLocaleDateString();
   if (user) {
     const token = await user.getIdToken();
-    const response = await fetch(`http://localhost:8080/update-progress?userID=${userID}`, {
+    const response = await fetch(`${baseUrl}:8080/update-progress?userID=${userID}`, {
       method: "PUT", // Use PUT for updates
       headers: {
         "Content-Type": "application/json",
@@ -134,7 +136,7 @@ export async function getUserProgress(userID: string): Promise<Progress | null> 
   const user = auth.currentUser;
   if (user) {
     const token = await user.getIdToken();
-    const response = await fetch(`http://localhost:8080/get-progress?userID=${userID}`, {
+    const response = await fetch(`${baseUrl}:8080/get-progress?userID=${userID}`, {
       headers: {
         Authorization: token,
       },
@@ -155,7 +157,7 @@ export async function deleteProgress(userID: string): Promise<void> {
   const user = auth.currentUser;
   if (user) {
     const token = await user.getIdToken();
-    const response = await fetch(`http://localhost:8080/delete-progress?userID=${userID}`, {
+    const response = await fetch(`${baseUrl}:8080/delete-progress?userID=${userID}`, {
       method: "DELETE",
       headers: {
         Authorization: token,

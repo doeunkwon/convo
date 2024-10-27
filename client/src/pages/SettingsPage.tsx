@@ -2,6 +2,7 @@ import "../styles/SettingsPage.css";
 import { signOut, deleteUser } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
+import Button from "../components/Button";
 
 function SettingsPage() {
   const navigate = useNavigate();
@@ -19,6 +20,12 @@ function SettingsPage() {
   const handleDeleteAccount = async () => {
     const user = auth.currentUser;
     if (user) {
+      // Add confirmation dialog
+      const confirmDelete = window.confirm(
+        "Are you sure you want to delete your account?"
+      );
+      if (!confirmDelete) return; // Exit if the user cancels
+
       try {
         await deleteUser(user);
         console.log("User account deleted");
@@ -34,12 +41,12 @@ function SettingsPage() {
 
   return (
     <main className="settings-page">
-      <button onClick={handleLogout} className="settings-logout-button">
-        <p style={{ color: "var(--text-color)" }}>Log out</p>
-      </button>
-      <button onClick={handleDeleteAccount} className="settings-logout-button">
-        <p style={{ color: "var(--text-color)" }}>Delete account</p>
-      </button>
+      <Button gradient={false} text="Log out" onClick={handleLogout} />
+      <Button
+        gradient={false}
+        text="Delete account"
+        onClick={handleDeleteAccount}
+      />
     </main>
   );
 }

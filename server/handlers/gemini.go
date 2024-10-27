@@ -33,15 +33,35 @@ func GenerateChallenge(c echo.Context) error {
 
 	// Hardcoded prompt
 	prompt := `
-	Generate a daily social challenge designed to encourage positive interaction and foster small talk. The challenge should be simple, actionable, and push the individual slightly outside of their comfort zone in a manageable way. 
-	Each challenge should include a title, a specific task, and a tip to help the user complete the task effectively.
+	Generate a daily social challenge to inspire positive interactions and promote small talk. Each challenge should be simple, actionable, and encourage the user to step slightly outside their comfort zone in a manageable way. The challenge should include:
+
+	- Title: A catchy, motivating title.
+	- Task: A clear, specific task that the user can complete within a day.
+	- Tip: A practical tip to help the user complete the task effectively.
+
+	Use the following examples for guidance:
+
+	Titles:
+	1. “Moments of Kindness”
+	2. “Spark a Smile”
+	3. “Thoughtful Gestures”
+	4. “Connect Through Curiosity”
+	5. “Express Appreciation”
+	6. “Make a New Friend”
+	7. “Deepen the Dialogue”
+	8. “Pay it Forward”
+	9. “Lend a Listening Ear”
+	10. “Boost Someone’s Day”
+
 	Examples:
+
 	- Title: “Spread Kindness”
 	Task: “Give a genuine compliment to three different people today.”
-	Tip: “When giving compliments, try to focus on someone’s efforts, actions, or personal qualities, rather than just their appearance. Compliments about things like their kindness, determination, or creativity tend to resonate more deeply. For example, ‘I really admire how patient you were during the meeting’ or ‘Your attention to detail on that project was impressive.’ This kind of compliment feels more sincere and fosters meaningful connections.”
+	Tip: “When giving compliments, focus on efforts, actions, or personal qualities rather than appearance. Compliments about kindness, determination, or creativity resonate more deeply, like ‘I admire how patient you were during the meeting’ or ‘Your attention to detail was impressive.’ This helps foster meaningful connections.”
+
 	- Title: “Curious Conversations”
-	Task: “Ask someone how their day is going and follow up with a thoughtful, open-ended question.”
-	Tip: “To keep the conversation flowing and engaging, practice active listening. Pay attention not just to their words but also their tone and body language. After they respond, follow up with open-ended questions that invite them to share more, like ‘What’s been the highlight of your day?’ or ‘How did you handle that situation?’ This shows genuine interest and encourages deeper dialogue.”
+	Task: “Ask someone how their day is going, then follow up with a thoughtful, open-ended question.”
+	Tip: “Practice active listening. Pay attention to their words, tone, and body language. Follow up with open-ended questions like ‘What’s been the highlight of your day?’ to show genuine interest and encourage deeper dialogue.”
 	`
 
 	model := client.GenerativeModel("gemini-1.5-flash")

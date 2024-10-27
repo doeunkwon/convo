@@ -7,14 +7,17 @@ import {
 import { auth } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import "../styles/SignInPage.css"; // Import the CSS file for styling
+import convo from "../assets/convo.png";
 
 function SignInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(""); // Add state for error message
   const navigate = useNavigate();
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage(""); // Reset error message before sign in attempt
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -25,6 +28,7 @@ function SignInPage() {
       navigate("/daily");
     } catch (error: any) {
       console.error("Error signing in:", error.message);
+      setErrorMessage("Invalid email or password. Please try again."); // Set error message
     }
   };
 
@@ -41,44 +45,54 @@ function SignInPage() {
 
   return (
     <main className="sign-in">
-      <h3 style={{ color: "var(--text-color)" }}>Log into Convo</h3>
-      <button onClick={handleGoogleSignIn} className="sign-in-google-button">
-        <p style={{ color: "var(--text-color)" }}>
-          <i className="ri-google-fill"></i>
-        </p>
-        <p style={{ color: "var(--text-color)" }}>Log in with Google</p>
-      </button>
-      <div
-        style={{
-          width: "100%",
-          height: "2px",
-          background: "var(--feint-color)",
-        }}
-      />
-      <form onSubmit={handleSignIn} className="sign-in-form">
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-          required
-          className="sign-in-input-field"
+      <section className="sign-in-content">
+        <img
+          style={{
+            height: "calc(12px + 1vmin)",
+            marginBottom: "var(--small-gap)",
+          }}
+          src={convo}
+          alt="Convo Logo"
         />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          required
-          className="sign-in-input-field"
-        />
-        <button type="submit" className="sign-in-button">
-          <p style={{ color: "var(--white-color)" }}>Log in</p>
+        <button onClick={handleGoogleSignIn} className="sign-in-google-button">
+          <p style={{ color: "var(--text-color)" }}>
+            <i className="ri-google-fill"></i>
+          </p>
+          <p style={{ color: "var(--text-color)" }}>Log in with Google</p>
         </button>
-      </form>
-      <section onClick={() => navigate("/signup")}>
-        <p className="sign-in-create-account-button">Or create an account</p>
+        <div
+          style={{
+            width: "100%",
+            height: "2px",
+            background: "var(--feint-color)",
+          }}
+        />
+        <form onSubmit={handleSignIn} className="sign-in-form">
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            required
+            className="sign-in-input-field"
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            required
+            className="sign-in-input-field"
+          />
+          <button type="submit" className="sign-in-button">
+            <p style={{ color: "var(--white-color)" }}>Log in</p>
+          </button>
+        </form>
+        <section onClick={() => navigate("/signup")}>
+          <p className="sign-in-create-account-button">Or create an account</p>
+        </section>
       </section>
+      {errorMessage && <p className="sign-in-error">{errorMessage}</p>}
     </main>
   );
 }

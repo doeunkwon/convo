@@ -2,6 +2,7 @@ import { today } from "../constants";
 import { Challenge } from "../models/challenge";
 import { getAuth } from "firebase/auth";
 
+const baseUrl = process.env.REACT_APP_BASE_URL
 
 export async function setupChallenge(userID: string, setDailyChallenge: (challenge: Challenge) => void): Promise<void> {
   const currentDate = today.toLocaleDateString();
@@ -32,7 +33,7 @@ export async function generateChallenge(): Promise<Challenge | null> {
   const user = auth.currentUser;
   if (user) {
     const token = await user.getIdToken();
-    const response = await fetch("http://localhost:8080/generate-challenge", {
+    const response = await fetch(`${baseUrl}:8080/generate-challenge`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -62,7 +63,7 @@ export async function saveChallengeToServer(
   const user = auth.currentUser;
   if (user) {
     const token = await user.getIdToken();
-    const response = await fetch("http://localhost:8080/save-challenge", {
+    const response = await fetch(`${baseUrl}:8080/save-challenge`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -85,7 +86,7 @@ export async function getUserChallenge(userID: string): Promise<Challenge | null
   const user = auth.currentUser;
   if (user) {
     const token = await user.getIdToken();
-    const response = await fetch(`http://localhost:8080/get-challenge?userID=${userID}`, {
+    const response = await fetch(`${baseUrl}:8080/get-challenge?userID=${userID}`, {
       headers: {
         Authorization: token,
       },
@@ -106,7 +107,7 @@ export async function deleteChallenge(userID: string): Promise<void> {
   const user = auth.currentUser;
   if (user) {
     const token = await user.getIdToken();
-    const response = await fetch(`http://localhost:8080/delete-challenge?userID=${userID}`, {
+    const response = await fetch(`${baseUrl}:8080/delete-challenge?userID=${userID}`, {
       method: "DELETE",
       headers: {
         Authorization: token,

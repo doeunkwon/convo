@@ -3,8 +3,7 @@
     top: 0;
     left: 0;
     right: 0;
-    background: var(--blur-color);
-    backdrop-filter: var(--blur-radius);
+    background: var(--white-color);
     box-shadow: var(--box-shadow);
     z-index: 1000;
     display: flex;

@@ -4,12 +4,11 @@
     align-items: center;
     justify-content: flex-start;
     min-height: 100%;
-    width: 100%;
+    width: calc(100% - (var(--small-gap) * 2));
     gap: var(--medium-gap);
 }
 
 .daily-page-card {
-    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -18,6 +17,10 @@
 }
 
 @media (max-width: 768px) {
+    .daily-page {
+        width: 100%
+    }
+
     .daily-page-card {
         align-items: flex-start;
     }

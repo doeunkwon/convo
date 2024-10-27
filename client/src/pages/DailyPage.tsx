@@ -32,6 +32,7 @@ function Daily({
             <i className="ri-sparkling-fill" />
           )
         }
+        gradient={true}
         text={completed ? "Uncomplete" : "Complete"}
         onClick={handleToggleCompletion}
       />

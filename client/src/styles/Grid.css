@@ -35,6 +35,6 @@
 
 @media (max-width: 768px) { 
     .grid-day.current-day {
-        border: 2px solid #06D001;
+        border: 1.5px solid #06D001;
     }
 }

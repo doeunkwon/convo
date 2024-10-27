@@ -7,9 +7,10 @@
     background: var(--white-color);
     box-shadow: var(--box-shadow);
     gap: var(--xsmall-gap);
-    padding: var(--small-gap) var(--large-gap);
+    padding: var(--small-gap);
     border: none;
     cursor: pointer;
+    width: 60%;
 }
 
 .button-icon { 
