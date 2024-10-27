@@ -24,7 +24,7 @@ function ChallengeCard({ title, task, tip }: ChallengeCardProps) {
           }}
         >
           <p style={{ color: "var(--text-color)" }}>
-            <i className="ri-lightbulb-line"></i>
+            <i className="ri-service-line"></i>
           </p>
           <p style={{ color: "var(--text-color)" }}>Tip of the day</p>
         </section>

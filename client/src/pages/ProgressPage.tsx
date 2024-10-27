@@ -16,7 +16,7 @@ function ProgressPage({ progress }: ProgressPageProps) {
   return (
     <main className="progress-page">
       <p>
-        Week {Math.floor((todayIndex + 1) / 7) + 1}, Day {todayIndex + 1}
+        Week {Math.floor(todayIndex / 7) + 1}, Day {(todayIndex % 7) + 1}
       </p>
       <ProgressCard progress={progress} />
     </main>

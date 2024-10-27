@@ -39,9 +39,9 @@
   color: var(--light-text-color);
   border-radius: var(--button-border-radius);
   border-color: transparent;
-  background-color: #f9f9f9;
+  background-color: var(--white-color);
   transition: border-color 0.3s;
-  cursor: pointer
+  cursor: pointer;
 }
 
 .settings-level-picker:focus {

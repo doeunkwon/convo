@@ -16,7 +16,7 @@ export async function setupChallenge(userID: string, setDailyChallenge: (challen
     if (existingChallenge) {
       await deleteChallenge(userID);
     }
-    const newChallenge = await generateChallenge();
+    const newChallenge = await generateChallenge(userID);
     if (newChallenge) {
       newChallenge.dateCreated = currentDate;
       setDailyChallenge(newChallenge);
@@ -27,14 +27,14 @@ export async function setupChallenge(userID: string, setDailyChallenge: (challen
   }
 }
 
-export async function generateChallenge(): Promise<Challenge | null> {
+export async function generateChallenge(userID: string): Promise<Challenge | null> {
   console.log('Generating challenge')
   const auth = getAuth();
   const user = auth.currentUser;
   if (user) {
     const token = await user.getIdToken();
-    const response = await fetch(`${baseUrl}:8080/generate-challenge`, {
-      method: "POST",
+    const response = await fetch(`${baseUrl}:8080/generate-challenge?userID=${userID}`, {
+      method: "POST", // Changed method to POST
       headers: {
         "Content-Type": "application/json",
         Authorization: token,

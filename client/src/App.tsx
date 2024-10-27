@@ -20,9 +20,15 @@ import { setupProgress, toggleCompletion } from "./services/progressService";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { calculateDaysPassed } from "./utils/calculateDaysPassed";
 import { today } from "./constants";
+import {
+  setupPreference,
+  updateUserPreference,
+} from "./services/preferenceService";
+import { Preference } from "./models/preference";
 
 function AppContent() {
   const location = useLocation();
+  const [preference, setPreference] = useState<Preference>({ level: 1 });
   const [dailyChallenge, setDailyChallenge] = useState<Challenge>({
     title: "No title available",
     task: "No task available",
@@ -70,10 +76,24 @@ function AppContent() {
     return false;
   };
 
+  const handleLevelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedLevel = event.target.value;
+    setPreference({ level: Number(selectedLevel) });
+  };
+
+  const handleLevelSet = () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (user) {
+      updateUserPreference(user.uid, preference);
+    }
+  };
+
   useEffect(() => {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user && user.metadata.creationTime) {
+        await setupPreference(user.uid, setPreference);
         await setupChallenge(user.uid, setDailyChallenge);
         await setupProgress(user, setProgress);
       }
@@ -94,7 +114,11 @@ function AppContent() {
             path="/settings"
             element={
               <PrivateRoute>
-                <SettingsPage />
+                <SettingsPage
+                  handleLevelChange={handleLevelChange}
+                  handleLevelSet={handleLevelSet}
+                  level={preference.level}
+                />
               </PrivateRoute>
             }
           />
