@@ -17,7 +17,7 @@ function Daily({
   return (
     <main className="daily-page">
       <section className="daily-page-card">
-        <p>Today's challenge</p>
+        <p>Today's Challenge</p>
         <ChallengeCard
           title={dailyChallenge.title}
           task={dailyChallenge.task}

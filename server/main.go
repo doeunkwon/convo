@@ -39,6 +39,11 @@ func main() {
 	e.DELETE("/delete-progress", handlers.DeleteProgress, middlewareFx.VerifyToken)
 	e.PUT("/update-progress", handlers.UpdateProgress, middlewareFx.VerifyToken)
 
+	e.POST("/save-preference", handlers.SavePreference, middlewareFx.VerifyToken)
+	e.GET("/get-preference", handlers.GetPreference, middlewareFx.VerifyToken)
+	e.DELETE("/delete-preference", handlers.DeletePreference, middlewareFx.VerifyToken)
+	e.PUT("/update-preference", handlers.UpdatePreference, middlewareFx.VerifyToken)
+
 	// Start server
 	e.Logger.Fatal(e.Start(":8080"))
 }

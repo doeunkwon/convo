@@ -41,11 +41,23 @@ func createTables(db *sql.DB) error {
 		dateUpdated TEXT NOT NULL
     );`
 
+	preferenceTable := `
+    CREATE TABLE IF NOT EXISTS preference (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        userID TEXT NOT NULL,
+        level INTEGER NOT NULL
+    );`
+
 	_, err := db.Exec(challengeTable)
 	if err != nil {
 		return err
 	}
 
 	_, err = db.Exec(progressTable)
+	if err != nil {
+		return err
+	}
+
+	_, err = db.Exec(preferenceTable)
 	return err
 }

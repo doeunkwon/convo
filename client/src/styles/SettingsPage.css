@@ -17,6 +17,37 @@
   cursor: pointer;
 }
 
+.settings-divider {
+  width: 100%;
+  height: 3px;
+  background-color: var(--feint-color);
+  margin: var(--small-gap) 0px;
+}
+
+.settings-level-label {
+  font-size: 1.2em;
+  margin-bottom: 0.5em;
+  display: block;
+  color: #333;
+}
+
+.settings-level-picker {
+  padding: var(--xsmall-gap) var(--small-gap);
+  font-size: var(--sp-size);
+  font-family: 'Poppins', sans-serif;
+  font-weight: normal;
+  color: var(--light-text-color);
+  border-radius: var(--button-border-radius);
+  border-color: transparent;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s;
+  cursor: pointer
+}
+
+.settings-level-picker:focus {
+  outline: none;
+}
+
 @media (max-width: 768px) {
   .settings-page {
     gap: var(--small-gap)
