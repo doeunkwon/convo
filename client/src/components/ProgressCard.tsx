@@ -11,15 +11,15 @@ function ProgressCard({ progress }: ProgressCardProps) {
     <main className="panel-card">
       <section className="panel-card-horizontal-header">
         <section className="panel-streak-text">
-          <p>Current streak</p>
-          <h3>
+          <p>Current Streak</p>
+          <h3 style={{ color: "var(--text-color)" }}>
             {progress.currentStreak}{" "}
             {progress.currentStreak === 1 ? "day" : "days"}
           </h3>
         </section>
         <section className="panel-card-slit"></section>
         <section className="panel-streak-text">
-          <p>Longest streak</p>
+          <p>Longest Streak</p>
           <section
             style={{
               display: "flex",

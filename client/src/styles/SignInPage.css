@@ -81,6 +81,19 @@
     text-align: center;
   }
 
+  .sign-in-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--small-gap)
+  }
+
+  .sign-in-header img {
+    width: auto; /* Make the image responsive */
+    height: calc(20px + 1vmin); /* Maintain aspect ratio */
+}
+
   @media (max-width: 768px) {
     .sign-in {
         width: 100%;

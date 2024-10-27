@@ -1,9 +1,17 @@
 import "../styles/SettingsPage.css";
-import { signOut, deleteUser } from "firebase/auth";
+import {
+  signOut,
+  deleteUser,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+} from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import { useState } from "react";
+import { deleteUserPreference } from "../services/preferenceService";
+import { deleteProgress } from "../services/progressService";
+import { deleteChallenge } from "../services/challengeService";
 
 interface SettingsPageProps {
   handleLevelChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -39,11 +47,33 @@ function SettingsPage({
     if (user) {
       // Add confirmation dialog
       const confirmDelete = window.confirm(
-        "Are you sure you want to delete your account?"
+        "Are you sure you want to delete your account? This action cannot be undone."
       );
       if (!confirmDelete) return; // Exit if the user cancels
 
+      // Prompt for re-authentication
+      const credential = prompt(
+        "Please enter your password to confirm deletion:"
+      );
+      if (!credential) return; // Exit if no password is provided
+
       try {
+        // Ensure user.email is not null
+        if (!user.email) {
+          throw new Error("User email is not available.");
+        }
+
+        // Re-authenticate the userN
+        const userCredential = EmailAuthProvider.credential(
+          user.email,
+          credential
+        );
+        await reauthenticateWithCredential(user, userCredential);
+
+        // Proceed with account deletion
+        await deleteUserPreference(user.uid);
+        await deleteProgress(user.uid);
+        await deleteChallenge(user.uid);
         await deleteUser(user);
         console.log("User account deleted");
         navigate("/"); // Redirect to the home or login page after account deletion
@@ -116,7 +146,16 @@ function SettingsPage({
                 <option value="4">4. Skilled Conversationalist</option>
                 <option value="5">5. Social Pro</option>
               </select>
-              <button className="orange-button">Set level</button>
+              <button
+                className="orange-button"
+                onClick={() => {
+                  handleLevelSet();
+                  alert("Social level updated");
+                  togglePopup();
+                }}
+              >
+                Set level
+              </button>
             </section>
           </div>
         </div>

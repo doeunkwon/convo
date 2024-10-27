@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-import {
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-} from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import "../styles/SignInPage.css"; // Import the CSS file for styling
@@ -32,29 +28,25 @@ function SignInPage() {
     }
   };
 
-  const handleGoogleSignIn = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      const result = await signInWithPopup(auth, provider);
-      console.log("Google sign-in successful:", result.user);
-      navigate("/daily"); // Redirect to /daily after successful Google sign-in
-    } catch (error: any) {
-      console.error("Error signing in with Google:", error.message);
-    }
-  };
+  // const handleGoogleSignIn = async () => {
+  //   const provider = new GoogleAuthProvider();
+  //   try {
+  //     const result = await signInWithPopup(auth, provider);
+  //     console.log("Google sign-in successful:", result.user);
+  //     navigate("/daily"); // Redirect to /daily after successful Google sign-in
+  //   } catch (error: any) {
+  //     console.error("Error signing in with Google:", error.message);
+  //   }
+  // };
 
   return (
     <main className="sign-in">
       <section className="sign-in-content">
-        <img
-          style={{
-            height: "calc(12px + 1vmin)",
-            marginBottom: "var(--small-gap)",
-          }}
-          src={convo}
-          alt="Convo Logo"
-        />
-        <button onClick={handleGoogleSignIn} className="sign-in-google-button">
+        <section className="sign-in-header">
+          <img src={convo} alt="Convo Logo" />
+          <p>Become more social with Convo.</p>
+        </section>
+        {/* <button onClick={handleGoogleSignIn} className="sign-in-google-button">
           <p style={{ color: "var(--text-color)" }}>
             <i className="ri-google-fill"></i>
           </p>
@@ -66,7 +58,7 @@ function SignInPage() {
             height: "2px",
             background: "var(--feint-color)",
           }}
-        />
+        /> */}
         <form onSubmit={handleSignIn} className="sign-in-form">
           <input
             type="email"
