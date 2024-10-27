@@ -9,7 +9,7 @@
 
 .sign-in-content {
     width: 100%;
-    border-radius: calc(12px + 1vmax);
+    border-radius: var(--panel-border-radius);
     border: 2px solid white;
     background: var(--blur-color);
     backdrop-filter: var(--blur-radius);

@@ -24,13 +24,6 @@
   margin: var(--small-gap) 0px;
 }
 
-.settings-level-label {
-  font-size: 1.2em;
-  margin-bottom: 0.5em;
-  display: block;
-  color: #333;
-}
-
 .settings-level-picker {
   padding: var(--xsmall-gap) var(--small-gap);
   font-size: var(--sp-size);
@@ -40,12 +33,67 @@
   border-radius: var(--button-border-radius);
   border-color: transparent;
   background-color: var(--white-color);
-  transition: border-color 0.3s;
   cursor: pointer;
 }
 
 .settings-level-picker:focus {
   outline: none;
+}
+
+.settings-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: calc(100vw - (var(--small-gap) * 2));
+  height: calc(100vh - (var(--small-gap) * 2));
+  background-color: rgba(0, 0, 0, 0.3); /* dim background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--small-gap);
+}
+
+.settings-popup {
+  background-color: var(--offwhite-color);
+  padding: var(--large-gap);
+  border-radius: var(--panel-border-radius);
+  box-shadow: var(--box-shadow);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Change to flex-start to allow proper scrolling */
+  gap: var(--large-gap);
+  max-width: var(--max-width);
+  max-height: 60%; /* Keep this to limit the height */
+  overflow-y: auto; /* Allow scrolling */
+}
+
+.settings-popup-picker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--small-gap);
+}
+
+.settings-popup-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--xxsmall-gap);
+}
+
+.settings-descriptions {
+  font-size: var(--sp-size); /* Use the specified font size */
+  font-family: 'Poppins', sans-serif; /* Use the specified font family */
+  text-align: left;
+  color: var(--light-text-color);
+  display: flex;
+  flex-direction: column;
+  gap: var(--small-gap)
 }
 
 @media (max-width: 768px) {
@@ -55,5 +103,9 @@
 
   .settings-logout-button {
     width: 100%;
+  }
+
+  .settings-popup {
+    padding: var(--small-gap);
   }
 }

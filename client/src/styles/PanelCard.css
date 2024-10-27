@@ -1,5 +1,5 @@
 .panel-card {
-    border-radius: calc(12px + 1vmax);
+    border-radius: var(--panel-border-radius);
     border: 2px solid white;
     backdrop-filter: var(--blur-radius);
     display: flex;
