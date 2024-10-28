@@ -3,12 +3,25 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    width: 100%;
+    width: calc(100% - (var(--small-gap) * 2));
     gap: var(--small-gap);
   }
 
-  @media (max-width: 768px) {
-    .progress-page {
-      align-items: flex-start;
-    }
+.progress-page-header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+
+  .progress-page {
+    width: 100%;
   }
+
+  .progress-page-header {
+    align-items: flex-start;
+  }
+}
