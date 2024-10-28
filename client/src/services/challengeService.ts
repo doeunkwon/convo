@@ -33,7 +33,7 @@ export async function generateChallenge(userID: string): Promise<Challenge | nul
   const user = auth.currentUser;
   if (user) {
     const token = await user.getIdToken();
-    const response = await fetch(`${baseUrl}:1000/generate-challenge?userID=${userID}`, {
+    const response = await fetch(`${baseUrl}:10000/generate-challenge?userID=${userID}`, {
       method: "POST", // Changed method to POST
       headers: {
         "Content-Type": "application/json",
@@ -63,7 +63,7 @@ export async function saveChallengeToServer(
   const user = auth.currentUser;
   if (user) {
     const token = await user.getIdToken();
-    const response = await fetch(`${baseUrl}:1000/save-challenge`, {
+    const response = await fetch(`${baseUrl}:10000/save-challenge`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -86,7 +86,7 @@ export async function getUserChallenge(userID: string): Promise<Challenge | null
   const user = auth.currentUser;
   if (user) {
     const token = await user.getIdToken();
-    const response = await fetch(`${baseUrl}:1000/get-challenge?userID=${userID}`, {
+    const response = await fetch(`${baseUrl}:10000/get-challenge?userID=${userID}`, {
       headers: {
         Authorization: token,
       },
@@ -107,7 +107,7 @@ export async function deleteChallenge(userID: string): Promise<void> {
   const user = auth.currentUser;
   if (user) {
     const token = await user.getIdToken();
-    const response = await fetch(`${baseUrl}:1000/delete-challenge?userID=${userID}`, {
+    const response = await fetch(`${baseUrl}:10000/delete-challenge?userID=${userID}`, {
       method: "DELETE",
       headers: {
         Authorization: token,
