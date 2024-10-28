@@ -47,7 +47,7 @@ func main() {
 	// Start server on the port specified by the PORT environment variable
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080" // Default to 8080 if PORT is not set
+		port = "10000" // Default to 10000 if PORT is not set
 	}
 	e.Logger.Fatal(e.Start(":" + port))
 }

@@ -89,7 +89,7 @@ export async function saveProgressToServer(
   const user = auth.currentUser;
   if (user) {
     const token = await user.getIdToken();
-    const response = await fetch(`${baseUrl}:8080/save-progress`, {
+    const response = await fetch(`${baseUrl}:1000/save-progress`, {
       method: "POST",   
       headers: {
         "Content-Type": "application/json",
@@ -113,7 +113,7 @@ export async function updateProgress(userID: string, progress: Progress): Promis
   const currentDate = today.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
   if (user) {
     const token = await user.getIdToken();
-    const response = await fetch(`${baseUrl}:8080/update-progress?userID=${userID}`, {
+    const response = await fetch(`${baseUrl}:1000/update-progress?userID=${userID}`, {
       method: "PUT", // Use PUT for updates
       headers: {
         "Content-Type": "application/json",
@@ -136,7 +136,7 @@ export async function getUserProgress(userID: string): Promise<Progress | null> 
   const user = auth.currentUser;
   if (user) {
     const token = await user.getIdToken();
-    const response = await fetch(`${baseUrl}:8080/get-progress?userID=${userID}`, {
+    const response = await fetch(`${baseUrl}:1000/get-progress?userID=${userID}`, {
       headers: {
         Authorization: token,
       },
@@ -157,7 +157,7 @@ export async function deleteProgress(userID: string): Promise<void> {
   const user = auth.currentUser;
   if (user) {
     const token = await user.getIdToken();
-    const response = await fetch(`${baseUrl}:8080/delete-progress?userID=${userID}`, {
+    const response = await fetch(`${baseUrl}:1000/delete-progress?userID=${userID}`, {
       method: "DELETE",
       headers: {
         Authorization: token,
