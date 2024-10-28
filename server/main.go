@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"net/http"
-	"os"
 	"runtime"
 	"time"
 
@@ -63,9 +62,5 @@ func main() {
 	}()
 
 	// Start server on the port specified by the PORT environment variable
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080" // Default to 8080 if PORT is not set
-	}
-	e.Logger.Fatal(e.Start("0.0.0.0:" + port))
+	e.Start("0.0.0.0:8080")
 }
