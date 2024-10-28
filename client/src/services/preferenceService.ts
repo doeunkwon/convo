@@ -22,7 +22,7 @@ export async function getUserPreference(userID: string): Promise<Preference | nu
     const user = auth.currentUser;
     if (user) {
       const token = await user.getIdToken();
-      const response = await fetch(`${baseUrl}:10000/get-preference?userID=${userID}`, {
+      const response = await fetch(`${baseUrl}:8080/get-preference?userID=${userID}`, {
         headers: {
           Authorization: token,
         },
@@ -43,7 +43,7 @@ export async function getUserPreference(userID: string): Promise<Preference | nu
     const user = auth.currentUser;
     if (user) {
       const token = await user.getIdToken();
-      const response = await fetch(`${baseUrl}:10000/update-preference?userID=${userID}`, {
+      const response = await fetch(`${baseUrl}:8080/update-preference?userID=${userID}`, {
         method: "PUT", // Use PUT for updates
         headers: {
           "Content-Type": "application/json",
@@ -66,7 +66,7 @@ export async function getUserPreference(userID: string): Promise<Preference | nu
     const user = auth.currentUser;
     if (user) {
       const token = await user.getIdToken();
-      const response = await fetch(`${baseUrl}:10000/save-preference`, {
+      const response = await fetch(`${baseUrl}:8080/save-preference`, {
         method: "POST",   
         headers: {
           "Content-Type": "application/json",
@@ -89,7 +89,7 @@ export async function getUserPreference(userID: string): Promise<Preference | nu
     const user = auth.currentUser;
     if (user) {
       const token = await user.getIdToken();
-      const response = await fetch(`${baseUrl}:10000/delete-preference?userID=${userID}`, {
+      const response = await fetch(`${baseUrl}:8080/delete-preference?userID=${userID}`, {
         method: "DELETE",
         headers: {
           Authorization: token,
