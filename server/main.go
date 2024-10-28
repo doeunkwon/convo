@@ -1,10 +1,11 @@
 package main
 
 import (
-	"convo/handlers"
 	"log"
 	"net/http"
 	"os"
+
+	"convo/handlers"
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
@@ -14,6 +15,7 @@ import (
 )
 
 func main() {
+
 	// Load environment variables from .env file
 	if err := godotenv.Load(); err != nil {
 		log.Fatal("Error loading .env file")
@@ -23,7 +25,7 @@ func main() {
 
 	// Set up CORS middleware
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"http://localhost:3000", os.Getenv("IP_ADDRESS")},
+		AllowOrigins: []string{"*"},
 		AllowMethods: []string{http.MethodGet, http.MethodPost, http.MethodDelete, http.MethodPut},
 		AllowHeaders: []string{"Content-Type", "Authorization"},
 	}))
@@ -44,6 +46,10 @@ func main() {
 	e.DELETE("/delete-preference", handlers.DeletePreference, middlewareFx.VerifyToken)
 	e.PUT("/update-preference", handlers.UpdatePreference, middlewareFx.VerifyToken)
 
-	// Start server
-	e.Logger.Fatal(e.Start(":8080"))
+	// Start server on the port specified by the PORT environment variable
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080" // Default port if PORT is not set
+	}
+	e.Logger.Fatal(e.Start("0.0.0.0:" + port))
 }

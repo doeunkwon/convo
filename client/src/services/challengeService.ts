@@ -12,6 +12,7 @@ export async function setupChallenge(userID: string, setDailyChallenge: (challen
     existingChallenge.dateCreated === currentDate // Indicates a new day
   ) {
     setDailyChallenge(existingChallenge);
+    console.log(existingChallenge)
   } else {
     if (existingChallenge) {
       await deleteChallenge(userID);
@@ -23,6 +24,7 @@ export async function setupChallenge(userID: string, setDailyChallenge: (challen
       await saveChallengeToServer(userID, {
         ...newChallenge,
       });
+      console.log(newChallenge)
     }
   }
 }
@@ -33,7 +35,7 @@ export async function generateChallenge(userID: string): Promise<Challenge | nul
   const user = auth.currentUser;
   if (user) {
     const token = await user.getIdToken();
-    const response = await fetch(`${baseUrl}:8080/generate-challenge?userID=${userID}`, {
+    const response = await fetch(`${baseUrl}/generate-challenge?userID=${userID}`, {
       method: "POST", // Changed method to POST
       headers: {
         "Content-Type": "application/json",
@@ -63,7 +65,7 @@ export async function saveChallengeToServer(
   const user = auth.currentUser;
   if (user) {
     const token = await user.getIdToken();
-    const response = await fetch(`${baseUrl}:8080/save-challenge`, {
+    const response = await fetch(`${baseUrl}/save-challenge`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -86,7 +88,7 @@ export async function getUserChallenge(userID: string): Promise<Challenge | null
   const user = auth.currentUser;
   if (user) {
     const token = await user.getIdToken();
-    const response = await fetch(`${baseUrl}:8080/get-challenge?userID=${userID}`, {
+    const response = await fetch(`${baseUrl}/get-challenge?userID=${userID}`, {
       headers: {
         Authorization: token,
       },
@@ -107,7 +109,7 @@ export async function deleteChallenge(userID: string): Promise<void> {
   const user = auth.currentUser;
   if (user) {
     const token = await user.getIdToken();
-    const response = await fetch(`${baseUrl}:8080/delete-challenge?userID=${userID}`, {
+    const response = await fetch(`${baseUrl}/delete-challenge?userID=${userID}`, {
       method: "DELETE",
       headers: {
         Authorization: token,

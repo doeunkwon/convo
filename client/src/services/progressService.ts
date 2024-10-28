@@ -27,8 +27,10 @@ export async function setupProgress(user: User, setProgress: (progress: Progress
         const newProgress = updateStreaks(existingProgress, todayIndex)
         updateProgress(user.uid, newProgress)
         setProgress(newProgress)
+        console.log(newProgress)
       } else {
         setProgress(existingProgress)
+        console.log(existingProgress)
       }
     } else {
         const newProgress = {
@@ -44,6 +46,7 @@ export async function setupProgress(user: User, setProgress: (progress: Progress
         await saveProgressToServer(user.uid, {
           ...newProgress,
         });
+        console.log(newProgress)
     }
   }
 
@@ -89,7 +92,7 @@ export async function saveProgressToServer(
   const user = auth.currentUser;
   if (user) {
     const token = await user.getIdToken();
-    const response = await fetch(`${baseUrl}:8080/save-progress`, {
+    const response = await fetch(`${baseUrl}/save-progress`, {
       method: "POST",   
       headers: {
         "Content-Type": "application/json",
@@ -113,7 +116,7 @@ export async function updateProgress(userID: string, progress: Progress): Promis
   const currentDate = today.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
   if (user) {
     const token = await user.getIdToken();
-    const response = await fetch(`${baseUrl}:8080/update-progress?userID=${userID}`, {
+    const response = await fetch(`${baseUrl}/update-progress?userID=${userID}`, {
       method: "PUT", // Use PUT for updates
       headers: {
         "Content-Type": "application/json",
@@ -136,7 +139,7 @@ export async function getUserProgress(userID: string): Promise<Progress | null> 
   const user = auth.currentUser;
   if (user) {
     const token = await user.getIdToken();
-    const response = await fetch(`${baseUrl}:8080/get-progress?userID=${userID}`, {
+    const response = await fetch(`${baseUrl}/get-progress?userID=${userID}`, {
       headers: {
         Authorization: token,
       },
@@ -157,7 +160,7 @@ export async function deleteProgress(userID: string): Promise<void> {
   const user = auth.currentUser;
   if (user) {
     const token = await user.getIdToken();
-    const response = await fetch(`${baseUrl}:8080/delete-progress?userID=${userID}`, {
+    const response = await fetch(`${baseUrl}/delete-progress?userID=${userID}`, {
       method: "DELETE",
       headers: {
         Authorization: token,

@@ -7,12 +7,14 @@ export async function setupPreference(userID: string, setPreference: (preference
     const existingPreference = await getUserPreference(userID);
     if ( existingPreference ) {
         setPreference(existingPreference);
+        console.log(existingPreference)
     } else {
         const newPreference = { level: 1 }
         setPreference(newPreference);
         await saveUserPreference(userID, {
           ...newPreference,
         });
+        console.log(newPreference)
     }
   }
 
@@ -22,7 +24,7 @@ export async function getUserPreference(userID: string): Promise<Preference | nu
     const user = auth.currentUser;
     if (user) {
       const token = await user.getIdToken();
-      const response = await fetch(`${baseUrl}:8080/get-preference?userID=${userID}`, {
+      const response = await fetch(`${baseUrl}/get-preference?userID=${userID}`, {
         headers: {
           Authorization: token,
         },
@@ -43,7 +45,7 @@ export async function getUserPreference(userID: string): Promise<Preference | nu
     const user = auth.currentUser;
     if (user) {
       const token = await user.getIdToken();
-      const response = await fetch(`${baseUrl}:8080/update-preference?userID=${userID}`, {
+      const response = await fetch(`${baseUrl}/update-preference?userID=${userID}`, {
         method: "PUT", // Use PUT for updates
         headers: {
           "Content-Type": "application/json",
@@ -66,7 +68,7 @@ export async function getUserPreference(userID: string): Promise<Preference | nu
     const user = auth.currentUser;
     if (user) {
       const token = await user.getIdToken();
-      const response = await fetch(`${baseUrl}:8080/save-preference`, {
+      const response = await fetch(`${baseUrl}/save-preference`, {
         method: "POST",   
         headers: {
           "Content-Type": "application/json",
@@ -89,7 +91,7 @@ export async function getUserPreference(userID: string): Promise<Preference | nu
     const user = auth.currentUser;
     if (user) {
       const token = await user.getIdToken();
-      const response = await fetch(`${baseUrl}:8080/delete-preference?userID=${userID}`, {
+      const response = await fetch(`${baseUrl}/delete-preference?userID=${userID}`, {
         method: "DELETE",
         headers: {
           Authorization: token,
