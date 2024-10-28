@@ -66,6 +66,10 @@ func main() {
 		return c.Attachment(filePath, "convoprod.db")
 	})
 
+	e.GET("/ping", func(c echo.Context) error {
+		return c.JSON(http.StatusOK, echo.Map{"message": "pong"})
+	})
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
