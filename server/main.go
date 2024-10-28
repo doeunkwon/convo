@@ -4,7 +4,6 @@ import (
 	"convo/handlers"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
@@ -23,7 +22,7 @@ func main() {
 
 	// Set up CORS middleware
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"http://localhost:3000", os.Getenv("IP_ADDRESS")},
+		AllowOrigins: []string{"http://localhost:3000", "https://convo.onrender.com"},
 		AllowMethods: []string{http.MethodGet, http.MethodPost, http.MethodDelete, http.MethodPut},
 		AllowHeaders: []string{"Content-Type", "Authorization"},
 	}))
