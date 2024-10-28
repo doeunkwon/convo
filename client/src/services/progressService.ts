@@ -27,8 +27,10 @@ export async function setupProgress(user: User, setProgress: (progress: Progress
         const newProgress = updateStreaks(existingProgress, todayIndex)
         updateProgress(user.uid, newProgress)
         setProgress(newProgress)
+        console.log(newProgress)
       } else {
         setProgress(existingProgress)
+        console.log(existingProgress)
       }
     } else {
         const newProgress = {
@@ -44,6 +46,7 @@ export async function setupProgress(user: User, setProgress: (progress: Progress
         await saveProgressToServer(user.uid, {
           ...newProgress,
         });
+        console.log(newProgress)
     }
   }
 

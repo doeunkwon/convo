@@ -12,6 +12,7 @@ export async function setupChallenge(userID: string, setDailyChallenge: (challen
     existingChallenge.dateCreated === currentDate // Indicates a new day
   ) {
     setDailyChallenge(existingChallenge);
+    console.log(existingChallenge)
   } else {
     if (existingChallenge) {
       await deleteChallenge(userID);
@@ -23,6 +24,7 @@ export async function setupChallenge(userID: string, setDailyChallenge: (challen
       await saveChallengeToServer(userID, {
         ...newChallenge,
       });
+      console.log(newChallenge)
     }
   }
 }

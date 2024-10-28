@@ -7,12 +7,14 @@ export async function setupPreference(userID: string, setPreference: (preference
     const existingPreference = await getUserPreference(userID);
     if ( existingPreference ) {
         setPreference(existingPreference);
+        console.log(existingPreference)
     } else {
         const newPreference = { level: 1 }
         setPreference(newPreference);
         await saveUserPreference(userID, {
           ...newPreference,
         });
+        console.log(newPreference)
     }
   }
 
