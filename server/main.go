@@ -1,15 +1,32 @@
 package main
 
 import (
-	"convo/handlers"
+	"log"
 	"net/http"
 	"os"
+	"runtime"
+	"time"
+
+	"convo/handlers"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 
 	"convo/middlewareFx"
 )
+
+func logMemoryUsage() {
+	var m runtime.MemStats
+	runtime.ReadMemStats(&m)
+	log.Printf("Alloc = %v MiB", bToMb(m.Alloc))
+	log.Printf("TotalAlloc = %v MiB", bToMb(m.TotalAlloc))
+	log.Printf("Sys = %v MiB", bToMb(m.Sys))
+	log.Printf("NumGC = %v\n", m.NumGC)
+}
+
+func bToMb(b uint64) float64 {
+	return float64(b) / 1024 / 1024
+}
 
 func main() {
 	e := echo.New()
@@ -36,6 +53,14 @@ func main() {
 	e.GET("/get-preference", handlers.GetPreference, middlewareFx.VerifyToken)
 	e.DELETE("/delete-preference", handlers.DeletePreference, middlewareFx.VerifyToken)
 	e.PUT("/update-preference", handlers.UpdatePreference, middlewareFx.VerifyToken)
+
+	// Start a goroutine to log memory usage every 10 seconds
+	go func() {
+		for {
+			logMemoryUsage()
+			time.Sleep(10 * time.Second) // Adjust the interval as needed
+		}
+	}()
 
 	// Start server on the port specified by the PORT environment variable
 	port := os.Getenv("PORT")
