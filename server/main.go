@@ -4,6 +4,7 @@ import (
 	"convo/handlers"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
@@ -22,7 +23,7 @@ func main() {
 
 	// Set up CORS middleware
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"http://localhost:3000", "https://convo.onrender.com"},
+		AllowOrigins: []string{"http://localhost:3000", "https://convo-rqpn.onrender.com"},
 		AllowMethods: []string{http.MethodGet, http.MethodPost, http.MethodDelete, http.MethodPut},
 		AllowHeaders: []string{"Content-Type", "Authorization"},
 	}))
@@ -43,6 +44,10 @@ func main() {
 	e.DELETE("/delete-preference", handlers.DeletePreference, middlewareFx.VerifyToken)
 	e.PUT("/update-preference", handlers.UpdatePreference, middlewareFx.VerifyToken)
 
-	// Start server
-	e.Logger.Fatal(e.Start(":8080"))
+	// Start server on the port specified by the PORT environment variable
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080" // Default to 8080 if PORT is not set
+	}
+	e.Logger.Fatal(e.Start(":" + port))
 }
