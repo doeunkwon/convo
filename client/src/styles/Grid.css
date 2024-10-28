@@ -10,10 +10,10 @@
 }
   
 .grid-day {
-    width: calc((((100vw - (var(--small-gap) * 4)) - (var(--grid-day-gap) * var(--weeks))) / var(--weeks)));
-    max-width: calc((((var(--max-width) - (var(--small-gap) * 4)) - (var(--grid-day-gap) * var(--weeks))) / var(--weeks)));
+    width: calc((((100vw - 80px) - 78px) / 26));
+    max-width: 23px;
     aspect-ratio: 1 / 1;
-    border-radius: var(--grid-border-radius);
+    border-radius: calc(2px + 0.1vmax);
     display: flex;
     align-items: center;
     justify-content: center;
