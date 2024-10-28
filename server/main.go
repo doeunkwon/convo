@@ -17,7 +17,7 @@ func main() {
 
 	// Set up CORS middleware
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"http://localhost:3000", "https://convo-rqpn.onrender.com"},
+		AllowOrigins: []string{"*"},
 		AllowMethods: []string{http.MethodGet, http.MethodPost, http.MethodDelete, http.MethodPut},
 		AllowHeaders: []string{"Content-Type", "Authorization"},
 	}))
@@ -43,5 +43,5 @@ func main() {
 	if port == "" {
 		port = "8080" // Default port if PORT is not set
 	}
-	e.Start("0.0.0.0:" + port)
+	e.Logger.Fatal(e.Start("0.0.0.0:" + port))
 }
