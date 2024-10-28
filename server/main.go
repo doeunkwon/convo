@@ -1,10 +1,8 @@
 package main
 
 import (
-	"log"
 	"net/http"
-	"runtime"
-	"time"
+	"os"
 
 	"convo/handlers"
 
@@ -13,19 +11,6 @@ import (
 
 	"convo/middlewareFx"
 )
-
-func logMemoryUsage() {
-	var m runtime.MemStats
-	runtime.ReadMemStats(&m)
-	log.Printf("Alloc = %v MiB", bToMb(m.Alloc))
-	log.Printf("TotalAlloc = %v MiB", bToMb(m.TotalAlloc))
-	log.Printf("Sys = %v MiB", bToMb(m.Sys))
-	log.Printf("NumGC = %v\n", m.NumGC)
-}
-
-func bToMb(b uint64) float64 {
-	return float64(b) / 1024 / 1024
-}
 
 func main() {
 	e := echo.New()
@@ -53,14 +38,10 @@ func main() {
 	e.DELETE("/delete-preference", handlers.DeletePreference, middlewareFx.VerifyToken)
 	e.PUT("/update-preference", handlers.UpdatePreference, middlewareFx.VerifyToken)
 
-	// Start a goroutine to log memory usage every 10 seconds
-	go func() {
-		for {
-			logMemoryUsage()
-			time.Sleep(10 * time.Second) // Adjust the interval as needed
-		}
-	}()
-
 	// Start server on the port specified by the PORT environment variable
-	e.Start("0.0.0.0:8080")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080" // Default port if PORT is not set
+	}
+	e.Start("0.0.0.0:" + port)
 }
