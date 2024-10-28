@@ -46,10 +46,29 @@ func main() {
 	e.DELETE("/delete-preference", handlers.DeletePreference, middlewareFx.VerifyToken)
 	e.PUT("/update-preference", handlers.UpdatePreference, middlewareFx.VerifyToken)
 
-	// Start server on the port specified by the PORT environment variable
+	e.GET("/download-db", func(c echo.Context) error {
+
+		secretKey := os.Getenv("DOWNLOAD_DB_KEY")
+		if secretKey == "" {
+			return c.JSON(http.StatusInternalServerError, echo.Map{"error": "Secret key not set on server"})
+		}
+
+		requestKey := c.Request().Header.Get("x-api-key")
+		if requestKey != secretKey {
+			return c.JSON(http.StatusUnauthorized, echo.Map{"error": "Unauthorized"})
+		}
+
+		filePath := "./db/database.db"
+		if _, err := os.Stat(filePath); os.IsNotExist(err) {
+			return c.JSON(http.StatusNotFound, echo.Map{"error": "File not found"})
+		}
+
+		return c.Attachment(filePath, "convoprod.db")
+	})
+
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080" // Default port if PORT is not set
+		port = "8080"
 	}
 	e.Logger.Fatal(e.Start("0.0.0.0:" + port))
 }
