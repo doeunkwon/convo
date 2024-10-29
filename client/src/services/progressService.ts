@@ -128,6 +128,8 @@ export async function updateProgress(userID: string, progress: Progress): Promis
     if (!response.ok) {
       console.error("Failed to update progress");
     }
+
+    console.log(progress)
   } else {
     console.error("No user is signed in");
   }

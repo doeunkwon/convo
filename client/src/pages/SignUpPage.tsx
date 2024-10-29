@@ -4,13 +4,32 @@ import { auth } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import "../styles/SignInPage.css";
 import convo from "../assets/convo.png";
+import LevelSelection from "../components/LevelSelection";
+import { setupPreference } from "../services/preferenceService";
+import { Preference } from "../models/preference";
 
-function SignUpPage() {
+interface SignUpPageProps {
+  handleLevelChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  setPreference: (preference: Preference) => void;
+  level: number;
+}
+
+function SignUpPage({
+  handleLevelChange,
+  setPreference,
+  level,
+}: SignUpPageProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState(""); // New state for confirm password
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const togglePopup = () => {
+    setIsOpen(!isOpen);
+  };
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,6 +55,9 @@ function SignUpPage() {
       );
       console.log("User registered:", userCredential.user);
       setErrorMessage("");
+
+      await setupPreference(userCredential.user.uid, setPreference, level);
+
       navigate("/daily"); // Redirect to /daily after successful sign-up
     } catch (error: any) {
       console.error("Error signing up:", error.message);
@@ -105,12 +127,26 @@ function SignUpPage() {
             required
             className="sign-in-input-field"
           />
+          <button
+            type="button"
+            className="sign-in-level-button"
+            onClick={togglePopup}
+          >
+            <p style={{ color: "var(--text-color)" }}>Set Level</p>
+          </button>
           <button type="submit" className="sign-in-button">
-            <p style={{ color: "var(--white-color)" }}>Sign up</p>
+            <p style={{ color: "var(--white-color)" }}>Sign Up</p>
           </button>
         </form>
       </section>
       {errorMessage && <p className="sign-in-error">{errorMessage}</p>}
+      {isOpen && (
+        <LevelSelection
+          togglePopup={togglePopup}
+          handleLevelChange={handleLevelChange}
+          level={level}
+        />
+      )}
     </main>
   );
 }

@@ -1,0 +1,81 @@
+.level-selection-picker {
+    padding: var(--xsmall-gap) var(--small-gap);
+    font-size: var(--sp-size);
+    font-family: 'Poppins', sans-serif;
+    font-weight: normal;
+    color: var(--light-text-color);
+    border-radius: var(--button-border-radius);
+    border-color: transparent;
+    background-color: var(--white-color);
+    cursor: pointer;
+  }
+  
+  .level-selection-picker:focus {
+    outline: none;
+  }
+  
+  .level-selection-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: calc(100vw - (var(--small-gap) * 2));
+    height: calc(100vh - (var(--small-gap) * 2));
+    background-color: rgba(0, 0, 0, 0.3); /* dim background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: var(--small-gap);
+  }
+  
+  .level-selection-popup {
+    background-color: var(--offwhite-color);
+    padding: var(--medium-gap);
+    border-radius: var(--panel-border-radius);
+    border: 5px solid white;
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Change to flex-start to allow proper scrolling */
+    gap: var(--large-gap);
+    max-width: var(--max-width);
+    max-height: 60%; /* Keep this to limit the height */
+    overflow-y: auto; /* Allow scrolling */
+  }
+  
+  .level-selection-popup-picker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--medium-gap);
+  }
+  
+  .level-selection-popup-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--xxsmall-gap);
+  }
+  
+  .level-selection-descriptions {
+    font-size: var(--sp-size); /* Use the specified font size */
+    font-family: 'Poppins', sans-serif; /* Use the specified font family */
+    text-align: left;
+    color: var(--light-text-color);
+    display: flex;
+    flex-direction: column;
+    gap: var(--small-gap)
+  }
+
+  @media (max-width: 768px) {
+    .level-selection-popup {
+        gap: var(--medium-gap)
+    }
+    .level-selection-popup-picker {
+        gap: var(--small-gap)
+    }
+  }

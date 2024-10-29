@@ -3,18 +3,19 @@ import { Preference } from "../models/preference";
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
-export async function setupPreference(userID: string, setPreference: (preference: Preference) => void): Promise<void> {
+export async function setupPreference(userID: string, setPreference: (preference: Preference) => void, level?: number): Promise<void> {
     const existingPreference = await getUserPreference(userID);
     if ( existingPreference ) {
         setPreference(existingPreference);
-        console.log(existingPreference)
     } else {
-        const newPreference = { level: 1 }
+      if (level) {
+        const newPreference = { level: level }
         setPreference(newPreference);
         await saveUserPreference(userID, {
           ...newPreference,
         });
         console.log(newPreference)
+      }
     }
   }
 
@@ -57,6 +58,8 @@ export async function getUserPreference(userID: string): Promise<Preference | nu
       if (!response.ok) {
         console.error("Failed to update preference");
       }
+
+      console.log(preference)
     } else {
       console.error("No user is signed in");
     }

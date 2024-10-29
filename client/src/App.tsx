@@ -109,7 +109,16 @@ function AppContent() {
         )}
         <Routes>
           <Route path="/" element={<SignInPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
+          <Route
+            path="/signup"
+            element={
+              <SignUpPage
+                handleLevelChange={handleLevelChange}
+                setPreference={setPreference}
+                level={preference.level}
+              />
+            }
+          />
           <Route
             path="/settings"
             element={
