@@ -4,6 +4,7 @@ import {
   Route,
   Routes,
   useLocation,
+  useNavigate,
 } from "react-router-dom";
 import DailyPage from "./pages/DailyPage";
 import ProgressPage from "./pages/ProgressPage";
@@ -27,6 +28,7 @@ import {
 import { Preference } from "./models/preference";
 
 function AppContent() {
+  const navigate = useNavigate();
   const location = useLocation();
   const unsubscribeRef = useRef<Unsubscribe>(() => {}); // Use a ref for unsubscribe
   const [preference, setPreference] = useState<Preference>({ level: 1 });
@@ -47,16 +49,16 @@ function AppContent() {
     }),
   });
 
-  const getNavbarTitle = () => {
+  const getNavbarTitle = (): [number, string] => {
     switch (location.pathname) {
       case "/daily":
-        return "Daily";
+        return [1, `Social Level ${preference.level}`];
       case "/progress":
-        return "Progress";
+        return [2, "Progress"];
       case "/settings":
-        return "Settings";
+        return [0, "Settings"];
       default:
-        return "Convo";
+        return [1, `Social Level ${preference.level}`];
     }
   };
 
@@ -65,6 +67,7 @@ function AppContent() {
     const user = auth.currentUser;
     if (user) {
       toggleCompletion(progress, setProgress, user);
+      navigate("/progress");
     }
   };
 
@@ -94,7 +97,7 @@ function AppContent() {
     const auth = getAuth();
     const unsubscribeFunc = onAuthStateChanged(auth, async (user) => {
       if (user && user.metadata.creationTime) {
-        console.log("If you're signing up, this shouldn't be called!");
+        console.log("If you're signing up, this should NOT be called!");
         await setupPreference(user.uid, setPreference);
         await setupChallenge(user.uid, setDailyChallenge);
         await setupProgress(user, setProgress);
@@ -110,7 +113,7 @@ function AppContent() {
     <main className="App">
       <section className="App-content">
         {location.pathname !== "/" && location.pathname !== "/signup" && (
-          <Navbar title={getNavbarTitle()} />
+          <Navbar titleTup={getNavbarTitle()} />
         )}
         <Routes>
           <Route path="/" element={<SignInPage />} />
