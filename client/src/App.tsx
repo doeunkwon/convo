@@ -10,14 +10,14 @@ import ProgressPage from "./pages/ProgressPage";
 import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage"; // Import the SignInPage
 import Navbar from "./components/Navbar";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Challenge } from "./models/challenge";
 import { Progress } from "./models/progress";
 import SettingsPage from "./pages/SettingsPage";
 import PrivateRoute from "./components/PrivateRoute";
 import { setupChallenge } from "./services/challengeService";
 import { setupProgress, toggleCompletion } from "./services/progressService";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, Unsubscribe } from "firebase/auth";
 import { calculateDaysPassed } from "./utils/calculateDaysPassed";
 import { today } from "./constants";
 import {
@@ -28,6 +28,7 @@ import { Preference } from "./models/preference";
 
 function AppContent() {
   const location = useLocation();
+  const unsubscribeRef = useRef<Unsubscribe>(() => {}); // Use a ref for unsubscribe
   const [preference, setPreference] = useState<Preference>({ level: 1 });
   const [dailyChallenge, setDailyChallenge] = useState<Challenge>({
     title: "No title available",
@@ -91,14 +92,18 @@ function AppContent() {
 
   useEffect(() => {
     const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    const unsubscribeFunc = onAuthStateChanged(auth, async (user) => {
       if (user && user.metadata.creationTime) {
+        console.log("If you're signing up, this shouldn't be called!");
         await setupPreference(user.uid, setPreference);
         await setupChallenge(user.uid, setDailyChallenge);
         await setupProgress(user, setProgress);
       }
     });
-    return () => unsubscribe();
+
+    unsubscribeRef.current = unsubscribeFunc;
+
+    return () => unsubscribeRef.current();
   }, []);
 
   return (
@@ -113,9 +118,10 @@ function AppContent() {
             path="/signup"
             element={
               <SignUpPage
-                handleLevelChange={handleLevelChange}
                 setPreference={setPreference}
-                level={preference.level}
+                setDailyChallenge={setDailyChallenge}
+                setProgress={setProgress}
+                unsubscribe={unsubscribeRef.current}
               />
             }
           />

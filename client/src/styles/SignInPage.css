@@ -14,7 +14,7 @@
     background: var(--blur-color);
     backdrop-filter: var(--blur-radius);
     gap: var(--medium-gap);
-    padding: var(--large-gap);
+    padding: var(--large-gap) var(--xxlarge-gap);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -25,18 +25,31 @@
   .sign-in-form {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 100%;
+    gap: var(--large-gap);
+  }
+
+  .sign-in-form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     gap: var(--small-gap);
+    width: 100%;
   }
   
   .sign-in-input-field {
-    padding: var(--xsmall-gap);
+    padding: var(--small-gap);
     border: none;
-    border-radius: 10px;
+    border-radius: var(--button-border-radius);
     font-size: var(--sp-size);
     color: var(--text-color);
     outline: none;
     background: var(--white-color);
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .sign-in-create-account-button {
@@ -47,7 +60,7 @@
   .sign-in-google-button {
     width: 100%;
     background-color: var(--white-color);
-    border-radius: 10px;
+    border-radius: var(--button-border-radius);
     box-shadow: var(--box-shadow);
     border: none;
     padding: var(--xsmall-gap);
@@ -63,7 +76,7 @@
   .sign-in-button {
     width: 100%;
     background-color: var(--orange-color);
-    border-radius: 10px;
+    border-radius: var(--button-border-radius);
     box-shadow: var(--box-shadow);
     border: none;
     padding: var(--xsmall-gap);
@@ -79,7 +92,7 @@
   .sign-in-level-button {
     width: 100%;
     background-color: var(--white-color);
-    border-radius: 10px;
+    border-radius: var(--button-border-radius);
     box-shadow: var(--box-shadow);
     border: none;
     padding: var(--xsmall-gap);
@@ -115,5 +128,9 @@
     .sign-in {
         width: 100%;
         padding: var(--small-gap);
+    }
+
+    .sign-in-content {
+      padding: var(--large-gap) var(--medium-gap);
     }
   }

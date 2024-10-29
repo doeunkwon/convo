@@ -60,25 +60,29 @@ function SignInPage() {
           }}
         /> */}
         <form onSubmit={handleSignIn} className="sign-in-form">
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
-            required
-            className="sign-in-input-field"
-          />
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            required
-            className="sign-in-input-field"
-          />
-          <button type="submit" className="sign-in-button">
-            <p style={{ color: "var(--white-color)" }}>Log in</p>
-          </button>
+          <section className="sign-in-form-group">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+              required
+              className="sign-in-input-field"
+            />
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              required
+              className="sign-in-input-field"
+            />
+          </section>
+          <section className="sign-in-form-group">
+            <button type="submit" className="sign-in-button">
+              <p style={{ color: "var(--white-color)" }}>Log in</p>
+            </button>
+          </section>
         </form>
         <section onClick={() => navigate("/signup")}>
           <p className="sign-in-create-account-button">Or create an account</p>

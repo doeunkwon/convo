@@ -39,7 +39,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start; /* Change to flex-start to allow proper scrolling */
-    gap: var(--large-gap);
+    gap: var(--medium-gap);
     max-width: var(--max-width);
     max-height: 60%; /* Keep this to limit the height */
     overflow-y: auto; /* Allow scrolling */
@@ -73,7 +73,7 @@
 
   @media (max-width: 768px) {
     .level-selection-popup {
-        gap: var(--medium-gap)
+        gap: var(--small-gap)
     }
     .level-selection-popup-picker {
         gap: var(--small-gap)

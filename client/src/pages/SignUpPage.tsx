@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, Unsubscribe } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import "../styles/SignInPage.css";
@@ -7,23 +7,30 @@ import convo from "../assets/convo.png";
 import LevelSelection from "../components/LevelSelection";
 import { setupPreference } from "../services/preferenceService";
 import { Preference } from "../models/preference";
+import { Challenge } from "../models/challenge";
+import { Progress } from "../models/progress";
+import { setupChallenge } from "../services/challengeService";
+import { setupProgress } from "../services/progressService";
 
 interface SignUpPageProps {
-  handleLevelChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   setPreference: (preference: Preference) => void;
-  level: number;
+  setDailyChallenge: (challenge: Challenge) => void;
+  setProgress: (progress: Progress) => void;
+  unsubscribe: Unsubscribe;
 }
 
 function SignUpPage({
-  handleLevelChange,
   setPreference,
-  level,
+  setDailyChallenge,
+  setProgress,
+  unsubscribe,
 }: SignUpPageProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState(""); // New state for confirm password
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const [socialLevel, setSocialLevel] = useState(1);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -48,6 +55,8 @@ function SignUpPage({
     }
 
     try {
+      unsubscribe();
+
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -56,7 +65,13 @@ function SignUpPage({
       console.log("User registered:", userCredential.user);
       setErrorMessage("");
 
-      await setupPreference(userCredential.user.uid, setPreference, level);
+      const user = userCredential.user;
+
+      await setupPreference(user.uid, setPreference, socialLevel);
+      await setupChallenge(user.uid, setDailyChallenge);
+      await setupProgress(user, setProgress);
+
+      setSocialLevel(1);
 
       navigate("/daily"); // Redirect to /daily after successful sign-up
     } catch (error: any) {
@@ -82,6 +97,11 @@ function SignUpPage({
     return strongPasswordRegex.test(password);
   };
 
+  const handleLevelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedLevel = event.target.value;
+    setSocialLevel(Number(selectedLevel));
+  };
+
   return (
     <main className="sign-in">
       <section className="sign-in-content">
@@ -103,40 +123,44 @@ function SignUpPage({
           }}
         /> */}
         <form onSubmit={handleSignUp} className="sign-in-form">
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
-            required
-            className="sign-in-input-field"
-          />
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            required
-            className="sign-in-input-field"
-          />
-          <input
-            type="password"
-            value={confirmPassword} // Bind confirm password state
-            onChange={(e) => setConfirmPassword(e.target.value)} // Update confirm password state
-            placeholder="Confirm Password"
-            required
-            className="sign-in-input-field"
-          />
-          <button
-            type="button"
-            className="sign-in-level-button"
-            onClick={togglePopup}
-          >
-            <p style={{ color: "var(--text-color)" }}>Set Level</p>
-          </button>
-          <button type="submit" className="sign-in-button">
-            <p style={{ color: "var(--white-color)" }}>Sign Up</p>
-          </button>
+          <section className="sign-in-form-group">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+              required
+              className="sign-in-input-field"
+            />
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              required
+              className="sign-in-input-field"
+            />
+            <input
+              type="password"
+              value={confirmPassword} // Bind confirm password state
+              onChange={(e) => setConfirmPassword(e.target.value)} // Update confirm password state
+              placeholder="Confirm Password"
+              required
+              className="sign-in-input-field"
+            />
+          </section>
+          <section className="sign-in-form-group">
+            <button
+              type="button"
+              className="sign-in-level-button"
+              onClick={togglePopup}
+            >
+              <p>Set Level</p>
+            </button>
+            <button type="submit" className="sign-in-button">
+              <p style={{ color: "var(--white-color)" }}>Sign Up</p>
+            </button>
+          </section>
         </form>
       </section>
       {errorMessage && <p className="sign-in-error">{errorMessage}</p>}
@@ -144,7 +168,7 @@ function SignUpPage({
         <LevelSelection
           togglePopup={togglePopup}
           handleLevelChange={handleLevelChange}
-          level={level}
+          level={socialLevel}
         />
       )}
     </main>
