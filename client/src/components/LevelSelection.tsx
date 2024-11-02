@@ -35,8 +35,8 @@ function LevelSelection({
             <option value="1">1. Observer</option>
             <option value="2">2. Dabbler</option>
             <option value="3">3. Mingler</option>
-            <option value="4">4. Connector</option>
-            <option value="5">5. Facilitator</option>
+            <option value="4">4. Engager</option>
+            <option value="5">5. Connector</option>
           </select>
           {handleLevelSet && (
             <button

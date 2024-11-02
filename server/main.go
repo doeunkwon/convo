@@ -20,12 +20,15 @@ func main() {
 	}
 
 	e := echo.New()
+	e.Debug = true
 
-	// Initialize the database
+	// Implement SQLDBdependency
 	sqliteDB, err := db.NewSQLiteDB("./db/database.db")
 	if err != nil {
 		e.Logger.Fatal("Failed to initialize SQLite database: ", err)
 	}
+
+	// Inject SQLDB dependency into SQLManager
 	sqlManager := db.NewSQLManager(sqliteDB)
 
 	// Register routes

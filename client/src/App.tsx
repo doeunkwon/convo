@@ -52,7 +52,7 @@ function AppContent() {
   const getNavbarTitle = (): [number, string] => {
     switch (location.pathname) {
       case "/daily":
-        return [1, `Social Level ${preference.level}`];
+        return [1, "Today"];
       case "/progress":
         return [2, "Progress"];
       case "/settings":
@@ -145,6 +145,7 @@ function AppContent() {
             element={
               <PrivateRoute>
                 <DailyPage
+                  level={preference.level}
                   dailyChallenge={dailyChallenge}
                   handleToggleCompletion={handleToggleCompletion}
                   completed={completed()}

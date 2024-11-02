@@ -4,12 +4,14 @@ import Button from "../components/Button";
 import { Challenge } from "../models/challenge";
 
 interface DailyProps {
+  level: number;
   dailyChallenge: Challenge;
   handleToggleCompletion: () => void;
   completed: boolean;
 }
 
 function Daily({
+  level,
   dailyChallenge,
   handleToggleCompletion,
   completed,
@@ -17,7 +19,7 @@ function Daily({
   return (
     <main className="daily-page">
       <section className="daily-page-card">
-        <p>Today's Challenge</p>
+        <p>Level {level} Challenge</p>
         <ChallengeCard
           title={dailyChallenge.title}
           task={dailyChallenge.task}
