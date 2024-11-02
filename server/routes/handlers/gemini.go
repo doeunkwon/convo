@@ -20,7 +20,7 @@ type ChallengeResponse struct {
 	Tip   string `json:"tip"`
 }
 
-func GenerateChallenge(c echo.Context) error {
+func GenerateChallenge(c echo.Context, sqlManager *db.SQLManager) error {
 	ctx := context.Background()
 
 	apiKey := os.Getenv("GEMINI_API_KEY")
@@ -41,10 +41,8 @@ func GenerateChallenge(c echo.Context) error {
 
 	// Get user preference level
 	var preference models.Preference
-	db := db.InitDB("./db/database.db")
-	defer db.Close()
 	query := `SELECT level FROM preference WHERE userID = ?`
-	err = db.QueryRow(query, userID).Scan(&preference.Level)
+	err = sqlManager.DB.QueryRow(query, userID).Scan(&preference.Level)
 	if err != nil {
 		return c.String(http.StatusNotFound, "Preference not found")
 	}

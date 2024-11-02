@@ -9,17 +9,14 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func SaveChallenge(c echo.Context) error {
+func SaveChallenge(c echo.Context, sqlManager *db.SQLManager) error {
 	var challenge models.Challenge
 	if err := c.Bind(&challenge); err != nil {
 		return c.String(http.StatusBadRequest, "Invalid request")
 	}
 
-	db := db.InitDB("./db/database.db")
-	defer db.Close()
-
 	query := `INSERT INTO challenge (userID, title, task, tip, dateCreated) VALUES (?, ?, ?, ?, ?)`
-	_, err := db.Exec(query, challenge.UserID, challenge.Title, challenge.Task, challenge.Tip, challenge.DateCreated)
+	_, err := sqlManager.DB.Exec(query, challenge.UserID, challenge.Title, challenge.Task, challenge.Tip, challenge.DateCreated)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "Failed to save challenge")
 	}
@@ -27,18 +24,15 @@ func SaveChallenge(c echo.Context) error {
 	return c.String(http.StatusOK, "Challenge saved successfully")
 }
 
-func GetChallenge(c echo.Context) error {
+func GetChallenge(c echo.Context, sqlManager *db.SQLManager) error {
 	userID := c.QueryParam("userID")
 	if userID == "" {
 		return c.String(http.StatusBadRequest, "User ID is required")
 	}
 
-	db := db.InitDB("./db/database.db")
-	defer db.Close()
-
 	var challenge models.Challenge
 	query := `SELECT userID, title, task, tip, dateCreated FROM challenge WHERE userID = ?`
-	err := db.QueryRow(query, userID).Scan(&challenge.UserID, &challenge.Title, &challenge.Task, &challenge.Tip, &challenge.DateCreated)
+	err := sqlManager.DB.QueryRow(query, userID).Scan(&challenge.UserID, &challenge.Title, &challenge.Task, &challenge.Tip, &challenge.DateCreated)
 	if err != nil {
 		return c.String(http.StatusNotFound, "Challenge not found")
 	}
@@ -46,17 +40,14 @@ func GetChallenge(c echo.Context) error {
 	return c.JSON(http.StatusOK, challenge)
 }
 
-func DeleteChallenge(c echo.Context) error {
+func DeleteChallenge(c echo.Context, sqlManager *db.SQLManager) error {
 	userID := c.QueryParam("userID")
 	if userID == "" {
 		return c.String(http.StatusBadRequest, "User ID is required")
 	}
 
-	db := db.InitDB("./db/database.db")
-	defer db.Close()
-
 	query := `DELETE FROM challenge WHERE userID = ?`
-	_, err := db.Exec(query, userID)
+	_, err := sqlManager.DB.Exec(query, userID)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "Failed to delete challenge")
 	}

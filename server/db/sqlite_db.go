@@ -7,17 +7,23 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func InitDB(filepath string) *sql.DB {
+// SQLiteDB struct implementing the Database interface
+type SQLiteDB struct {
+	*sql.DB
+}
+
+// NewSQLiteDB initializes a new SQLiteDB
+func NewSQLiteDB(filepath string) (*SQLiteDB, error) {
 	db, err := sql.Open("sqlite3", filepath)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
 	if err := createTables(db); err != nil {
 		log.Fatal(err)
 	}
 
-	return db
+	return &SQLiteDB{db}, nil
 }
 
 func createTables(db *sql.DB) error {

@@ -1,4 +1,4 @@
-package middlewareFx
+package filters
 
 import (
 	"context"

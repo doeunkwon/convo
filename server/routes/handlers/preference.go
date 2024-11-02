@@ -9,17 +9,14 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func SavePreference(c echo.Context) error {
+func SavePreference(c echo.Context, sqlManager *db.SQLManager) error {
 	var preference models.Preference
 	if err := c.Bind(&preference); err != nil {
 		return c.String(http.StatusBadRequest, "Invalid request")
 	}
 
-	db := db.InitDB("./db/database.db")
-	defer db.Close()
-
 	query := `INSERT INTO preference (userID, level) VALUES (?, ?)`
-	_, err := db.Exec(query, preference.UserID, preference.Level)
+	_, err := sqlManager.DB.Exec(query, preference.UserID, preference.Level)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "Failed to save preference")
 	}
@@ -27,7 +24,7 @@ func SavePreference(c echo.Context) error {
 	return c.String(http.StatusOK, "Preference saved successfully")
 }
 
-func UpdatePreference(c echo.Context) error {
+func UpdatePreference(c echo.Context, sqlManager *db.SQLManager) error {
 	userID := c.QueryParam("userID")
 	if userID == "" {
 		return c.String(http.StatusBadRequest, "User ID is required")
@@ -38,11 +35,8 @@ func UpdatePreference(c echo.Context) error {
 		return c.String(http.StatusBadRequest, "Invalid request")
 	}
 
-	db := db.InitDB("./db/database.db")
-	defer db.Close()
-
 	query := `UPDATE preference SET level = ? WHERE userID = ?`
-	_, err := db.Exec(query, preference.Level, userID)
+	_, err := sqlManager.DB.Exec(query, preference.Level, userID)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "Failed to update preference")
 	}
@@ -50,18 +44,15 @@ func UpdatePreference(c echo.Context) error {
 	return c.String(http.StatusOK, "Preference updated successfully")
 }
 
-func GetPreference(c echo.Context) error {
+func GetPreference(c echo.Context, sqlManager *db.SQLManager) error {
 	userID := c.QueryParam("userID")
 	if userID == "" {
 		return c.String(http.StatusBadRequest, "User ID is required")
 	}
 
-	db := db.InitDB("./db/database.db")
-	defer db.Close()
-
 	var preference models.Preference
 	query := `SELECT userID, level FROM preference WHERE userID = ?`
-	err := db.QueryRow(query, userID).Scan(&preference.UserID, &preference.Level)
+	err := sqlManager.DB.QueryRow(query, userID).Scan(&preference.UserID, &preference.Level)
 	if err != nil {
 		return c.String(http.StatusNotFound, "Preference not found")
 	}
@@ -69,17 +60,14 @@ func GetPreference(c echo.Context) error {
 	return c.JSON(http.StatusOK, preference)
 }
 
-func DeletePreference(c echo.Context) error {
+func DeletePreference(c echo.Context, sqlManager *db.SQLManager) error {
 	userID := c.QueryParam("userID")
 	if userID == "" {
 		return c.String(http.StatusBadRequest, "User ID is required")
 	}
 
-	db := db.InitDB("./db/database.db")
-	defer db.Close()
-
 	query := `DELETE FROM preference WHERE userID = ?`
-	_, err := db.Exec(query, userID)
+	_, err := sqlManager.DB.Exec(query, userID)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "Failed to delete preference")
 	}
