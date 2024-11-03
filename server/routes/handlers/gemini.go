@@ -3,8 +3,6 @@ package handlers
 import (
 	"context"
 	"convo/db"
-	"convo/db/models"
-	"database/sql"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -40,40 +38,14 @@ func GenerateChallenge(c echo.Context, sqlManager *db.SQLManager) error {
 		return c.String(http.StatusBadRequest, "User ID is required")
 	}
 
-	// Use a channel to receive the result of the database query
-	preferenceChan := make(chan models.Preference)
-	errorChan := make(chan error)
-
-	go func() {
-		var preference models.Preference
-		query := `SELECT level FROM preference WHERE userID = ?`
-		err := sqlManager.DB.QueryRow(query, userID).Scan(&preference.Level)
-		if err != nil {
-			errorChan <- err
-			return
-		}
-		preferenceChan <- preference
-	}()
-
-	// Wait for the result or error
-	var preference models.Preference
-	select {
-	case preference = <-preferenceChan:
-		// Successfully received preference
-	case err := <-errorChan:
-		// Log the error for debugging purposes
-		fmt.Printf("Error retrieving preference for userID %s: %v\n", userID, err)
-
-		// Return a more informative error message
-		if err == sql.ErrNoRows {
-			return c.String(http.StatusNotFound, "No preference found for the given user ID")
-		}
-		return c.String(http.StatusInternalServerError, "An error occurred while retrieving preferences")
+	level := c.QueryParam("level")
+	if level == "" {
+		return c.String(http.StatusBadRequest, "Level is required")
 	}
 
 	// Hardcoded prompt
 	prompt := fmt.Sprintf(`
-	Generate a daily social challenge with a difficulty level of %d/5, where:
+	Generate a daily social challenge with a difficulty level of %s/5, where:
 
 	1/5 = Very easy, simple social engagement.
 	5/5 = High-level social interaction, suited for those with strong social skills.
@@ -131,7 +103,7 @@ func GenerateChallenge(c echo.Context, sqlManager *db.SQLManager) error {
 	  Task: Ask a stranger’s opinion on a low-stakes topic, like a current event, favorite restaurant, or movie recommendation.
 	  Tip: Phrase it as a casual, open question, such as “Any favorite movies you’d recommend?” to invite their input without needing a deep discussion.
 
-	`, preference.Level)
+	`, level)
 
 	fmt.Println(prompt)
 

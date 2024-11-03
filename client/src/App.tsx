@@ -38,6 +38,7 @@ function AppContent() {
     task: "No task available",
     tip: "No tip available",
     dateCreated: "",
+    level: 1,
   });
   const [progress, setProgress] = useState<Progress>({
     currentStreak: 0,
@@ -102,7 +103,7 @@ function AppContent() {
           "Fetching and setting user data (This should NOT happen on sign up)"
         );
         await setupPreference(user.uid, setPreference);
-        await setupChallenge(user.uid, setDailyChallenge);
+        await setupChallenge(user.uid, setDailyChallenge, preference.level);
         await setupProgress(user, setProgress);
         navigateRef.current("/daily"); // Use the ref to navigate
       }
@@ -149,7 +150,6 @@ function AppContent() {
             element={
               <PrivateRoute>
                 <DailyPage
-                  level={preference.level}
                   dailyChallenge={dailyChallenge}
                   handleToggleCompletion={handleToggleCompletion}
                   completed={completed()}

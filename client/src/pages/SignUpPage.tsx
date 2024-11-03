@@ -73,7 +73,7 @@ function SignUpPage({
 
       console.log("Creating user data");
       await createPreferenceForNewUser(user.uid, socialLevel, setPreference);
-      await createChallengeForToday(user.uid, setDailyChallenge);
+      await createChallengeForToday(user.uid, setDailyChallenge, socialLevel);
       await createProgressForNewUser(user.uid, setProgress);
 
       // Reset social level in sign up page to default

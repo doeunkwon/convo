@@ -3,4 +3,5 @@ export interface Challenge {
   task: string;
   tip: string;
   dateCreated: string;
+  level: number;
 }

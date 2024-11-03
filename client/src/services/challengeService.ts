@@ -5,20 +5,24 @@ import { getAuth } from "firebase/auth";
 const baseUrl = process.env.REACT_APP_BASE_URL
 
 // Creates a new challenge for today and saves it to the database (called directly when user signs up)
-export async function createChallengeForToday(userID: string, setDailyChallenge: (challenge: Challenge) => void): Promise<void> {
+export async function createChallengeForToday(userID: string, setDailyChallenge: (challenge: Challenge) => void, level: number): Promise<void> {
   const currentDate = today.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
-  const newChallenge = await generateChallenge(userID);
-  if (newChallenge) {
-    newChallenge.dateCreated = currentDate;
+  const newChallengeData = await generateChallengeData(userID, level);
+  if (newChallengeData) {
+    const newChallenge = {
+      title: newChallengeData.title,
+      task: newChallengeData.task,
+      tip: newChallengeData.tip,
+      dateCreated: currentDate,
+      level: level,
+    };
     setDailyChallenge(newChallenge);
-    await saveChallengeToServer(userID, {
-      ...newChallenge,
-    });
+    await saveChallengeToServer(userID, newChallenge);
   }
 }
 
 // Sets the daily challenge for the user (only called when user logs in)
-export async function setupChallenge(userID: string, setDailyChallenge: (challenge: Challenge) => void): Promise<void> {
+export async function setupChallenge(userID: string, setDailyChallenge: (challenge: Challenge) => void, level: number): Promise<void> {
   const currentDate = today.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
   const existingChallenge = await getUserChallenge(userID);
   if (
@@ -30,18 +34,18 @@ export async function setupChallenge(userID: string, setDailyChallenge: (challen
     if (existingChallenge) {
       await deleteChallenge(userID);
     }
-    await createChallengeForToday(userID, setDailyChallenge);
+    await createChallengeForToday(userID, setDailyChallenge, level);
   }
 }
 
 // API call to generate a new challenge
-export async function generateChallenge(userID: string): Promise<Challenge | null> {
+export async function generateChallengeData(userID: string, level: number): Promise<{ title: string, task: string, tip: string } | null> {
   console.log('Generating challenge')
   const auth = getAuth();
   const user = auth.currentUser;
   if (user) {
     const token = await user.getIdToken();
-    const response = await fetch(`${baseUrl}/generate-challenge?userID=${userID}`, {
+    const response = await fetch(`${baseUrl}/generate-challenge?userID=${userID}&level=${level}`, {
       method: "POST", // Changed method to POST
       headers: {
         "Content-Type": "application/json",

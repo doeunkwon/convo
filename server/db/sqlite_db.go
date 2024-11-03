@@ -34,7 +34,8 @@ func createTables(db *sql.DB) error {
         title TEXT NOT NULL,
         task TEXT NOT NULL,
         tip TEXT NOT NULL,
-		dateCreated TEXT NOT NULL
+		dateCreated TEXT NOT NULL,
+		level INTEGER NOT NULL DEFAULT 1
     );`
 
 	progressTable := `

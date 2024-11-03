@@ -6,4 +6,5 @@ type Challenge struct {
 	Task        string `json:"task"`
 	Tip         string `json:"tip"`
 	DateCreated string `json:"dateCreated"`
+	Level       int    `json:"level"`
 }

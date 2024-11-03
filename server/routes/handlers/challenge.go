@@ -15,8 +15,8 @@ func SaveChallenge(c echo.Context, sqlManager *db.SQLManager) error {
 		return c.String(http.StatusBadRequest, "Invalid request")
 	}
 
-	query := `INSERT INTO challenge (userID, title, task, tip, dateCreated) VALUES (?, ?, ?, ?, ?)`
-	_, err := sqlManager.DB.Exec(query, challenge.UserID, challenge.Title, challenge.Task, challenge.Tip, challenge.DateCreated)
+	query := `INSERT INTO challenge (userID, title, task, tip, dateCreated, level) VALUES (?, ?, ?, ?, ?, ?)`
+	_, err := sqlManager.DB.Exec(query, challenge.UserID, challenge.Title, challenge.Task, challenge.Tip, challenge.DateCreated, challenge.Level)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "Failed to save challenge")
 	}
@@ -31,8 +31,8 @@ func GetChallenge(c echo.Context, sqlManager *db.SQLManager) error {
 	}
 
 	var challenge models.Challenge
-	query := `SELECT userID, title, task, tip, dateCreated FROM challenge WHERE userID = ?`
-	err := sqlManager.DB.QueryRow(query, userID).Scan(&challenge.UserID, &challenge.Title, &challenge.Task, &challenge.Tip, &challenge.DateCreated)
+	query := `SELECT userID, title, task, tip, dateCreated, level FROM challenge WHERE userID = ?`
+	err := sqlManager.DB.QueryRow(query, userID).Scan(&challenge.UserID, &challenge.Title, &challenge.Task, &challenge.Tip, &challenge.DateCreated, &challenge.Level)
 	if err != nil {
 		return c.String(http.StatusNotFound, "Challenge not found")
 	}
