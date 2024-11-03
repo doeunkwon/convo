@@ -5,7 +5,7 @@ import { calculateDaysPassed } from "../utils/calculateDaysPassed";
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
-export const toggleCompletion = (localProgress: Progress, setLocalProgress: (progress: Progress) => void, user: User) => {
+export const toggleCompletion = async (localProgress: Progress, setLocalProgress: (progress: Progress) => void, user: User) => {
   if (user.metadata.creationTime) {
     const todayIndex = calculateDaysPassed(user.metadata.creationTime);
     // Use deep copy (copying by value) to avoid mutating the state directly
@@ -14,9 +14,27 @@ export const toggleCompletion = (localProgress: Progress, setLocalProgress: (pro
     updatedHistory[todayIndex] = !updatedHistory[todayIndex];
     const newProgress = updateStreaks({ ...localProgress, history: updatedHistory}, todayIndex)
     setLocalProgress(newProgress);
-    updateProgress(user.uid, newProgress);
+    await updateProgress(user.uid, newProgress);
   }
 };
+
+export async function createProgressForNewUser(userID: string, setProgress: (progress: Progress) => void): Promise<void> {
+  const currentDate = today.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
+  const newProgress = {
+    currentStreak: 0,
+    longestStreak: 0,
+    history: Array.from(
+        { length: weeks * daysPerWeek },
+        () => false
+    ),
+    dateUpdated: currentDate
+  };
+  setProgress(newProgress);
+  await saveProgressToServer(userID, {
+    ...newProgress,
+  });
+  console.log(newProgress)
+}
 
 export async function setupProgress(user: User, setProgress: (progress: Progress) => void): Promise<void> {
     const existingProgress = await getUserProgress(user.uid);
@@ -25,7 +43,7 @@ export async function setupProgress(user: User, setProgress: (progress: Progress
       if (currentDate !== existingProgress.dateUpdated) {
         const todayIndex = calculateDaysPassed(user.metadata.creationTime)
         const newProgress = updateStreaks(existingProgress, todayIndex)
-        updateProgress(user.uid, newProgress)
+        await updateProgress(user.uid, newProgress)
         setProgress(newProgress)
         console.log(newProgress)
       } else {
@@ -33,20 +51,7 @@ export async function setupProgress(user: User, setProgress: (progress: Progress
         console.log(existingProgress)
       }
     } else {
-        const newProgress = {
-            currentStreak: 0,
-            longestStreak: 0,
-            history: Array.from(
-                { length: weeks * daysPerWeek },
-                () => false
-            ),
-            dateUpdated: currentDate
-        };
-        setProgress(newProgress);
-        await saveProgressToServer(user.uid, {
-          ...newProgress,
-        });
-        console.log(newProgress)
+         await createProgressForNewUser(user.uid, setProgress);
     }
   }
 

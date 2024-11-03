@@ -20,8 +20,6 @@ function SignInPage() {
         email,
         password
       );
-      console.log("User signed in:", userCredential.user);
-      navigate("/daily");
     } catch (error: any) {
       console.error("Error signing in:", error.message);
       setErrorMessage("Invalid email or password. Please try again."); // Set error message

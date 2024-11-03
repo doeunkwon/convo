@@ -4,6 +4,7 @@ import (
 	"context"
 	"convo/db"
 	"convo/db/models"
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -39,12 +40,35 @@ func GenerateChallenge(c echo.Context, sqlManager *db.SQLManager) error {
 		return c.String(http.StatusBadRequest, "User ID is required")
 	}
 
-	// Get user preference level
+	// Use a channel to receive the result of the database query
+	preferenceChan := make(chan models.Preference)
+	errorChan := make(chan error)
+
+	go func() {
+		var preference models.Preference
+		query := `SELECT level FROM preference WHERE userID = ?`
+		err := sqlManager.DB.QueryRow(query, userID).Scan(&preference.Level)
+		if err != nil {
+			errorChan <- err
+			return
+		}
+		preferenceChan <- preference
+	}()
+
+	// Wait for the result or error
 	var preference models.Preference
-	query := `SELECT level FROM preference WHERE userID = ?`
-	err = sqlManager.DB.QueryRow(query, userID).Scan(&preference.Level)
-	if err != nil {
-		return c.String(http.StatusNotFound, "Preference not found")
+	select {
+	case preference = <-preferenceChan:
+		// Successfully received preference
+	case err := <-errorChan:
+		// Log the error for debugging purposes
+		fmt.Printf("Error retrieving preference for userID %s: %v\n", userID, err)
+
+		// Return a more informative error message
+		if err == sql.ErrNoRows {
+			return c.String(http.StatusNotFound, "No preference found for the given user ID")
+		}
+		return c.String(http.StatusInternalServerError, "An error occurred while retrieving preferences")
 	}
 
 	// Hardcoded prompt

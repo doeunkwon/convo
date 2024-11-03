@@ -4,7 +4,7 @@ import "../styles/LevelSelection.css";
 interface LevelSelectionProps {
   togglePopup: () => void;
   handleLevelChange: (event: ChangeEvent<HTMLSelectElement>) => void;
-  handleLevelSet?: () => void;
+  handleLevelSet?: () => Promise<void>;
   level: number;
 }
 
@@ -41,8 +41,8 @@ function LevelSelection({
           {handleLevelSet && (
             <button
               className="orange-button"
-              onClick={() => {
-                handleLevelSet();
+              onClick={async () => {
+                await handleLevelSet();
                 alert("Social level updated");
                 togglePopup();
               }}

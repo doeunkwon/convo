@@ -16,7 +16,7 @@ import { deleteChallenge } from "../services/challengeService";
 
 interface SettingsPageProps {
   handleLevelChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-  handleLevelSet: () => void;
+  handleLevelSet: () => Promise<void>;
   level: number;
 }
 

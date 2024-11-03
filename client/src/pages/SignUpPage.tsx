@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 import "../styles/SignInPage.css";
 import convo from "../assets/convo.png";
 import LevelSelection from "../components/LevelSelection";
-import { setupPreference } from "../services/preferenceService";
+import { createPreferenceForNewUser } from "../services/preferenceService";
 import { Preference } from "../models/preference";
 import { Challenge } from "../models/challenge";
 import { Progress } from "../models/progress";
-import { setupChallenge } from "../services/challengeService";
-import { setupProgress } from "../services/progressService";
+import { createChallengeForToday } from "../services/challengeService";
+import { createProgressForNewUser } from "../services/progressService";
 
 interface SignUpPageProps {
   setPreference: (preference: Preference) => void;
@@ -67,10 +67,12 @@ function SignUpPage({
 
       const user = userCredential.user;
 
-      await setupPreference(user.uid, setPreference, socialLevel);
-      await setupChallenge(user.uid, setDailyChallenge);
-      await setupProgress(user, setProgress);
+      console.log("Creating user data");
+      await createPreferenceForNewUser(user.uid, socialLevel, setPreference);
+      await createChallengeForToday(user.uid, setDailyChallenge);
+      await createProgressForNewUser(user.uid, setProgress);
 
+      // Reset social level in sign up page to default
       setSocialLevel(1);
 
       navigate("/daily"); // Redirect to /daily after successful sign-up

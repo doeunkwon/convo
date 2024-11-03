@@ -66,7 +66,7 @@ function AppContent() {
     const auth = getAuth();
     const user = auth.currentUser;
     if (user) {
-      toggleCompletion(progress, setProgress, user);
+      await toggleCompletion(progress, setProgress, user);
       navigate("/progress");
     }
   };
@@ -85,11 +85,11 @@ function AppContent() {
     setPreference({ level: Number(selectedLevel) });
   };
 
-  const handleLevelSet = () => {
+  const handleLevelSet = async () => {
     const auth = getAuth();
     const user = auth.currentUser;
     if (user) {
-      updateUserPreference(user.uid, preference);
+      await updateUserPreference(user.uid, preference);
     }
   };
 
@@ -97,10 +97,13 @@ function AppContent() {
     const auth = getAuth();
     const unsubscribeFunc = onAuthStateChanged(auth, async (user) => {
       if (user && user.metadata.creationTime) {
-        console.log("If you're signing up, this should NOT be called!");
+        console.log(
+          "Fetching and setting user data (This should NOT happen on sign up)"
+        );
         await setupPreference(user.uid, setPreference);
         await setupChallenge(user.uid, setDailyChallenge);
         await setupProgress(user, setProgress);
+        navigate("/daily");
       }
     });
 

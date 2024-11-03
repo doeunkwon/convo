@@ -6,7 +6,7 @@ import { Challenge } from "../models/challenge";
 interface DailyProps {
   level: number;
   dailyChallenge: Challenge;
-  handleToggleCompletion: () => void;
+  handleToggleCompletion: () => Promise<void>;
   completed: boolean;
 }
 
