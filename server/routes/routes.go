@@ -2,7 +2,6 @@ package routes
 
 import (
 	"net/http"
-	"os"
 
 	"convo/db"
 	"convo/routes/filters"
@@ -60,26 +59,26 @@ func RegisterRoutes(e *echo.Echo, sqlManager *db.SQLManager) {
 		return handlers.UpdatePreference(c, sqlManager)
 	}, filters.VerifyToken)
 
-	e.GET("/download-db", func(c echo.Context) error {
-		secretKey := os.Getenv("DOWNLOAD_DB_KEY")
-		if secretKey == "" {
-			return c.JSON(http.StatusInternalServerError, echo.Map{"error": "Secret key not set on server"})
-		}
+	// e.GET("/download-db", func(c echo.Context) error {
+	// 	secretKey := os.Getenv("DOWNLOAD_DB_KEY")
+	// 	if secretKey == "" {
+	// 		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "Secret key not set on server"})
+	// 	}
 
-		requestKey := c.Request().Header.Get("x-api-key")
-		if requestKey != secretKey {
-			return c.JSON(http.StatusUnauthorized, echo.Map{"error": "Unauthorized"})
-		}
+	// 	requestKey := c.Request().Header.Get("x-api-key")
+	// 	if requestKey != secretKey {
+	// 		return c.JSON(http.StatusUnauthorized, echo.Map{"error": "Unauthorized"})
+	// 	}
 
-		filePath := os.Getenv("DB_PATH")
-		if _, err := os.Stat(filePath); os.IsNotExist(err) {
-			return c.JSON(http.StatusNotFound, echo.Map{"error": "File not found"})
-		}
+	// 	filePath := os.Getenv("DB_PATH")
+	// 	if _, err := os.Stat(filePath); os.IsNotExist(err) {
+	// 		return c.JSON(http.StatusNotFound, echo.Map{"error": "File not found"})
+	// 	}
 
-		return c.Attachment(filePath, "convoprod.db")
-	})
+	// 	return c.Attachment(filePath, "convoprod.db")
+	// })
 
-	e.GET("/ping", func(c echo.Context) error {
-		return c.JSON(http.StatusOK, echo.Map{"message": "pong"})
-	})
+	// e.GET("/ping", func(c echo.Context) error {
+	// 	return c.JSON(http.StatusOK, echo.Map{"message": "pong"})
+	// })
 }
