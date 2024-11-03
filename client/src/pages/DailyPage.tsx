@@ -19,7 +19,7 @@ function Daily({
   return (
     <main className="daily-page">
       <section className="daily-page-card">
-        <p>Level {level} Challenge</p>
+        <p>Level {level}</p>
         <ChallengeCard
           title={dailyChallenge.title}
           task={dailyChallenge.task}

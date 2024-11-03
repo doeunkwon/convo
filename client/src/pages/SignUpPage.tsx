@@ -31,6 +31,7 @@ function SignUpPage({
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const [socialLevel, setSocialLevel] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -39,18 +40,21 @@ function SignUpPage({
   };
 
   const handleSignUp = async (e: React.FormEvent) => {
+    setIsLoading(true);
     e.preventDefault();
 
     if (!isStrongPassword(password)) {
       setErrorMessage(
         "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character."
       );
+      setIsLoading(false);
       return;
     }
 
     if (password !== confirmPassword) {
       // Check if passwords match
       setErrorMessage("Passwords do not match.");
+      setIsLoading(false);
       return;
     }
 
@@ -79,6 +83,8 @@ function SignUpPage({
     } catch (error: any) {
       console.error("Error signing up:", error.message);
       setErrorMessage(error.message);
+    } finally {
+      setIsLoading(false); // Set loading to false when sign in completes
     }
   };
 
@@ -159,8 +165,14 @@ function SignUpPage({
             >
               <p>Set Level</p>
             </button>
-            <button type="submit" className="sign-in-button">
-              <p style={{ color: "var(--white-color)" }}>Sign Up</p>
+            <button
+              type="submit"
+              className="sign-in-button"
+              disabled={isLoading}
+            >
+              <p style={{ color: "var(--white-color)" }}>
+                {isLoading ? "Signing up..." : "Sign up"}
+              </p>
             </button>
           </section>
         </form>

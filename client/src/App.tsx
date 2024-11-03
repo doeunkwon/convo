@@ -29,6 +29,7 @@ import { Preference } from "./models/preference";
 
 function AppContent() {
   const navigate = useNavigate();
+  const navigateRef = useRef(navigate); // Store navigate in a ref
   const location = useLocation();
   const unsubscribeRef = useRef<Unsubscribe>(() => {}); // Use a ref for unsubscribe
   const [preference, setPreference] = useState<Preference>({ level: 1 });
@@ -103,7 +104,7 @@ function AppContent() {
         await setupPreference(user.uid, setPreference);
         await setupChallenge(user.uid, setDailyChallenge);
         await setupProgress(user, setProgress);
-        navigate("/daily");
+        navigateRef.current("/daily"); // Use the ref to navigate
       }
     });
 

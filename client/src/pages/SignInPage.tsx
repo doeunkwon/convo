@@ -9,20 +9,20 @@ function SignInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(""); // Add state for error message
+  const [isLoading, setIsLoading] = useState(false); // Add state for loading status
   const navigate = useNavigate();
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage(""); // Reset error message before sign in attempt
+    setIsLoading(true); // Set loading to true when sign in starts
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      await signInWithEmailAndPassword(auth, email, password);
     } catch (error: any) {
       console.error("Error signing in:", error.message);
       setErrorMessage("Invalid email or password. Please try again."); // Set error message
+    } finally {
+      setIsLoading(false); // Set loading to false when sign in completes
     }
   };
 
@@ -77,8 +77,14 @@ function SignInPage() {
             />
           </section>
           <section className="sign-in-form-group">
-            <button type="submit" className="sign-in-button">
-              <p style={{ color: "var(--white-color)" }}>Log in</p>
+            <button
+              type="submit"
+              className="sign-in-button"
+              disabled={isLoading}
+            >
+              <p style={{ color: "var(--white-color)" }}>
+                {isLoading ? "Logging in..." : "Log in"}
+              </p>
             </button>
           </section>
         </form>
