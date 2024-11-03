@@ -33,9 +33,9 @@ function AppContent() {
   const unsubscribeRef = useRef<Unsubscribe>(() => {}); // Use a ref for unsubscribe
   const [preference, setPreference] = useState<Preference>({ level: 1 });
   const [dailyChallenge, setDailyChallenge] = useState<Challenge>({
-    title: "No title available",
-    task: "No task available",
-    tip: "No tip available",
+    title: "Loading title...  ",
+    task: "Loading task...",
+    tip: "Loading tip...",
     dateCreated: "",
     level: 1,
   });

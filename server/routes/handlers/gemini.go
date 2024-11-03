@@ -20,6 +20,9 @@ type ChallengeResponse struct {
 }
 
 func GenerateChallenge(c echo.Context, sqlManager *db.SQLManager) error {
+
+	fmt.Println("========================================")
+
 	ctx := context.Background()
 
 	apiKey := os.Getenv("GEMINI_API_KEY")
@@ -109,7 +112,7 @@ func GenerateChallenge(c echo.Context, sqlManager *db.SQLManager) error {
 
 	`, level)
 
-	fmt.Println("Debug: Generated prompt:", prompt)
+	fmt.Println("Debug: Level:", level)
 
 	model := client.GenerativeModel("gemini-1.5-flash")
 	model.ResponseMIMEType = "application/json"
@@ -121,30 +124,49 @@ func GenerateChallenge(c echo.Context, sqlManager *db.SQLManager) error {
 			"tip":   {Type: genai.TypeString},
 		},
 	}
-	resp, err := model.GenerateContent(ctx, genai.Text(prompt))
-	if err != nil {
-		fmt.Println("Error: Failed to generate content:", err)
-		return c.String(http.StatusInternalServerError, "Failed to generate content")
-	}
 
 	var challenge ChallengeResponse
-	for _, part := range resp.Candidates[0].Content.Parts {
-		if txt, ok := part.(genai.Text); ok {
-			fmt.Println("Debug: Received text part:", txt)
-			if err := json.Unmarshal([]byte(txt), &challenge); err != nil {
-				fmt.Println("Error: Failed to parse response:", err)
-				return c.String(http.StatusInternalServerError, "Failed to parse response")
+	maxAttempts := 5
+	for attempts := 0; attempts < maxAttempts; attempts++ {
+		fmt.Println("Debug: Attempt", attempts+1)
+
+		resp, err := model.GenerateContent(ctx, genai.Text(prompt))
+		if err != nil {
+			fmt.Println("Error: Failed to generate content on attempt", attempts+1, ":", err)
+			continue // Retry on error
+		}
+
+		validResponse := false
+		for _, part := range resp.Candidates[0].Content.Parts {
+			if txt, ok := part.(genai.Text); ok {
+				fmt.Println("Debug: Received text part:", txt)
+				if err := json.Unmarshal([]byte(txt), &challenge); err != nil {
+					fmt.Println("Error: Failed to parse response:", err)
+					continue
+				}
+				if challenge.Title != "" && challenge.Task != "" && challenge.Tip != "" {
+					validResponse = true
+					break
+				}
 			}
+		}
+
+		if validResponse {
+			fmt.Println("Debug: Valid challenge generated on attempt", attempts+1)
 			break
+		} else {
+			fmt.Println("Warning: Invalid response format, regenerating... Attempt", attempts+1)
 		}
 	}
 
 	if challenge.Title == "" || challenge.Task == "" || challenge.Tip == "" {
-		fmt.Println("Error: Invalid response format")
-		return c.String(http.StatusInternalServerError, "Invalid response format")
+		fmt.Println("Error: Could not generate a valid challenge after", maxAttempts, "attempts")
+		return c.String(http.StatusInternalServerError, "Could not generate a valid challenge")
 	}
 
 	fmt.Println("Debug: Generated challenge:", challenge)
+
+	fmt.Println("========================================")
 
 	// Return the generated content as a response
 	return c.JSON(http.StatusOK, challenge)
