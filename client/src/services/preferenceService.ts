@@ -12,11 +12,13 @@ export async function createPreferenceForNewUser(userID: string, level: number, 
   console.log(newPreference)
 }
 
-export async function setupPreference(userID: string, setPreference: (preference: Preference) => void): Promise<void> {
+export async function setupPreference(userID: string, setPreference: (preference: Preference) => void): Promise<number | null> {
     const existingPreference = await getUserPreference(userID);
     if ( existingPreference ) {
         setPreference(existingPreference);
+        return existingPreference.level;
     }
+    return null;
   }
 
 export async function getUserPreference(userID: string): Promise<Preference | null> {

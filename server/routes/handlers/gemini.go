@@ -24,22 +24,26 @@ func GenerateChallenge(c echo.Context, sqlManager *db.SQLManager) error {
 
 	apiKey := os.Getenv("GEMINI_API_KEY")
 	if apiKey == "" {
+		fmt.Println("Error: API key not set")
 		return c.String(http.StatusInternalServerError, "API key not set")
 	}
 
 	client, err := genai.NewClient(ctx, option.WithAPIKey(apiKey))
 	if err != nil {
+		fmt.Println("Error: Failed to create client:", err)
 		return c.String(http.StatusInternalServerError, "Failed to create client")
 	}
 	defer client.Close()
 
 	userID := c.QueryParam("userID")
 	if userID == "" {
+		fmt.Println("Error: User ID is required")
 		return c.String(http.StatusBadRequest, "User ID is required")
 	}
 
 	level := c.QueryParam("level")
 	if level == "" {
+		fmt.Println("Error: Level is required")
 		return c.String(http.StatusBadRequest, "Level is required")
 	}
 
@@ -105,12 +109,10 @@ func GenerateChallenge(c echo.Context, sqlManager *db.SQLManager) error {
 
 	`, level)
 
-	fmt.Println(prompt)
+	fmt.Println("Debug: Generated prompt:", prompt)
 
 	model := client.GenerativeModel("gemini-1.5-flash")
-	// Ask the model to respond with JSON.
 	model.ResponseMIMEType = "application/json"
-	// Specify the schema.
 	model.ResponseSchema = &genai.Schema{
 		Type: genai.TypeObject,
 		Properties: map[string]*genai.Schema{
@@ -121,13 +123,16 @@ func GenerateChallenge(c echo.Context, sqlManager *db.SQLManager) error {
 	}
 	resp, err := model.GenerateContent(ctx, genai.Text(prompt))
 	if err != nil {
+		fmt.Println("Error: Failed to generate content:", err)
 		return c.String(http.StatusInternalServerError, "Failed to generate content")
 	}
 
 	var challenge ChallengeResponse
 	for _, part := range resp.Candidates[0].Content.Parts {
 		if txt, ok := part.(genai.Text); ok {
+			fmt.Println("Debug: Received text part:", txt)
 			if err := json.Unmarshal([]byte(txt), &challenge); err != nil {
+				fmt.Println("Error: Failed to parse response:", err)
 				return c.String(http.StatusInternalServerError, "Failed to parse response")
 			}
 			break
@@ -135,8 +140,11 @@ func GenerateChallenge(c echo.Context, sqlManager *db.SQLManager) error {
 	}
 
 	if challenge.Title == "" || challenge.Task == "" || challenge.Tip == "" {
+		fmt.Println("Error: Invalid response format")
 		return c.String(http.StatusInternalServerError, "Invalid response format")
 	}
+
+	fmt.Println("Debug: Generated challenge:", challenge)
 
 	// Return the generated content as a response
 	return c.JSON(http.StatusOK, challenge)

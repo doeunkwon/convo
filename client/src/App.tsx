@@ -20,7 +20,7 @@ import { setupChallenge } from "./services/challengeService";
 import { setupProgress, toggleCompletion } from "./services/progressService";
 import { getAuth, onAuthStateChanged, Unsubscribe } from "firebase/auth";
 import { calculateDaysPassed } from "./utils/calculateDaysPassed";
-import { today } from "./constants";
+import { daysPerWeek, today, weeks } from "./constants";
 import {
   setupPreference,
   updateUserPreference,
@@ -29,7 +29,6 @@ import { Preference } from "./models/preference";
 
 function AppContent() {
   const navigate = useNavigate();
-  const navigateRef = useRef(navigate); // Store navigate in a ref
   const location = useLocation();
   const unsubscribeRef = useRef<Unsubscribe>(() => {}); // Use a ref for unsubscribe
   const [preference, setPreference] = useState<Preference>({ level: 1 });
@@ -43,13 +42,14 @@ function AppContent() {
   const [progress, setProgress] = useState<Progress>({
     currentStreak: 0,
     longestStreak: 0,
-    history: [],
+    history: Array.from({ length: weeks * daysPerWeek }, () => 0.0),
     dateUpdated: today.toLocaleDateString("en-US", {
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
     }),
   });
+  const levelRef = useRef(preference.level);
 
   const getNavbarTitle = (): [number, string] => {
     switch (location.pathname) {
@@ -79,12 +79,13 @@ function AppContent() {
     if (user && user.metadata.creationTime) {
       return progress.history[calculateDaysPassed(user.metadata.creationTime)];
     }
-    return false;
+    return 0.0;
   };
 
   const handleLevelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedLevel = event.target.value;
-    setPreference({ level: Number(selectedLevel) });
+    const selectedLevel = Number(event.target.value);
+    setPreference({ level: selectedLevel });
+    levelRef.current = selectedLevel; // Update the ref
   };
 
   const handleLevelSet = async () => {
@@ -102,10 +103,15 @@ function AppContent() {
         console.log(
           "Fetching and setting user data (This should NOT happen on sign up)"
         );
-        await setupPreference(user.uid, setPreference);
-        await setupChallenge(user.uid, setDailyChallenge, preference.level);
+        const level = await setupPreference(user.uid, setPreference);
+        if (level) {
+          levelRef.current = level;
+        } else {
+          console.log("No preference found, setting default level to 1");
+          levelRef.current = 1;
+        }
+        await setupChallenge(user.uid, setDailyChallenge, levelRef.current); // Use the ref
         await setupProgress(user, setProgress);
-        navigateRef.current("/daily"); // Use the ref to navigate
       }
     });
 

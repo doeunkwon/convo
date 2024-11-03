@@ -18,6 +18,7 @@ function SignInPage() {
     setIsLoading(true); // Set loading to true when sign in starts
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      navigate("/daily"); // Redirect to /daily after successful sign-up
     } catch (error: any) {
       console.error("Error signing in:", error.message);
       setErrorMessage("Invalid email or password. Please try again."); // Set error message

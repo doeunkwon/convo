@@ -11,7 +11,7 @@ export const toggleCompletion = async (localProgress: Progress, setLocalProgress
     // Use deep copy (copying by value) to avoid mutating the state directly
     // This is necessary because React state updates are based on reference equality
     const updatedHistory = [...localProgress.history];
-    updatedHistory[todayIndex] = !updatedHistory[todayIndex];
+    updatedHistory[todayIndex] = updatedHistory[todayIndex] === 0.0 ? 1.0 : 0.0;
     const newProgress = updateStreaks({ ...localProgress, history: updatedHistory}, todayIndex)
     setLocalProgress(newProgress);
     await updateProgress(user.uid, newProgress);
@@ -25,7 +25,7 @@ export async function createProgressForNewUser(userID: string, setProgress: (pro
     longestStreak: 0,
     history: Array.from(
         { length: weeks * daysPerWeek },
-        () => false
+        () => 0.0
     ),
     dateUpdated: currentDate
   };
@@ -63,7 +63,7 @@ const updateStreaks = (progress: Progress, todayIndex: number): Progress => {
 
   // Iterate only up to todayIndex
   for (let i = 0; i < todayIndex; i++) { // Change to < todayIndex
-    if (progress.history[i]) {
+    if (progress.history[i] !== 0.0) {
       currentStreak++;
       longestStreak = Math.max(longestStreak, currentStreak); // Update longestStreak in real-time
       consecutiveFalses = 0; // Reset consecutive falses
@@ -76,7 +76,7 @@ const updateStreaks = (progress: Progress, todayIndex: number): Progress => {
   }
 
   // If today is marked as true, increment the current streak
-  if (todayIndex < progress.history.length && progress.history[todayIndex]) {
+  if (todayIndex < progress.history.length && progress.history[todayIndex] !== 0.0) {
     currentStreak++; // Increment only if today is true
     longestStreak = Math.max(longestStreak, currentStreak); // Update longestStreak if today is true
   }

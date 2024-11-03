@@ -5,7 +5,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { calculateDaysPassed } from "../utils/calculateDaysPassed";
 
 interface GridProps {
-  history: boolean[];
+  history: number[];
 }
 
 function Grid({ history }: GridProps) {
@@ -32,7 +32,7 @@ function Grid({ history }: GridProps) {
               <div
                 key={dayIndex}
                 className={`grid-day ${
-                  history[dataIndex] ? "filled" : "empty"
+                  history[dataIndex] !== 0.0 ? "filled" : "empty"
                 } ${isCurrentDay ? "current-day" : ""}`}
                 title={`Week ${weekIndex + 1}, Day ${dayIndex + 1}`}
               ></div>

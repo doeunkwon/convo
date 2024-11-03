@@ -6,7 +6,7 @@ import { Challenge } from "../models/challenge";
 interface DailyProps {
   dailyChallenge: Challenge;
   handleToggleCompletion: () => Promise<void>;
-  completed: boolean;
+  completed: number;
 }
 
 function Daily({
@@ -26,14 +26,14 @@ function Daily({
       </section>
       <Button
         image={
-          completed ? (
+          completed !== 0.0 ? (
             <i className="ri-sparkling-line" />
           ) : (
             <i className="ri-sparkling-fill" />
           )
         }
         gradient={true}
-        text={completed ? "Uncomplete" : "Complete"}
+        text={completed !== 0.0 ? "Uncomplete" : "Complete"}
         onClick={handleToggleCompletion}
       />
     </main>
