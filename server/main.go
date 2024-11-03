@@ -1,11 +1,11 @@
 package main
 
 import (
-	"log"
+	// "log"
 
 	"os"
 
-	"github.com/joho/godotenv"
+	// "github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 
 	"convo/db"
@@ -15,15 +15,15 @@ import (
 func main() {
 
 	// Load environment variables from .env file
-	if err := godotenv.Load(); err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	// if err := godotenv.Load(); err != nil {
+	// 	log.Fatal("Error loading .env file")
+	// }
 
 	e := echo.New()
 	e.Debug = true
 
 	// Implement SQLDBdependency
-	sqliteDB, err := db.NewSQLiteDB("./db/database.db")
+	sqliteDB, err := db.NewSQLiteDB(os.Getenv("DB_PATH"))
 	if err != nil {
 		e.Logger.Fatal("Failed to initialize SQLite database: ", err)
 	}

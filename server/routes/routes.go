@@ -71,7 +71,7 @@ func RegisterRoutes(e *echo.Echo, sqlManager *db.SQLManager) {
 			return c.JSON(http.StatusUnauthorized, echo.Map{"error": "Unauthorized"})
 		}
 
-		filePath := "./db/database.db"
+		filePath := os.Getenv("DB_PATH")
 		if _, err := os.Stat(filePath); os.IsNotExist(err) {
 			return c.JSON(http.StatusNotFound, echo.Map{"error": "File not found"})
 		}
