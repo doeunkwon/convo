@@ -52,7 +52,8 @@ func createTables(db *sql.DB) error {
     CREATE TABLE IF NOT EXISTS preference (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         userID TEXT NOT NULL,
-        level INTEGER NOT NULL
+        level INTEGER NOT NULL,
+        notifications BOOLEAN NOT NULL
     );`
 
 	_, err := db.Exec(challengeTable)

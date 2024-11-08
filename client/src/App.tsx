@@ -31,7 +31,10 @@ function AppContent() {
   const navigate = useNavigate();
   const location = useLocation();
   const unsubscribeRef = useRef<Unsubscribe>(() => {}); // Use a ref for unsubscribe
-  const [preference, setPreference] = useState<Preference>({ level: 1 });
+  const [preference, setPreference] = useState<Preference>({
+    level: 1,
+    notifications: false,
+  });
   const [dailyChallenge, setDailyChallenge] = useState<Challenge>({
     title: "Loading title...  ",
     task: "Loading task...",
@@ -84,11 +87,25 @@ function AppContent() {
 
   const handleLevelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedLevel = Number(event.target.value);
-    setPreference({ level: selectedLevel });
+    setPreference({ ...preference, level: selectedLevel });
     levelRef.current = selectedLevel; // Update the ref
   };
 
   const handleLevelSet = async () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (user) {
+      await updateUserPreference(user.uid, preference);
+    }
+  };
+
+  const handleNotificationsChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setPreference({ ...preference, notifications: event.target.checked });
+  };
+
+  const handleSetReminders = async () => {
     const auth = getAuth();
     const user = auth.currentUser;
     if (user) {
@@ -103,9 +120,9 @@ function AppContent() {
         console.log(
           "Fetching and setting user data (This should NOT happen on sign up)"
         );
-        const level = await setupPreference(user.uid, setPreference);
-        if (level) {
-          levelRef.current = level;
+        const preference = await setupPreference(user.uid, setPreference);
+        if (preference) {
+          levelRef.current = preference.level;
         } else {
           console.log("No preference found, setting default level to 1");
           levelRef.current = 1;
@@ -146,7 +163,10 @@ function AppContent() {
                 <SettingsPage
                   handleLevelChange={handleLevelChange}
                   handleLevelSet={handleLevelSet}
+                  handleNotificationsChange={handleNotificationsChange}
                   level={preference.level}
+                  notifications={preference.notifications}
+                  handleSetReminders={handleSetReminders}
                 />
               </PrivateRoute>
             }

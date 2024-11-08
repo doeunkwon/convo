@@ -1,4 +1,6 @@
 export interface Preference {
-    level: number;
-  }
+  level: number;
+  notifications: boolean;
+}
+
   

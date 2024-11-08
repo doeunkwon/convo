@@ -13,22 +13,36 @@ import { useState } from "react";
 import { deleteUserPreference } from "../services/preferenceService";
 import { deleteProgress } from "../services/progressService";
 import { deleteChallenge } from "../services/challengeService";
+import NotificationSelection from "../components/NotificationSelection";
 
 interface SettingsPageProps {
   handleLevelChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   handleLevelSet: () => Promise<void>;
+  handleNotificationsChange: (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => void;
+  handleSetReminders: () => void;
   level: number;
+  notifications: boolean;
 }
 
 function SettingsPage({
   handleLevelChange,
   handleLevelSet,
+  handleNotificationsChange,
+  handleSetReminders,
   level,
+  notifications,
 }: SettingsPageProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [levelPopupOpen, setLevelPopupOpen] = useState(false);
+  const [notificationPopupOpen, setNotificationPopupOpen] = useState(false);
 
-  const togglePopup = () => {
-    setIsOpen(!isOpen);
+  const toggleLevelPopup = () => {
+    setLevelPopupOpen(!levelPopupOpen);
+  };
+
+  const toggleNotificationPopup = () => {
+    setNotificationPopupOpen(!notificationPopupOpen);
   };
 
   const navigate = useNavigate();
@@ -89,19 +103,32 @@ function SettingsPage({
 
   return (
     <main className="settings-page">
-      <Button gradient={false} text="Set Level" onClick={togglePopup} />
+      <Button gradient={false} text="Set Level" onClick={toggleLevelPopup} />
+      <Button
+        gradient={false}
+        text="Set Reminders"
+        onClick={toggleNotificationPopup}
+      />
       <Button gradient={false} text="Log Out" onClick={handleLogout} />
       <Button
         gradient={false}
         text="Delete Account"
         onClick={handleDeleteAccount}
       />
-      {isOpen && (
+      {levelPopupOpen && (
         <LevelSelection
-          togglePopup={togglePopup}
+          togglePopup={toggleLevelPopup}
           handleLevelSet={handleLevelSet}
           handleLevelChange={handleLevelChange}
           level={level}
+        />
+      )}
+      {notificationPopupOpen && (
+        <NotificationSelection
+          togglePopup={toggleNotificationPopup}
+          handleNotificationsChange={handleNotificationsChange}
+          notifications={notifications}
+          handleSetReminders={handleSetReminders}
         />
       )}
     </main>

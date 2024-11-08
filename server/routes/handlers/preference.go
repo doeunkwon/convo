@@ -15,8 +15,8 @@ func SavePreference(c echo.Context, sqlManager *db.SQLManager) error {
 		return c.String(http.StatusBadRequest, "Invalid request")
 	}
 
-	query := `INSERT INTO preference (userID, level) VALUES (?, ?)`
-	_, err := sqlManager.DB.Exec(query, preference.UserID, preference.Level)
+	query := `INSERT INTO preference (userID, level, notifications) VALUES (?, ?, ?)`
+	_, err := sqlManager.DB.Exec(query, preference.UserID, preference.Level, preference.Notifications)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "Failed to save preference")
 	}
@@ -35,8 +35,8 @@ func UpdatePreference(c echo.Context, sqlManager *db.SQLManager) error {
 		return c.String(http.StatusBadRequest, "Invalid request")
 	}
 
-	query := `UPDATE preference SET level = ? WHERE userID = ?`
-	_, err := sqlManager.DB.Exec(query, preference.Level, userID)
+	query := `UPDATE preference SET level = ?, notifications = ? WHERE userID = ?`
+	_, err := sqlManager.DB.Exec(query, preference.Level, preference.Notifications, userID)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "Failed to update preference")
 	}
@@ -51,8 +51,8 @@ func GetPreference(c echo.Context, sqlManager *db.SQLManager) error {
 	}
 
 	var preference models.Preference
-	query := `SELECT userID, level FROM preference WHERE userID = ?`
-	err := sqlManager.DB.QueryRow(query, userID).Scan(&preference.UserID, &preference.Level)
+	query := `SELECT userID, level, notifications FROM preference WHERE userID = ?`
+	err := sqlManager.DB.QueryRow(query, userID).Scan(&preference.UserID, &preference.Level, &preference.Notifications)
 	if err != nil {
 		return c.String(http.StatusNotFound, "Preference not found")
 	}

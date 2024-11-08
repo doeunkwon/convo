@@ -4,19 +4,20 @@ import { Preference } from "../models/preference";
 const baseUrl = process.env.REACT_APP_BASE_URL
 
 export async function createPreferenceForNewUser(userID: string, level: number, setPreference: (preference: Preference) => void): Promise<void> {
-  const newPreference = { level: level }
+  const newPreference = { level: level, notifications: true }
   setPreference(newPreference);
   await saveUserPreference(userID, {
     ...newPreference,
+    notifications: true,
   });
   console.log(newPreference)
 }
 
-export async function setupPreference(userID: string, setPreference: (preference: Preference) => void): Promise<number | null> {
+export async function setupPreference(userID: string, setPreference: (preference: Preference) => void): Promise<Preference | null> {
     const existingPreference = await getUserPreference(userID);
     if ( existingPreference ) {
         setPreference(existingPreference);
-        return existingPreference.level;
+        return existingPreference;
     }
     return null;
   }

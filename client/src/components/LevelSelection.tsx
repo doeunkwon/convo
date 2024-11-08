@@ -1,5 +1,6 @@
 import { ChangeEvent } from "react";
 import "../styles/LevelSelection.css";
+import "../styles/Popup.css";
 
 interface LevelSelectionProps {
   togglePopup: () => void;
@@ -15,11 +16,8 @@ function LevelSelection({
   level,
 }: LevelSelectionProps) {
   return (
-    <div className="level-selection-overlay" onClick={togglePopup}>
-      <div
-        className="level-selection-popup"
-        onClick={(e) => e.stopPropagation()}
-      >
+    <div className="popup-overlay" onClick={togglePopup}>
+      <div className="popup" onClick={(e) => e.stopPropagation()}>
         <section className="level-selection-popup-header">
           <h3 style={{ color: "var(--text-color)" }}>
             How comfortable are you in social situations?
