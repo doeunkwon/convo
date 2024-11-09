@@ -1,20 +1,17 @@
 .checkbox {
     appearance: none;
-    padding: var(--xsmall-gap);
+    padding: var(--small-gap);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: var(--light-red-color);
     border-radius: var(--checkbox-border-radius);
     cursor: pointer;
-    position: relative;
-    display: inline-block;
-    vertical-align: middle;
   }
   
   .checkbox::after {
     content: '\eef0';
     font-family: 'remixicon';
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     color: var(--red-color);
     font-size: var(--h3-size);
   }
