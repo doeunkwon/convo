@@ -45,7 +45,7 @@ function LevelSelection({
                 togglePopup();
               }}
             >
-              Set level
+              Save
             </button>
           )}
         </section>

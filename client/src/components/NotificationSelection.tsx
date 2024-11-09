@@ -42,7 +42,7 @@ function NotificationSelection({
             togglePopup();
           }}
         >
-          {notifications ? "Set reminders on" : "Set reminders off"}
+          Save
         </button>
       </div>
     </div>
