@@ -34,6 +34,9 @@ function NotificationSelection({
           checked={notifications || false}
           className="checkbox"
         />
+        <p style={{ fontSize: "var(--sp-size)" }}>
+          Status: {notifications ? "On" : "Off"}
+        </p>
         <button
           className="orange-button"
           onClick={() => {

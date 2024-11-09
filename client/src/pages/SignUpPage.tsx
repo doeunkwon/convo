@@ -9,7 +9,7 @@ import { createPreferenceForNewUser } from "../services/preferenceService";
 import { Preference } from "../models/preference";
 import { Challenge } from "../models/challenge";
 import { Progress } from "../models/progress";
-import { createChallengeForToday } from "../services/challengeService";
+import { getCentralChallenge } from "../services/challengeService";
 import { createProgressForNewUser } from "../services/progressService";
 
 interface SignUpPageProps {
@@ -73,7 +73,7 @@ function SignUpPage({
 
       console.log("Creating user data");
       await createPreferenceForNewUser(user.uid, socialLevel, setPreference);
-      await createChallengeForToday(user.uid, setDailyChallenge, socialLevel);
+      await getCentralChallenge(socialLevel);
       await createProgressForNewUser(user.uid, setProgress);
 
       // Reset social level in sign up page to default

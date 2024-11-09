@@ -96,6 +96,7 @@ function AppContent() {
     const user = auth.currentUser;
     if (user) {
       await updateUserPreference(user.uid, preference);
+      await setupChallenge(setDailyChallenge, levelRef.current);
     }
   };
 
@@ -127,7 +128,7 @@ function AppContent() {
           console.log("No preference found, setting default level to 1");
           levelRef.current = 1;
         }
-        await setupChallenge(user.uid, setDailyChallenge, levelRef.current); // Use the ref
+        await setupChallenge(setDailyChallenge, levelRef.current); // Use the ref
         await setupProgress(user, setProgress);
       }
     });

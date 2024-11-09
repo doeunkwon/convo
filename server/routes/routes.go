@@ -19,19 +19,23 @@ func RegisterRoutes(e *echo.Echo, sqlManager *db.SQLManager) {
 		AllowHeaders: []string{"Content-Type", "Authorization"},
 	}))
 
+	e.GET("/get-central-challenge", func(c echo.Context) error {
+		return handlers.GetCentralChallenge(c, sqlManager)
+	}, filters.VerifyToken)
+
 	// Define routes with the database instance
-	e.POST("/generate-challenge", func(c echo.Context) error {
-		return handlers.GenerateChallenge(c, sqlManager)
-	}, filters.VerifyToken)
-	e.POST("/save-challenge", func(c echo.Context) error {
-		return handlers.SaveChallenge(c, sqlManager)
-	}, filters.VerifyToken)
-	e.GET("/get-challenge", func(c echo.Context) error {
-		return handlers.GetChallenge(c, sqlManager)
-	}, filters.VerifyToken)
-	e.DELETE("/delete-challenge", func(c echo.Context) error {
-		return handlers.DeleteChallenge(c, sqlManager)
-	}, filters.VerifyToken)
+	// e.POST("/generate-challenge", func(c echo.Context) error {
+	// 	return handlers.GenerateChallenge(c, sqlManager)
+	// }, filters.VerifyToken)
+	// e.POST("/save-challenge", func(c echo.Context) error {
+	// 	return handlers.SaveChallenge(c, sqlManager)
+	// }, filters.VerifyToken)
+	// e.GET("/get-challenge", func(c echo.Context) error {
+	// 	return handlers.GetChallenge(c, sqlManager)
+	// }, filters.VerifyToken)
+	// e.DELETE("/delete-challenge", func(c echo.Context) error {
+	// 	return handlers.DeleteChallenge(c, sqlManager)
+	// }, filters.VerifyToken)
 
 	e.POST("/save-progress", func(c echo.Context) error {
 		return handlers.SaveProgress(c, sqlManager)

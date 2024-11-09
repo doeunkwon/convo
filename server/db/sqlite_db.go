@@ -27,6 +27,17 @@ func NewSQLiteDB(filepath string) (*SQLiteDB, error) {
 }
 
 func createTables(db *sql.DB) error {
+
+	centralChallengeTable := `
+    CREATE TABLE IF NOT EXISTS central_challenge (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        task TEXT NOT NULL,
+        tip TEXT NOT NULL,
+		dateCreated TEXT NOT NULL,
+		level INTEGER NOT NULL DEFAULT 1
+    );`
+
 	challengeTable := `
     CREATE TABLE IF NOT EXISTS challenge (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -56,7 +67,12 @@ func createTables(db *sql.DB) error {
         notifications BOOLEAN NOT NULL
     );`
 
-	_, err := db.Exec(challengeTable)
+	_, err := db.Exec(centralChallengeTable)
+	if err != nil {
+		return err
+	}
+
+	_, err = db.Exec(challengeTable)
 	if err != nil {
 		return err
 	}
@@ -67,5 +83,9 @@ func createTables(db *sql.DB) error {
 	}
 
 	_, err = db.Exec(preferenceTable)
-	return err
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

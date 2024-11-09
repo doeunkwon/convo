@@ -22,14 +22,6 @@
     gap: var(--medium-gap);
   }
   
-  .level-selection-popup-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: var(--xxsmall-gap);
-  }
-  
   .level-selection-descriptions {
     font-size: var(--sp-size); /* Use the specified font size */
     font-family: 'Poppins', sans-serif; /* Use the specified font family */

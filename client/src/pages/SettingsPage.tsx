@@ -12,7 +12,7 @@ import LevelSelection from "../components/LevelSelection";
 import { useState } from "react";
 import { deleteUserPreference } from "../services/preferenceService";
 import { deleteProgress } from "../services/progressService";
-import { deleteChallenge } from "../services/challengeService";
+// import { deleteChallenge } from "../services/challengeService";
 import NotificationSelection from "../components/NotificationSelection";
 
 interface SettingsPageProps {
@@ -88,7 +88,7 @@ function SettingsPage({
         // Proceed with account deletion
         await deleteUserPreference(user.uid);
         await deleteProgress(user.uid);
-        await deleteChallenge(user.uid);
+        // await deleteChallenge(user.uid);
         await deleteUser(user);
         console.log("User account deleted");
         navigate("/"); // Redirect to the home or login page after account deletion
