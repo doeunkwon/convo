@@ -18,7 +18,7 @@ function LevelSelection({
   return (
     <div className="popup-overlay" onClick={togglePopup}>
       <div className="popup" onClick={(e) => e.stopPropagation()}>
-        <section className="level-selection-popup-header">
+        <section className="popup-header">
           <h3 style={{ color: "var(--text-color)" }}>
             How comfortable are you in social situations?
           </h3>

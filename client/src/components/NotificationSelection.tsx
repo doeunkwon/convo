@@ -1,6 +1,7 @@
 import { ChangeEvent } from "react";
 import "../styles/LevelSelection.css";
 import "../styles/Popup.css";
+import "../styles/NotificationsSelection.css";
 
 interface NotificationSelectionProps {
   togglePopup: () => void;
@@ -15,39 +16,30 @@ function NotificationSelection({
   notifications,
   handleSetReminders,
 }: NotificationSelectionProps) {
-  //   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //     const isChecked = event.target.checked;
-  //     console.log("Notifications opt-in:", isChecked);
-  //     // You can add additional logic here to handle the opt-in state
-  //   };
-
   return (
     <div className="popup-overlay" onClick={togglePopup}>
       <div className="popup" onClick={(e) => e.stopPropagation()}>
-        <h3 style={{ color: "var(--text-color)" }}>
-          Would you like to receive daily email reminders?
-        </h3>
-        <label
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "var(--xsmall-gap)",
-          }}
-        >
-          <input
-            type="checkbox"
-            onChange={handleNotificationsChange}
-            checked={notifications || false}
-          />
-          <p style={{ fontSize: "var(--xsmall-font-size)" }}>
-            You may opt out at any time.
+        <section className="popup-header">
+          <h3 style={{ color: "var(--text-color)" }}>
+            Receive email reminders?
+          </h3>
+          <p style={{ fontSize: "var(--sp-size)" }}>
+            Users are 83% more likely to complete their challenge when they
+            receive reminders.
           </p>
-        </label>
+        </section>
+        <input
+          type="checkbox"
+          onChange={handleNotificationsChange}
+          checked={notifications || false}
+          className="checkbox"
+        />
         <button
           className="orange-button"
           onClick={() => {
-            togglePopup();
             handleSetReminders();
+            alert("Reminders set");
+            togglePopup();
           }}
         >
           Set reminders
