@@ -21,11 +21,11 @@ function NotificationSelection({
       <div className="popup" onClick={(e) => e.stopPropagation()}>
         <section className="popup-header">
           <h3 style={{ color: "var(--text-color)" }}>
-            Receive email reminders?
+            Receive reminders to complete your challenge?
           </h3>
           <p style={{ fontSize: "var(--sp-size)" }}>
             Users are <b>93%</b> more likely to complete their challenge when
-            they receive reminders.
+            they receive email reminders.
           </p>
         </section>
         <input
@@ -42,7 +42,7 @@ function NotificationSelection({
             togglePopup();
           }}
         >
-          Set reminders
+          {notifications ? "Set reminders on" : "Set reminders off"}
         </button>
       </div>
     </div>

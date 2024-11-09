@@ -1,11 +1,11 @@
 package main
 
 import (
-	// "log"
+	"log"
 
 	"os"
 
-	// "github.com/joho/godotenv"
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 
 	"convo/db"
@@ -15,9 +15,9 @@ import (
 func main() {
 
 	// Load environment variables from .env file
-	// if err := godotenv.Load(); err != nil {
-	// 	log.Fatal("Error loading .env file")
-	// }
+	if err := godotenv.Load(); err != nil {
+		log.Fatal("Error loading .env file")
+	}
 
 	e := echo.New()
 	e.Debug = true

@@ -1,8 +1,7 @@
 .checkbox {
     appearance: none;
-    padding: var(--xsmall-gap); /* Add padding around the content */
-    background-color: var(--white-color);
-    border: 2px solid var(--feint-color);
+    padding: var(--xsmall-gap);
+    background-color: var(--light-red-color);
     border-radius: 50%;
     cursor: pointer;
     position: relative;
@@ -11,21 +10,21 @@
   }
   
   .checkbox::after {
-    content: '\eef0'; /* Unicode for unchecked state */
+    content: '\eef0';
     font-family: 'remixicon';
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: var(--feint-color); /* Default color for unchecked state */
-    font-size: var(--h3-size); /* Use your existing size variable */
+    color: var(--red-color);
+    font-size: var(--h3-size);
   }
   
   .checkbox:checked {
-    background-color: var(--orange-color);
-    border-color: var(--orange-color);
+    background-color: var(--light-green-color);
+    border-color: var(--light-green-color);
   }
   
   .checkbox:checked::after {
-    content: '\eeee'; /* Unicode for checked state */
-    color: var(--white-color); /* Color for checked state */
+    content: '\eeee';
+    color: var(--green-color);
   }
