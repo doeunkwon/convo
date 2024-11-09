@@ -24,8 +24,8 @@ function NotificationSelection({
             Receive email reminders?
           </h3>
           <p style={{ fontSize: "var(--sp-size)" }}>
-            Users are 83% more likely to complete their challenge when they
-            receive reminders.
+            Users are <b>93%</b> more likely to complete their challenge when
+            they receive reminders.
           </p>
         </section>
         <input
