@@ -32,9 +32,7 @@ function LevelSelection({
           >
             <option value="1">1. Observer</option>
             <option value="2">2. Dabbler</option>
-            <option value="3">3. Mingler</option>
-            <option value="4">4. Engager</option>
-            <option value="5">5. Connector</option>
+            <option value="3">3. Engager</option>
           </select>
           {handleLevelSet && (
             <button
@@ -62,21 +60,9 @@ function LevelSelection({
             keeping conversations going.
           </div>
           <div>
-            <b>3. Mingler</b>
-            <br />
-            I’m comfortable in most social settings, happy to chat but still
-            warming up to leading conversations.
-          </div>
-          <div>
-            <b>4. Engager</b>
+            <b>3. Engager</b>
             <br />I feel relaxed and natural in social situations, and I often
             take the initiative to keep conversations engaging.
-          </div>
-          <div>
-            <b>5. Connector</b>
-            <br />
-            I’m energized by social interactions, can navigate conversations
-            with ease, and connect effortlessly with new people.
           </div>
         </section>
       </div>

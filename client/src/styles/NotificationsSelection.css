@@ -2,7 +2,7 @@
     appearance: none;
     padding: var(--xsmall-gap);
     background-color: var(--light-red-color);
-    border-radius: 50%;
+    border-radius: var(--checkbox-border-radius);
     cursor: pointer;
     position: relative;
     display: inline-block;
