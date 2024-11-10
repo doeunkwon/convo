@@ -14,9 +14,9 @@ import (
 // SendEmails sends emails to the provided list of email addresses
 func SendEmails(emails []string) error {
 	from := mail.NewEmail("Convo", "convosocialai@gmail.com")
-	subject := "Today's Convo Challenge"
-	plainTextContent := "Hi there! Here's your social challenge for today. Visit us at https://convo-client.onrender.com/daily. To opt out of these reminders, go to https://convo-client.onrender.com/settings."
-	htmlContent := "<strong>Hi there!</strong> Here's your social challenge for today. Visit us at <a href=\"https://convo-client.onrender.com/daily\">our daily page</a>. To opt out of these reminders, go to <a href=\"https://convo-client.onrender.com/settings\">settings</a>."
+	subject := "🎉 Your Daily Convo Challenge Awaits!"
+	plainTextContent := "Hey there! 🌟 Ready for today's social challenge? Check it out at https://convo-client.onrender.com/daily. If you ever want to take a break from these reminders, just head over to https://convo-client.onrender.com/settings."
+	htmlContent := "<strong>Hey there! 🌟</strong> Ready for today's social challenge? Check it out at <a href=\"https://convo-client.onrender.com/daily\">our daily page</a>. If you ever want to take a break from these reminders, just head over to <a href=\"https://convo-client.onrender.com/settings\">settings</a>."
 
 	for _, email := range emails {
 		to := mail.NewEmail(email, email)
