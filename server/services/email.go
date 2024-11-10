@@ -15,8 +15,8 @@ import (
 func SendEmails(emails []string) error {
 	from := mail.NewEmail("Convo", "convosocialai@gmail.com")
 	subject := "🎉 Your Daily Convo Challenge Awaits!"
-	plainTextContent := "Hey there! 🌟 Ready for today's social challenge? Check it out at https://convo-client.onrender.com/daily. If you ever want to take a break from these reminders, just head over to https://convo-client.onrender.com/settings."
-	htmlContent := "<strong>Hey there! 🌟</strong> Ready for today's social challenge? Check it out at <a href=\"https://convo-client.onrender.com/daily\">our daily page</a>. If you ever want to take a break from these reminders, just head over to <a href=\"https://convo-client.onrender.com/settings\">settings</a>."
+	plainTextContent := "Hey! Ready for today's social challenge? Check it out at https://convo-client.onrender.com/daily. If you ever want a break from these reminders, just head over to https://convo-client.onrender.com/settings. Happy socializing!"
+	htmlContent := "Hey! Ready for today's social challenge? Check it out at <a href=\"https://convo-client.onrender.com/daily\">our daily page</a>.<br><br>If you ever want a break from these reminders, just head over to <a href=\"https://convo-client.onrender.com/settings\">settings</a>.<br><br>Happy socializing!"
 
 	for _, email := range emails {
 		to := mail.NewEmail(email, email)
@@ -36,7 +36,7 @@ func SendEmails(emails []string) error {
 // StartEmailScheduler sets up a cron job to send emails at 7 AM PST every day
 func StartEmailScheduler(sqlManager *db.SQLManager, app *firebase.App) {
 	c := cron.New()
-	c.AddFunc("00 07 * * *", func() {
+	c.AddFunc("50 18 * * *", func() {
 		// Fetch user IDs with notifications enabled
 		userIDs, err := GetUserIDsWithNotificationsEnabled(sqlManager)
 		if err != nil {
