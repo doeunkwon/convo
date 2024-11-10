@@ -43,11 +43,9 @@
 }
 
 .panel-card-slit {
-    width: 3px;
+    width: 1.5px;
     height: 80px;
-    background: var(--feint-color);
-    padding: 0;
-    margin: 0;
+    background: white;
 }
 
 .panel-streak-text {

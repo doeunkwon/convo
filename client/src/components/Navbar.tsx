@@ -45,7 +45,7 @@ function Navbar({ titleTup }: NavbarProps) {
       case 1:
         return (
           <div onClick={toProgress}>
-            <CircleIcon icon={<i className="ri-line-chart-line"></i>} />
+            <CircleIcon icon={<i className="ri-seedling-line"></i>} />
           </div>
         );
       case 0:

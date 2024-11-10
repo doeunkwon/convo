@@ -1,11 +1,7 @@
 .circle-icon {
-    border-radius: var(--button-border-radius);
-    background-color: var(--white-color);
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: var(--h3-size);
-    box-shadow: var(--box-shadow);
+    font-size: calc(var(--h3-size) * 1.2);
     color: var(--light-text-color);
-    padding: var(--xsmall-gap);
 }
