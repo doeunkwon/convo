@@ -18,7 +18,6 @@
   
   .checkbox:checked {
     background-color: var(--light-green-color);
-    border-color: var(--light-green-color);
   }
   
   .checkbox:checked::after {
