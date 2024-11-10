@@ -1,6 +1,7 @@
 .grid {
     display: flex;
     gap: var(--grid-day-gap);
+    overflow-x: auto;
 }
   
 .grid-week {
@@ -10,15 +11,15 @@
 }
   
 .grid-day {
-    width: calc((((100vw - 80px) - 78px) / 26));
-    max-width: 23px;
+    width: var(--grid-day-width);
     aspect-ratio: 1 / 1;
-    border-radius: calc(2px + 0.1vmax);
+    border-radius: var(--grid-border-radius);
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     box-sizing: border-box; /* Add this line */
+    
 }
   
 .grid-day.empty {
@@ -31,10 +32,4 @@
 
 .grid-day.current-day {
     border: 3px solid #06D001;
-}
-
-@media (max-width: 768px) { 
-    .grid-day.current-day {
-        border: 1.5px solid #06D001;
-    }
 }

@@ -40,7 +40,8 @@
   --panel-border-radius: calc(12px + 1vmax);
   --checkbox-border-radius: calc(7px + 0.1vmax);
 
-  --grid-day-gap: 3px;
+  --grid-day-gap: 2.5px;
+  --grid-day-width: 23px;
 
   --weeks: 26;
   --days: 7;
