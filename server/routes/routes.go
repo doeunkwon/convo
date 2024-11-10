@@ -4,14 +4,15 @@ import (
 	"net/http"
 
 	"convo/db"
-	"convo/routes/filters"
 	"convo/routes/handlers"
+	"convo/services"
 
+	firebase "firebase.google.com/go"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
 
-func RegisterRoutes(e *echo.Echo, sqlManager *db.SQLManager) {
+func RegisterRoutes(e *echo.Echo, sqlManager *db.SQLManager, app *firebase.App) {
 	// Set up CORS middleware
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"*"},
@@ -21,7 +22,7 @@ func RegisterRoutes(e *echo.Echo, sqlManager *db.SQLManager) {
 
 	e.GET("/get-central-challenge", func(c echo.Context) error {
 		return handlers.GetCentralChallenge(c, sqlManager)
-	}, filters.VerifyToken)
+	}, services.VerifyToken(app))
 
 	// Define routes with the database instance
 	// e.POST("/generate-challenge", func(c echo.Context) error {
@@ -39,29 +40,29 @@ func RegisterRoutes(e *echo.Echo, sqlManager *db.SQLManager) {
 
 	e.POST("/save-progress", func(c echo.Context) error {
 		return handlers.SaveProgress(c, sqlManager)
-	}, filters.VerifyToken)
+	}, services.VerifyToken(app))
 	e.GET("/get-progress", func(c echo.Context) error {
 		return handlers.GetProgress(c, sqlManager)
-	}, filters.VerifyToken)
+	}, services.VerifyToken(app))
 	e.DELETE("/delete-progress", func(c echo.Context) error {
 		return handlers.DeleteProgress(c, sqlManager)
-	}, filters.VerifyToken)
+	}, services.VerifyToken(app))
 	e.PUT("/update-progress", func(c echo.Context) error {
 		return handlers.UpdateProgress(c, sqlManager)
-	}, filters.VerifyToken)
+	}, services.VerifyToken(app))
 
 	e.POST("/save-preference", func(c echo.Context) error {
 		return handlers.SavePreference(c, sqlManager)
-	}, filters.VerifyToken)
+	}, services.VerifyToken(app))
 	e.GET("/get-preference", func(c echo.Context) error {
 		return handlers.GetPreference(c, sqlManager)
-	}, filters.VerifyToken)
+	}, services.VerifyToken(app))
 	e.DELETE("/delete-preference", func(c echo.Context) error {
 		return handlers.DeletePreference(c, sqlManager)
-	}, filters.VerifyToken)
+	}, services.VerifyToken(app))
 	e.PUT("/update-preference", func(c echo.Context) error {
 		return handlers.UpdatePreference(c, sqlManager)
-	}, filters.VerifyToken)
+	}, services.VerifyToken(app))
 
 	// e.GET("/download-db", func(c echo.Context) error {
 	// 	secretKey := os.Getenv("DOWNLOAD_DB_KEY")

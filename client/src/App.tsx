@@ -30,7 +30,14 @@ import { Preference } from "./models/preference";
 function AppContent() {
   const navigate = useNavigate();
   const location = useLocation();
-  const unsubscribeRef = useRef<Unsubscribe>(() => {}); // Use a ref for unsubscribe
+  const unsubscribeRef = useRef<Unsubscribe>(() => {});
+  const navigateRef = useRef(navigate); // Store navigate in a ref
+
+  // Update the ref value whenever navigate changes
+  useEffect(() => {
+    navigateRef.current = navigate;
+  }, [navigate]);
+
   const [preference, setPreference] = useState<Preference>({
     level: 1,
     notifications: false,
@@ -128,15 +135,18 @@ function AppContent() {
           console.log("No preference found, setting default level to 1");
           levelRef.current = 1;
         }
-        await setupChallenge(setDailyChallenge, levelRef.current); // Use the ref
+        await setupChallenge(setDailyChallenge, levelRef.current);
         await setupProgress(user, setProgress);
+
+        // Use the navigate function from the ref
+        navigateRef.current("/daily");
       }
     });
 
     unsubscribeRef.current = unsubscribeFunc;
 
     return () => unsubscribeRef.current();
-  }, []);
+  }, []); // No need to include navigate in the dependency array
 
   return (
     <main className="App">
