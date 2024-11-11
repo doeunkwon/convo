@@ -1,15 +1,16 @@
-import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { initializeApp } from "firebase/app";
 
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyA7Xh1Idl4MkXe02REuZQrahUeDWhpDj3c",
-  authDomain: "convo-dev-37db9.firebaseapp.com",
-  projectId: "convo-dev-37db9",
-  storageBucket: "convo-dev-37db9.appspot.com",
-  messagingSenderId: "186699353043",
-  appId: "1:186699353043:web:8e9fb8eb83d2f6bb313d26",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
 export const auth = getAuth(app);
