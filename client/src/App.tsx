@@ -78,7 +78,7 @@ function AppContent() {
     const auth = getAuth();
     const user = auth.currentUser;
     if (user) {
-      await toggleCompletion(progress, setProgress, user);
+      await toggleCompletion(progress, setProgress, user, preference.level);
       navigate("/progress");
     }
   };

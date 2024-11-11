@@ -5,13 +5,13 @@ import { calculateDaysPassed } from "../utils/calculateDaysPassed";
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
-export const toggleCompletion = async (localProgress: Progress, setLocalProgress: (progress: Progress) => void, user: User) => {
+export const toggleCompletion = async (localProgress: Progress, setLocalProgress: (progress: Progress) => void, user: User, level: number) => {
   if (user.metadata.creationTime) {
     const todayIndex = calculateDaysPassed(user.metadata.creationTime);
     // Use deep copy (copying by value) to avoid mutating the state directly
     // This is necessary because React state updates are based on reference equality
     const updatedHistory = [...localProgress.history];
-    updatedHistory[todayIndex] = updatedHistory[todayIndex] === 0.0 ? 1.0 : 0.0;
+    updatedHistory[todayIndex] = updatedHistory[todayIndex] === 0.0 ? level : 0.0;
     const newProgress = updateStreaks({ ...localProgress, history: updatedHistory}, todayIndex)
     setLocalProgress(newProgress);
     await updateProgress(user.uid, newProgress);
