@@ -106,11 +106,6 @@ function SignUpPage({
     return strongPasswordRegex.test(password);
   };
 
-  const handleLevelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedLevel = event.target.value;
-    setSocialLevel(Number(selectedLevel));
-  };
-
   return (
     <main className="sign-in">
       <section className="sign-in-content">
@@ -180,11 +175,7 @@ function SignUpPage({
       </section>
       {errorMessage && <p className="sign-in-error">{errorMessage}</p>}
       {isOpen && (
-        <LevelSelection
-          togglePopup={togglePopup}
-          handleLevelChange={handleLevelChange}
-          level={socialLevel}
-        />
+        <LevelSelection togglePopup={togglePopup} level={socialLevel} />
       )}
     </main>
   );

@@ -92,18 +92,13 @@ function AppContent() {
     return 0.0;
   };
 
-  const handleLevelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedLevel = Number(event.target.value);
-    setPreference({ ...preference, level: selectedLevel });
-    levelRef.current = selectedLevel; // Update the ref
-  };
-
-  const handleLevelSet = async () => {
+  const handleLevelSet = async (level: number) => {
     const auth = getAuth();
     const user = auth.currentUser;
     if (user) {
-      await updateUserPreference(user.uid, preference);
-      await setupChallenge(setDailyChallenge, levelRef.current);
+      setPreference({ ...preference, level });
+      await updateUserPreference(user.uid, { ...preference, level });
+      await setupChallenge(setDailyChallenge, level);
     }
   };
 
@@ -172,7 +167,6 @@ function AppContent() {
             element={
               <PrivateRoute>
                 <SettingsPage
-                  handleLevelChange={handleLevelChange}
                   handleLevelSet={handleLevelSet}
                   handleNotificationsChange={handleNotificationsChange}
                   level={preference.level}

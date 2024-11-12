@@ -1,20 +1,25 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import "../styles/LevelSelection.css";
 import "../styles/Popup.css";
 
 interface LevelSelectionProps {
   togglePopup: () => void;
-  handleLevelChange: (event: ChangeEvent<HTMLSelectElement>) => void;
-  handleLevelSet?: () => Promise<void>;
+  handleLevelSet?: (level: number) => Promise<void>;
   level: number;
 }
 
 function LevelSelection({
   togglePopup,
-  handleLevelChange,
   handleLevelSet,
   level,
 }: LevelSelectionProps) {
+  const [localLevel, setLocalLevel] = useState<number>(level);
+
+  const handleLevelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedLevel = Number(event.target.value);
+    setLocalLevel(selectedLevel);
+  };
+
   return (
     <div className="popup-overlay" onClick={togglePopup}>
       <div className="popup" onClick={(e) => e.stopPropagation()}>
@@ -28,7 +33,7 @@ function LevelSelection({
           <select
             onChange={handleLevelChange}
             className="level-selection-picker"
-            value={level}
+            value={localLevel}
           >
             <option value="1">1. Observer</option>
             <option value="2">2. Dabbler</option>
@@ -38,7 +43,7 @@ function LevelSelection({
             <button
               className="orange-button"
               onClick={async () => {
-                await handleLevelSet();
+                await handleLevelSet(localLevel);
                 alert("Social level updated");
                 togglePopup();
               }}

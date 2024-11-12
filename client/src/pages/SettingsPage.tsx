@@ -16,8 +16,7 @@ import { deleteProgress } from "../services/progressService";
 import NotificationSelection from "../components/NotificationSelection";
 
 interface SettingsPageProps {
-  handleLevelChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-  handleLevelSet: () => Promise<void>;
+  handleLevelSet: (level: number) => Promise<void>;
   handleNotificationsChange: (
     event: React.ChangeEvent<HTMLInputElement>
   ) => void;
@@ -27,7 +26,6 @@ interface SettingsPageProps {
 }
 
 function SettingsPage({
-  handleLevelChange,
   handleLevelSet,
   handleNotificationsChange,
   handleSetReminders,
@@ -119,7 +117,6 @@ function SettingsPage({
         <LevelSelection
           togglePopup={toggleLevelPopup}
           handleLevelSet={handleLevelSet}
-          handleLevelChange={handleLevelChange}
           level={level}
         />
       )}
