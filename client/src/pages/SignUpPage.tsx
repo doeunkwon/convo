@@ -5,7 +5,10 @@ import { useNavigate } from "react-router-dom";
 import "../styles/SignInPage.css";
 import convo from "../assets/convo.png";
 import LevelSelection from "../components/LevelSelection";
-import { createPreferenceForNewUser } from "../services/preferenceService";
+import {
+  createPreferenceForNewUser,
+  updateUserPreference,
+} from "../services/preferenceService";
 import { Preference } from "../models/preference";
 import { Challenge } from "../models/challenge";
 import { Progress } from "../models/progress";
@@ -100,6 +103,10 @@ function SignUpPage({
   //   }
   // };
 
+  const handleLevelSet = async (level: number) => {
+    setSocialLevel(level);
+  };
+
   const isStrongPassword = (password: string) => {
     const strongPasswordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-])[A-Za-z\d@$!%*?&-]{8,}$/;
@@ -175,7 +182,11 @@ function SignUpPage({
       </section>
       {errorMessage && <p className="sign-in-error">{errorMessage}</p>}
       {isOpen && (
-        <LevelSelection togglePopup={togglePopup} level={socialLevel} />
+        <LevelSelection
+          togglePopup={togglePopup}
+          level={socialLevel}
+          handleLevelSet={handleLevelSet}
+        />
       )}
     </main>
   );

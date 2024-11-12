@@ -4,7 +4,7 @@ import "../styles/Popup.css";
 
 interface LevelSelectionProps {
   togglePopup: () => void;
-  handleLevelSet?: (level: number) => Promise<void>;
+  handleLevelSet: (level: number) => Promise<void>;
   level: number;
 }
 
@@ -39,18 +39,15 @@ function LevelSelection({
             <option value="2">2. Dabbler</option>
             <option value="3">3. Engager</option>
           </select>
-          {handleLevelSet && (
-            <button
-              className="orange-button"
-              onClick={async () => {
-                await handleLevelSet(localLevel);
-                alert("Social level updated");
-                togglePopup();
-              }}
-            >
-              Save
-            </button>
-          )}
+          <button
+            className="orange-button"
+            onClick={async () => {
+              await handleLevelSet(localLevel);
+              togglePopup();
+            }}
+          >
+            Set Level
+          </button>
         </section>
         <section className="level-selection-descriptions">
           <div>
