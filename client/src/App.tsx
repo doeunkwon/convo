@@ -102,17 +102,15 @@ function AppContent() {
     }
   };
 
-  const handleNotificationsChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setPreference({ ...preference, notifications: event.target.checked });
-  };
-
-  const handleSetReminders = async () => {
+  const handleSetReminders = async (notifications: boolean) => {
     const auth = getAuth();
     const user = auth.currentUser;
     if (user) {
-      await updateUserPreference(user.uid, preference);
+      setPreference({ ...preference, notifications });
+      await updateUserPreference(user.uid, {
+        ...preference,
+        notifications,
+      });
     }
   };
 
@@ -168,7 +166,6 @@ function AppContent() {
               <PrivateRoute>
                 <SettingsPage
                   handleLevelSet={handleLevelSet}
-                  handleNotificationsChange={handleNotificationsChange}
                   level={preference.level}
                   notifications={preference.notifications}
                   handleSetReminders={handleSetReminders}

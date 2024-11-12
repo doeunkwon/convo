@@ -17,17 +17,13 @@ import NotificationSelection from "../components/NotificationSelection";
 
 interface SettingsPageProps {
   handleLevelSet: (level: number) => Promise<void>;
-  handleNotificationsChange: (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => void;
-  handleSetReminders: () => void;
+  handleSetReminders: (notifications: boolean) => Promise<void>;
   level: number;
   notifications: boolean;
 }
 
 function SettingsPage({
   handleLevelSet,
-  handleNotificationsChange,
   handleSetReminders,
   level,
   notifications,
@@ -123,7 +119,6 @@ function SettingsPage({
       {notificationPopupOpen && (
         <NotificationSelection
           togglePopup={toggleNotificationPopup}
-          handleNotificationsChange={handleNotificationsChange}
           notifications={notifications}
           handleSetReminders={handleSetReminders}
         />
