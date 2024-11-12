@@ -4,13 +4,13 @@ import "../styles/Popup.css";
 
 interface LevelSelectionProps {
   togglePopup: () => void;
-  handleLevelSet: (level: number) => Promise<void>;
+  handleSetLevel: (level: number) => Promise<void>;
   level: number;
 }
 
 function LevelSelection({
   togglePopup,
-  handleLevelSet,
+  handleSetLevel,
   level,
 }: LevelSelectionProps) {
   const [localLevel, setLocalLevel] = useState<number>(level);
@@ -42,7 +42,7 @@ function LevelSelection({
           <button
             className="orange-button"
             onClick={async () => {
-              await handleLevelSet(localLevel);
+              await handleSetLevel(localLevel);
               togglePopup();
             }}
           >

@@ -165,7 +165,7 @@ function AppContent() {
             element={
               <PrivateRoute>
                 <SettingsPage
-                  handleLevelSet={handleLevelSet}
+                  handleSetLevel={handleLevelSet}
                   level={preference.level}
                   notifications={preference.notifications}
                   handleSetReminders={handleSetReminders}

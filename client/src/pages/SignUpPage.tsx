@@ -185,7 +185,7 @@ function SignUpPage({
         <LevelSelection
           togglePopup={togglePopup}
           level={socialLevel}
-          handleLevelSet={handleLevelSet}
+          handleSetLevel={handleLevelSet}
         />
       )}
     </main>

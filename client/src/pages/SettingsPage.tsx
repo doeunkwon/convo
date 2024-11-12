@@ -16,14 +16,14 @@ import { deleteProgress } from "../services/progressService";
 import NotificationSelection from "../components/NotificationSelection";
 
 interface SettingsPageProps {
-  handleLevelSet: (level: number) => Promise<void>;
+  handleSetLevel: (level: number) => Promise<void>;
   handleSetReminders: (notifications: boolean) => Promise<void>;
   level: number;
   notifications: boolean;
 }
 
 function SettingsPage({
-  handleLevelSet,
+  handleSetLevel,
   handleSetReminders,
   level,
   notifications,
@@ -112,7 +112,7 @@ function SettingsPage({
       {levelPopupOpen && (
         <LevelSelection
           togglePopup={toggleLevelPopup}
-          handleLevelSet={handleLevelSet}
+          handleSetLevel={handleSetLevel}
           level={level}
         />
       )}
