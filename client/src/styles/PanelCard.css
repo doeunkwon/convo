@@ -1,7 +1,6 @@
 .panel-card {
     border-radius: var(--panel-border-radius);
     border: 2px solid white;
-    backdrop-filter: var(--blur-radius);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
