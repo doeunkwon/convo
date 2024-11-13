@@ -15,8 +15,8 @@ import (
 func SendEmails(emails []string) error {
 	from := mail.NewEmail("Convo", "convosocialai@gmail.com")
 	subject := "💡 Your Daily Social Challenge Awaits."
-	plainTextContent := "Hey! Check out today's challenge at https://tryconvo.today/daily. If you ever want a break from these reminders, just head over to https://tryconvo.today/settings. Happy socializing!"
-	htmlContent := "Hey! Check out today's challenge at <a href=\"https://tryconvo.today/daily\">our daily page</a>.<br><br>If you ever want a break from these reminders, just head over to <a href=\"https://tryconvo.today/settings\">settings</a>.<br><br>Happy socializing!"
+	plainTextContent := "Hey! Check out today's challenge at https://tryconvo.today/daily. Join our <a href=\"https://www.reddit.com/r/ConvoApp/\">Subreddit</a> to discuss your progress with other Convo users. If you ever want a break from these reminders, just head over to https://tryconvo.today/settings. Happy socializing!"
+	htmlContent := "Hey! Check out today's challenge at our <a href=\"https://tryconvo.today/daily\">daily page</a>.<br><br>Join our <a href=\"https://www.reddit.com/r/ConvoApp/\">Subreddit</a> to discuss your progress with other Convo users.<br><br>If you ever want a break from these reminders, just head over to <a href=\"https://tryconvo.today/settings\">settings</a>.<br><br>Happy socializing!"
 
 	for _, email := range emails {
 		to := mail.NewEmail(email, email)
