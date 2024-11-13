@@ -3,24 +3,26 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - var(--navbar-height));
-  padding-top: var(--navbar-height);
+  min-height: calc(100vh - (var(--navbar-height)));
+  padding: var(--navbar-height) 0px 0px 0px;
 }
 
 .App-content {
   flex: 1;
   padding-top: var(--medium-gap);
+  padding-bottom: var(--large-gap);
   width: var(--max-width);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
 @media (max-width: 768px) {
+
   .App-content {
     width: 100%;
     box-sizing: border-box;
-    padding: var(--small-gap);
+    padding: var(--small-gap) var(--small-gap) var(--large-gap) var(--small-gap);
   }
 }

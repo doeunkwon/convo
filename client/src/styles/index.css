@@ -48,7 +48,7 @@
 
   --box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
   
-  --navbar-height: calc(var(--h3-size) + (var(--xsmall-gap) * 4));
+  --navbar-height: calc((var(--h3-size) * 1.5) + (var(--xsmall-gap) * 2));
 }
 
 html,body {

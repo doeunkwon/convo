@@ -5,6 +5,7 @@
     justify-content: flex-start;
     width: calc(100% - (var(--small-gap) * 2));
     gap: var(--small-gap);
+    flex: 1;
   }
 
 .progress-page-header {

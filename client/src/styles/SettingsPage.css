@@ -4,6 +4,7 @@
   align-items: center;
   width: 100%;
   gap: var(--medium-gap);
+  flex: 1;
 }
 
 .settings-logout-button {

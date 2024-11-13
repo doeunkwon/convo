@@ -23,10 +23,14 @@ function ProgressPage({ progress }: ProgressPageProps) {
       <ProgressCard progress={progress} />
       <p style={{ textAlign: "center", fontSize: "var(--sp-size)" }}>
         Join our{" "}
-        <a href="https://www.reddit.com/r/ConvoApp/" target="_blank">
-          Subreddit
+        <a
+          href="https://www.reddit.com/r/ConvoApp/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          subreddit
         </a>{" "}
-        to discuss your progress with other Convo users!
+        and grow with our Convo community!
       </p>
     </main>
   );
