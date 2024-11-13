@@ -48,7 +48,7 @@ function SignUpPage({
 
     if (!isStrongPassword(password)) {
       setErrorMessage(
-        "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character."
+        "Password must be 8+ characters with uppercase, lowercase, number, and only these: @, $, !, %, *, ?, &, -."
       );
       setIsLoading(false);
       return;
