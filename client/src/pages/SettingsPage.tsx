@@ -109,6 +109,9 @@ function SettingsPage({
         text="Delete Account"
         onClick={handleDeleteAccount}
       />
+      <p style={{ fontSize: "var(--sp-size)", textAlign: "center" }}>
+        We'd love your <a href="mailto:convosocialai@gmail.com">feedback</a> ❤️
+      </p>
       {levelPopupOpen && (
         <LevelSelection
           togglePopup={toggleLevelPopup}

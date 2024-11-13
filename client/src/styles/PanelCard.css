@@ -44,7 +44,7 @@
 }
 
 .panel-card-slit {
-    width: 1.5px;
+    width: 2px;
     height: 80px;
     background: white;
 }
@@ -60,8 +60,7 @@
 .panel-card-relation {
     display: flex;
     flex-direction: column;
-    background: var(--blur-color);
-    backdrop-filter: var(--blur-radius);
+    background: var(--offwhite-color);
     width: 100%;
     padding: var(--medium-gap);
     box-sizing: border-box;
@@ -73,8 +72,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--blur-color);
-    backdrop-filter: var(--blur-radius);
+    background: var(--offwhite-color);
     width: 100%;
     padding: var(--small-gap);
     box-sizing: border-box;

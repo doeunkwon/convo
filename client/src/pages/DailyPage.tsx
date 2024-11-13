@@ -23,6 +23,16 @@ function Daily({
           task={dailyChallenge.task}
           tip={dailyChallenge.tip}
         />
+        <p style={{ fontSize: "var(--sp-size)" }}>
+          Discuss this challenge on{" "}
+          <a
+            href="https://www.reddit.com/r/ConvoApp/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            r/convoapp
+          </a>
+        </p>
       </section>
       <Button
         image={

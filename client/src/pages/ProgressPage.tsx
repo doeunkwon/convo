@@ -1,4 +1,3 @@
-import React from "react";
 import "../styles/ProgressPage.css";
 import ProgressCard from "../components/ProgressCard";
 import { Progress } from "../models/progress";
@@ -21,17 +20,6 @@ function ProgressPage({ progress }: ProgressPageProps) {
         </p>
       </section>
       <ProgressCard progress={progress} />
-      <p style={{ textAlign: "center", fontSize: "var(--sp-size)" }}>
-        Join our{" "}
-        <a
-          href="https://www.reddit.com/r/ConvoApp/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          subreddit
-        </a>{" "}
-        and grow with our Convo community!
-      </p>
     </main>
   );
 }

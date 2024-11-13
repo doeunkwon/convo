@@ -4,7 +4,8 @@
   align-items: center;
   justify-content: flex-start;
   width: calc(100% - (var(--small-gap) * 2));
-  gap: var(--medium-gap)
+  gap: var(--medium-gap);
+  flex: 1;
 }
 
 .sign-in-content {
